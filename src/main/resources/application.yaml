@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: o2
+  # datasource 설정
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    username: spring
+    password: spring
+
+# mybatis 설정
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
