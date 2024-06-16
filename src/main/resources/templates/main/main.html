@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html th:replace="~{layout/layout :: layout(~{::title}, ~{::main}, ~{::insertHead})}"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>O2마켓</title>
+    <title>메인페이지</title>
+    <th:block th:fragment="insertHead">
+    </th:block>
 </head>
 <body>
-  O2마켓
+<main>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>안녕하세요 ! O2마켓입니다.</h1>
+                <p class="lead">중고거래 플랫폼</p>
+                <a class="btn btn-primary btn-lg" href="/board" role="button">거래 바로가기</a>
+            </div>
+        </div>
+    </div>
+</main>
 </body>
 </html>
