@@ -1,11 +1,13 @@
+server:
+  port: 8090
 spring:
   application:
     name: o2
   # datasource 설정
   datasource:
     url: jdbc:oracle:thin:@localhost:1521:XE
-    username: spring
-    password: spring
+    username: oeuser_test
+    password: 1234
 
 # mybatis 설정
 mybatis:
