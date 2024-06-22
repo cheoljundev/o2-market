@@ -1,7 +1,7 @@
 ---
 name: 'issue : Feature ✅'
 about: Feature 작업 상황을 입력해주세요!
-title: feature/
+title: feat/
 labels: feature
 assignees: ''
 
