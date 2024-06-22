@@ -62,3 +62,18 @@
     --bs-btn-disabled-border-color: var(--o2-500);
     --bs-gradient: none;
 }
+
+/* 인풋 포커스 오버라이딩 */
+.form-control:focus {
+    color: var(--bs-body-color);
+    background-color: var(--bs-body-bg);
+    border-color: var(--o2-400);
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(var(--o2-400-rgb), .25);
+}
+
+.form-select:focus {
+    border-color: var(--o2-500);
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(var(--o2-500-rgb), .25);
+}
