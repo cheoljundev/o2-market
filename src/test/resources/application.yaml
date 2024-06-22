@@ -6,8 +6,8 @@ spring:
   # datasource 설정
   datasource:
     url: jdbc:oracle:thin:@localhost:1521:XE
-    username: spring
-    password: spring
+    username: oeuser_test
+    password: 1234
 
 # mybatis 설정
 mybatis:
