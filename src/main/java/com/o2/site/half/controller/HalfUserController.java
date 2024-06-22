@@ -2,11 +2,13 @@ package com.o2.site.half.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class HalfControler {
-    @GetMapping
+@RequestMapping("/half")
+public class HalfUserController {
+    @GetMapping("/list")
     public String main() {
-        return "main/main";
+        return "half/user/list";
     }
 }
