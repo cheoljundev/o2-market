@@ -6,8 +6,18 @@ spring:
   # datasource 설정
   datasource:
     url: jdbc:oracle:thin:@localhost:1521:XE
-    username: spring
-    password: spring
+    username: oeuser
+    password: 1234
+  # 개발용 설정 start
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+  # 개발용 설정  end
 
 # mybatis 설정
 mybatis:
