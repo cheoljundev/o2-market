@@ -76,4 +76,20 @@
     border-color: var(--o2-500);
     outline: 0;
     box-shadow: 0 0 0 .25rem rgba(var(--o2-500-rgb), .25);
+<<<<<<< HEAD
+=======
+}
+
+/* nav */
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: var(--bs-nav-pills-link-active-color);
+    background-color: var(--o2-500);
+}
+
+/* bg */
+
+.bg-o2{
+    background-color: var(--o2-50);
+>>>>>>> main
 }
