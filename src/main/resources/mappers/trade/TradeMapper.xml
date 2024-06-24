@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.o2.site.trade.dao.TradeMapper">
+
+    <insert id="insertApp" useGeneratedKeys="true" keyProperty="trade_No" keyColumn="TRADE_NO">
+        INSERT INTO TRADE_BOARD
+        VALUES (
+            SEQ_TRADE_TRADE_NO.NEXTVAL,
+            1,
+            #{title},
+            #{category},
+            #{content},
+            default,
+            #{price},
+            default,
+            default,
+            default
+        )
+    </insert>
+
+    <insert id="insertImg">
+        INSERT INTO TRADE_IMAGE
+        VALUES(
+            SEQ_TRADE_IMAGE_NO.NEXTVAL,
+            #{no},
+            #{address}
+        )
+    </insert>
+</mapper>
