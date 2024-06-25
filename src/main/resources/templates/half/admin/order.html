@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/halfAdminLayout :: layout(~{::title}, ~{::main}, ~{::insertHead})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>주문건 확인</title>
+    <th:block th:fragment="insertHead">
+    </th:block>
+
+</head>
+<body>
+<main class="flex-grow-1 flex-shrink-0">
+    <div class="container">
+        <div class="row mb-5">
+            <h2 class="text-center my-5">주문건 확인</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle text-nowrap">
+                    <thead>
+                    <tr>
+                        <th>주문번호</th>
+                        <th>썸네일</th>
+                        <th>상품명</th>
+                        <th>수령인</th>
+                        <th>판매가</th>
+                        <th>상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <button type="button"
+                                    class="link-primary border-0 bg-transparent text-decoration-underline">202406240000
+                            </button>
+                        </td>
+                        <td><img src="https://via.placeholder.com/100" alt="썸네일 이미지"></td>
+                        <td>한번 쓴 ㅇㅇㅇ</td>
+                        <td>홍길동</td>
+                        <td>5,000</td>
+                        <td>발송대기</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button type="button"
+                                    class="link-primary border-0 bg-transparent text-decoration-underline">202406240000
+                            </button>
+                        </td>
+                        <td><img src="https://via.placeholder.com/100" alt="썸네일 이미지"></td>
+                        <td>한번 쓴 ㅇㅇㅇ</td>
+                        <td>홍길동</td>
+                        <td>5,000</td>
+                        <td>배송중</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button type="button"
+                                    class="link-primary border-0 bg-transparent text-decoration-underline">202406240000
+                            </button>
+                        </td>
+                        <td><img src="https://via.placeholder.com/100" alt="썸네일 이미지"></td>
+                        <td>한번 쓴 ㅇㅇㅇ</td>
+                        <td>홍길동</td>
+                        <td>5,000</td>
+                        <td>구매확정</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <nav aria-label="Page navigation example w-auto">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="row px-2 pb-5">
+            <h2 class="text-center my-5">주문 상세정보</h2>
+            <div class="row">
+                <p><strong>주문번호</strong></p>
+                <p>202406240000</p>
+            </div>
+            <div class="row">
+                <p><strong>상품명</strong></p>
+                <p>한 번쓴 ㅇㅇㅇ</p>
+            </div>
+            <div class="row">
+                <p><strong>수령인</strong></p>
+                <p>홍길동</p>
+            </div>
+            <div class="row">
+                <p><strong>수령지</strong></p>
+                <p>서울시 ㅇㅇㅇ</p>
+            </div>
+            <div class="row">
+                <p><strong>수령인 휴대전화</strong></p>
+                <p>01012345678</p>
+            </div>
+            <div class="row">
+                <p><strong>배송메모</strong></p>
+                <p>안전하게 배송해주세요.</p>
+            </div>
+            <div class="row mb-4">
+                <p class="col-12"><strong>송장번호</strong></p>
+                <input type="text" class="form-control mx-2 col-12 w-25 px-2">
+            </div>
+            <div class="row">
+                <button type="button" class="btn btn-primary col-auto mx-2">발송하기</button>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
