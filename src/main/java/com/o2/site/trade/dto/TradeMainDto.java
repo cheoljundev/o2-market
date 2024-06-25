@@ -7,13 +7,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ApplicationDto {
-    private int Trade_No;
-    private int Member_No;
+public class TradeMainDto {
+    private int boardNo;
+    private String image;
     private String title;
-    private String category;
-    private String content;
-    private String address;
     private int price;
-
 }

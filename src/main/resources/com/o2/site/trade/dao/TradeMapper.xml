@@ -3,6 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.o2.site.trade.dao.TradeMapper">
+    <resultMap id="TradeMainDto" type="com.o2.site.trade.dto.TradeMainDto">
+        <id property="boardNo" column="TRADE_NO"/>
+        <result property="image" column="IMAGE_ADDRESS"/>
+        <result property="title" column="TITLE"/>
+        <result property="price" column="PRICE"/>
+    </resultMap>
 
     <insert id="insertApp" useGeneratedKeys="true" keyProperty="trade_No" keyColumn="TRADE_NO">
         INSERT INTO TRADE_BOARD
@@ -14,6 +20,7 @@
             #{content},
             default,
             #{price},
+            #{address},
             default,
             default,
             default
@@ -28,4 +35,41 @@
             #{address}
         )
     </insert>
+
+    <select id="selectMainList" resultMap="TradeMainDto">
+        SELECT TRADE_NO, TITLE, PRICE, IMAGE_ADDRESS
+        FROM (
+        SELECT
+        A.TRADE_NO,
+        A.TITLE,
+        A.PRICE,
+        B.IMAGE_ADDRESS,
+        ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY A.TRADE_NO) AS rn
+        FROM
+        TRADE_BOARD A
+        JOIN
+        TRADE_IMAGE B ON A.TRADE_NO = B.TRADE_NO
+        )
+        WHERE rn = 1
+        ORDER BY TRADE_NO
+    </select>
+
+    <select id="selectSearchList" resultMap="TradeMainDto">
+        SELECT TRADE_NO, TITLE, PRICE, IMAGE_ADDRESS
+        FROM (
+        SELECT
+        A.TRADE_NO,
+        A.TITLE,
+        A.PRICE,
+        B.IMAGE_ADDRESS,
+        ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY A.TRADE_NO) AS rn
+        FROM
+        TRADE_BOARD A
+        JOIN
+        TRADE_IMAGE B ON A.TRADE_NO = B.TRADE_NO
+        WHERE A.CATEGORY LIKE '%' || #{category} || '%' AND A.TITLE LIKE '%' || #{keyword} || '%'
+        )
+        WHERE rn = 1
+        ORDER BY TRADE_NO
+    </select>
 </mapper>
