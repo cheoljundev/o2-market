@@ -2,15 +2,19 @@
 <html th:fragment="layout (title, content, insertHead)" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/common/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/common/common.css">
-  <link rel="stylesheet" href="/css/layout/main/main.css">
-  <title th:replace="${title}">타이틀</title>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-  <th:block th:replace="${insertHead}"></th:block>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/common/common.css">
+    <link rel="stylesheet" href="/css/layout/main/main.css">
+    <title th:replace="${title}">타이틀</title>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+            integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+            crossorigin="anonymous"></script>
+    <th:block th:replace="${insertHead}"></th:block>
 </head>
 <body>
 <header class="container mt-2">
@@ -39,32 +43,39 @@
   </nav>
 </header>
 <main th:replace="${content}">
-  템플릿메인
+    템플릿메인
 </main>
 <footer class="bg-o2 main-footer py-5 mt-5">
-  <div class="container">
-    <img class="footer-logo mb-2" src="/images/common/logo.png" alt="로고">
-    <div class="d-flex align-items-center gap-1 mb-2 fw-bold">
-      <small>O2</small>
-      <a href="https://github.com/cheoljundev/o2-market" target="_blank"><img class="icon" src="/images/common/github.png" alt="깃허브"></a>
-      <a href="/" target="_blank"><img class="icon" src="/images/common/ppt.png" alt="PPT"></a>
+    <div class="container">
+        <img class="footer-logo mb-2" src="/images/common/logo.png" alt="로고">
+        <div class="d-flex align-items-center gap-1 mb-2 fw-bold">
+            <small>O2</small>
+            <a href="https://github.com/cheoljundev/o2-market" target="_blank"><img class="icon"
+                                                                                    src="/images/common/github.png"
+                                                                                    alt="깃허브"></a>
+            <a href="/" target="_blank"><img class="icon" src="/images/common/ppt.png" alt="PPT"></a>
+        </div>
+        <ul class="list-unstyled d-flex gap-2">
+            <li>
+                <a href="https://github.com/ehdtka" target="_blank" class="d-flex align-items-center gap-1">남동석<img
+                        class="icon" src="/images/common/github.png" alt="깃허브"></a>
+            </li>
+            <li>
+                <a href="https://github.com/cheoljundev" target="_blank" class="d-flex align-items-center gap-1">김철준<img
+                        class="icon" src="/images/common/github.png" alt="깃허브"></a>
+            </li>
+            <li>
+                <a href="https://github.com/ahnjinwon" target="_blank" class="d-flex align-items-center gap-1">안진원<img
+                        class="icon" src="/images/common/github.png" alt="깃허브"></a>
+            </li>
+            <li>
+                <a href="https://github.com/JonggwanMoon" target="_blank"
+                   class="d-flex align-items-center gap-1">문종관<img class="icon" src="/images/common/github.png"
+                                                                   alt="깃허브"></a>
+            </li>
+        </ul>
+        <p class="fw-lighter">O2 &copy; 2024. All rights reserved.</p>
     </div>
-    <ul class="list-unstyled d-flex gap-2">
-      <li>
-        <a href="https://github.com/ehdtka" target="_blank" class="d-flex align-items-center gap-1">남동석<img class="icon" src="/images/common/github.png" alt="깃허브"></a>
-      </li>
-      <li>
-        <a href="https://github.com/cheoljundev" target="_blank" class="d-flex align-items-center gap-1">김철준<img class="icon" src="/images/common/github.png" alt="깃허브"></a>
-      </li>
-      <li>
-        <a href="https://github.com/ahnjinwon" target="_blank" class="d-flex align-items-center gap-1">안진원<img class="icon" src="/images/common/github.png" alt="깃허브"></a>
-      </li>
-      <li>
-        <a href="https://github.com/JonggwanMoon" target="_blank" class="d-flex align-items-center gap-1">문종관<img class="icon" src="/images/common/github.png" alt="깃허브"></a>
-      </li>
-    </ul>
-    <p class="fw-lighter">O2 &copy; 2024. All rights reserved.</p>
-  </div>
 </footer>
 </body>
 </html>

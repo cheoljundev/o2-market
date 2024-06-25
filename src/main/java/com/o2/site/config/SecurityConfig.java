@@ -22,6 +22,14 @@ public class SecurityConfig {
                 auth.anyRequest().permitAll()
         );
         http.csrf(AbstractHttpConfigurer::disable);
+
+        http.formLogin(formLogin ->
+                        formLogin
+                                .loginPage("/login").defaultSuccessUrl("/").permitAll()
+                )
+                .logout(logout ->
+                        logout.logoutUrl("/logout").logoutSuccessUrl("/login").permitAll()
+                );
         return http.build();
     }
 }
