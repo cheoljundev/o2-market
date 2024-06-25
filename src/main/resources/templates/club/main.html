@@ -2,13 +2,156 @@
 <html th:replace="~{layout/mainLayout :: layout(~{::title}, ~{::main}, ~{::insertHead})}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>메인페이지</title>
+    <title>모임</title>
     <th:block th:fragment="insertHead">
     </th:block>
+
 </head>
 <body>
 <main>
-4115
+    <div class="container mt-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">모임</li>
+            </ol>
+        </nav>
+        <h2 class="mb-2">모임 홍보</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <a class="page-link" href="#">
+                    <div class="card h-100">
+                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">모임1</h5>
+                            <p class="card-text">장소 : 울산</p>
+                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a class="page-link" href="#">
+                    <div class="card h-100">
+                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">모임2</h5>
+                            <p class="card-text">장소 : 울산</p>
+                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a class="page-link" href="#">
+                    <div class="card h-100">
+                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">모임3</h5>
+                            <p class="card-text">장소 : 울산</p>
+                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a class="page-link" href="#">
+                    <div class="card h-100">
+                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">모임4</h5>
+                            <p class="card-text">장소 : 울산</p>
+                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a class="page-link" href="#">
+                    <div class="card h-100">
+                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">모임5</h5>
+                            <p class="card-text">장소 : 울산</p>
+                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a class="page-link" href="#">
+                    <div class="card h-100">
+                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">모임6</h5>
+                            <p class="card-text">장소 : 울산</p>
+                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a class="page-link" href="#">
+                    <div class="card h-100">
+                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">모임7</h5>
+                            <p class="card-text">장소 : 울산</p>
+                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a class="page-link" href="#">
+                    <div class="card h-100">
+                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">모임8</h5>
+                            <p class="card-text">장소 : 울산</p>
+                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a class="page-link" href="#">
+                    <div class="card h-100">
+                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">모임9</h5>
+                            <p class="card-text">장소 : 울산</p>
+                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <br>
+        <div class="d-md-flex justify-content-md-end">
+            <button type="button" class="btn btn-primary">모임 생성</button>
+        </div>
+        <div class="pagination justify-content-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
 </main>
 </body>
 </html>

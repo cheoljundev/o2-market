@@ -13,14 +13,4 @@ public class ApplicationDto {
     private String content;
     private int price;
 
-    @Override
-    public String toString() {
-        return "ApplicationDto{" +
-                "Member_No=" + Member_No +
-                ", title='" + title + '\'' +
-                ", category='" + category + '\'' +
-                ", content='" + content + '\'' +
-                ", price=" + price +
-                '}';
-    }
 }

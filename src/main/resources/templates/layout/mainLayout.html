@@ -29,7 +29,12 @@
                               th:classappend="${uri.contains('/half/') ? 'active' : ''}"
         >반값판매</a>
       </li>
-      <li class="nav-item"><a href="/" class="nav-link">모임</a></li>
+      <li class="nav-item">
+        <a href="/club/main" class="nav-link"
+                              th:classappend="${uri.contains('/club/') ? 'active' : ''}"
+        >모임</a>
+
+      </li>
     </ul>
   </nav>
 </header>
