@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/mainLayout :: layout(~{::title}, ~{::main}, ~{::insertHead})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>로그인</title>
+    <th:block th:fragment="insertHead">
+    </th:block>
+</head>
+<body>
+<main>
+    <img src="">
+    <h1> 안녕하세요!</h1>
+    <h1>어디 페이지로 이동하시겠습니까?</h1>
+    <div class="buttons">
+        <button type="button" class="btn btn-secondary">회원 정보</button>
+        <button type="button" class="btn btn-secondary">조회 서비스</button>
+        <button type="button" class="btn btn-secondary">채팅 목록</button>
+        <button type="button" class="btn btn-secondary">로그아웃</button>
+    </div>
+</main>
+</body>
+</html>

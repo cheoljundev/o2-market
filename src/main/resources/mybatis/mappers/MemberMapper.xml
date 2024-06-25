@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.o2.site.member.main.dao.MemberMapper">
+
+    <insert id="insertMember" parameterType="com.o2.site.member.main.domain.Member">
+        INSERT INTO member (id, password, name, phone_number, address)
+        VALUES (#{id}, #{password}, #{name}, #{phoneNumber}, #{address})
+    </insert>
+
+    <!--    <select id="findAll" resultType="com.example.demo.domain.User">-->
+    <!--        SELECT * FROM users-->
+    <!--    </select>-->
+
+    <!--    <select id="findById" parameterType="long" resultType="com.example.demo.domain.User">-->
+    <!--        SELECT * FROM users WHERE id = #{id}-->
+    <!--    </select>-->
+
+
+    <!--    <update id="update" parameterType="com.example.demo.domain.User">-->
+    <!--        UPDATE users SET name = #{name}, email = #{email} WHERE id = #{id}-->
+    <!--    </update>-->
+
+    <!--    <delete id="delete" parameterType="long">-->
+    <!--        DELETE FROM users WHERE id = #{id}-->
+    <!--    </delete>-->
+</mapper>
