@@ -2,6 +2,7 @@ package com.o2.site.trade.dao;
 
 import com.o2.site.trade.dto.ApplicationDto;
 import com.o2.site.trade.dto.ImageDto;
+import com.o2.site.trade.dto.SearchDto;
 import com.o2.site.trade.dto.TradeMainDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,4 +15,6 @@ public interface TradeMapper {
     void insertImg(ImageDto imageDto);
 
     ArrayList<TradeMainDto> selectMainList();
+
+    ArrayList<TradeMainDto> selectSearchList(SearchDto searchDto);
 }

@@ -3,6 +3,7 @@ package com.o2.site.trade.service;
 import com.o2.site.trade.dao.TradeMapper;
 import com.o2.site.trade.dto.ApplicationDto;
 import com.o2.site.trade.dto.ImageDto;
+import com.o2.site.trade.dto.SearchDto;
 import com.o2.site.trade.dto.TradeMainDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +58,12 @@ public class TradeService {
 
     public ArrayList<TradeMainDto> selectMainList() {
         return tradeMapper.selectMainList();
+    }
 
+    public ArrayList<TradeMainDto> selectSearchList(SearchDto searchDto) {
+        if(searchDto.getCategory().equals("전체")){
+            searchDto.setCategory("");
+        }
+        return tradeMapper.selectSearchList(searchDto);
     }
 }

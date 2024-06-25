@@ -53,4 +53,23 @@
         WHERE rn = 1
         ORDER BY TRADE_NO
     </select>
+
+    <select id="selectSearchList" resultMap="TradeMainDto">
+        SELECT TRADE_NO, TITLE, PRICE, IMAGE_ADDRESS
+        FROM (
+        SELECT
+        A.TRADE_NO,
+        A.TITLE,
+        A.PRICE,
+        B.IMAGE_ADDRESS,
+        ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY A.TRADE_NO) AS rn
+        FROM
+        TRADE_BOARD A
+        JOIN
+        TRADE_IMAGE B ON A.TRADE_NO = B.TRADE_NO
+        WHERE A.CATEGORY LIKE '%' || #{category} || '%' AND A.TITLE LIKE '%' || #{keyword} || '%'
+        )
+        WHERE rn = 1
+        ORDER BY TRADE_NO
+    </select>
 </mapper>
