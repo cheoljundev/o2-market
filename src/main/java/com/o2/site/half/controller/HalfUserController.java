@@ -16,4 +16,9 @@ public class HalfUserController {
     public String detail() {
         return "half/user/detail";
     }
+
+    @GetMapping("/order/{id}")
+    public String order() {
+        return "half/user/order";
+    }
 }
