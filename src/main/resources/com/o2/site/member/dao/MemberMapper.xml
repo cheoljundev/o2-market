@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.o2.site.member.main.dao.MemberMapper">
+<mapper namespace="com.o2.site.member.dao.MemberMapper">
 
-    <insert id="insertMember" parameterType="com.o2.site.member.main.domain.Member">
+    <insert id="insertMember" parameterType="com.o2.site.member.domain.Member">
         INSERT INTO member (id, password, name, phone_number, address)
         VALUES (#{id}, #{password}, #{name}, #{phoneNumber}, #{address})
     </insert>

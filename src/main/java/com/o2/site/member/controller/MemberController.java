@@ -1,7 +1,7 @@
-package com.o2.site.member.main.controller;
+package com.o2.site.member.controller;
 
-import com.o2.site.member.main.dto.MemberDTO;
-import com.o2.site.member.main.service.MemberService;
+import com.o2.site.member.dto.MemberDTO;
+import com.o2.site.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,9 +24,5 @@ public class MemberController {
 
     @PostMapping("/login")
     public void login(MemberDTO memberDTO) {
-        System.out.println("login 메서드 호출");
-
     }
 }
-
-

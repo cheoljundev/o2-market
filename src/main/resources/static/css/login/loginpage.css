@@ -22,13 +22,6 @@
     color: gray;
 }
 
-/* 커서 텍스트에 가져가면 올라가는 기능 off*/
-/*.form__field:placeholder-shown ~ .form__label {*/
-/*    font-size: 17px;*/
-/*    cursor: text;*/
-/*    top: 20px;*/
-/*}*/
-
 .form__label {
     position: absolute;
     top: 0;

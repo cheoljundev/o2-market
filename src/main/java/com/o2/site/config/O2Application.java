@@ -1,4 +1,4 @@
-package com.o2.site;
+package com.o2.site.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

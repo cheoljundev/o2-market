@@ -1,3 +1,5 @@
+server:
+  port: 8090
 spring:
   application:
     name: o2
@@ -11,7 +13,3 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
-      # true 이면 마이바티스는 데이터베이스 컬럼 이름을 자바 객채의 Camel Case 필드와 매핑할 때 언더스코어('_')를 무시하고
-      # Camel Case로 변환한다.
-      # ex) 데이터베이스 컬럼 이름이 'first_name'인 경우 자바 객체의 필드명은 'firstName'으로 매핑됨
-  mapper-locations: classpath:mybatis/mappers/*.xml

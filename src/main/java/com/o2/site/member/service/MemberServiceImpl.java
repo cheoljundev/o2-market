@@ -1,8 +1,8 @@
-package com.o2.site.member.main.service;
+package com.o2.site.member.service;
 
-import com.o2.site.member.main.dao.MemberMapper;
-import com.o2.site.member.main.domain.Member;
-import com.o2.site.member.main.dto.MemberDTO;
+import com.o2.site.member.dao.MemberMapper;
+import com.o2.site.member.domain.Member;
+import com.o2.site.member.dto.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

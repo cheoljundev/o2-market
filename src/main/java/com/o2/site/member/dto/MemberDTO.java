@@ -1,4 +1,4 @@
-package com.o2.site.member.main.dto;
+package com.o2.site.member.dto;
 
 import lombok.*;
 

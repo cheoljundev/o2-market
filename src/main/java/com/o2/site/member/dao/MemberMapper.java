@@ -1,6 +1,6 @@
-package com.o2.site.member.main.dao;
+package com.o2.site.member.dao;
 
-import com.o2.site.member.main.domain.Member;
+import com.o2.site.member.domain.Member;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
