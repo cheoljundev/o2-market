@@ -64,6 +64,11 @@
     --bs-gradient: none;
 }
 
+.link-primary:hover, .link-primary:focus {
+    color: var(--bs-link-hover-color) !important;
+    text-decoration-color: var(--bs-link-hover-color) !important;
+}
+
 /* 인풋 포커스 오버라이딩 */
 .form-control:focus {
     color: var(--bs-body-color);
