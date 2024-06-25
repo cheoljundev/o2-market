@@ -54,58 +54,13 @@
         </nav>
         <div class="container text-center">
             <div class="row row-cols-3">
-                <div class="col">
-                    <a href="/trade/trade_detail">
-                        <img src="/images/trade/example.jpg" class="img-thumbnail">
+                <div class="col-md-4" th:each="trade : ${mainlist}">
+                    <a th:href="@{/trade/trade_detail(tradeNo=${trade.boardNo})}">
+                        <img th:src="@{/images/trade/app/{image}(image=${trade.image})}" class="img-thumbnail" style="width:400px; height:400px">
                         <br>
-                        설명
+                        <span th:text="${trade.title}">Title</span>
                         <br>
-                        가격
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="/trade/trade_detail">
-                        <img src="/images/trade/example.jpg" class="img-fluid" alt="...">
-                        <br>
-                        설명
-                        <br>
-                        가격
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="/trade/trade_detail">
-                        <img src="/images/trade/example.jpg" class="img-thumbnail">
-                        <br>
-                        설명
-                        <br>
-                        가격
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="/trade/trade_detail">
-                        <img src="/images/trade/example.jpg" class="img-thumbnail">
-                        <br>
-                        설명
-                        <br>
-                        가격
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="/trade/trade_detail">
-                        <img src="/images/trade/example.jpg" class="img-thumbnail">
-                        <br>
-                        설명
-                        <br>
-                        가격
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="/trade/trade_detail">
-                        <img src="/images/trade/example.jpg" class="img-thumbnail">
-                        <br>
-                        설명
-                        <br>
-                        가격
+                        <span th:text="${trade.price}">Price</span>
                     </a>
                 </div>
             </div>

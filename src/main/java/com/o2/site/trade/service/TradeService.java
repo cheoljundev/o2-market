@@ -3,6 +3,7 @@ package com.o2.site.trade.service;
 import com.o2.site.trade.dao.TradeMapper;
 import com.o2.site.trade.dto.ApplicationDto;
 import com.o2.site.trade.dto.ImageDto;
+import com.o2.site.trade.dto.TradeMainDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ public class TradeService {
         int result = 0;
         ArrayList<String> images = new ArrayList<>();
         System.out.println(ad);
+
         try{
             for (MultipartFile file : files) {
                 String fileName = file.getOriginalFilename();
@@ -52,4 +54,9 @@ public class TradeService {
         return result;
     }
 
+
+    public ArrayList<TradeMainDto> selectMainList() {
+        return tradeMapper.selectMainList();
+
+    }
 }
