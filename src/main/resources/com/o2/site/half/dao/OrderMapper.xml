@@ -1,0 +1,20 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.o2.site.half.dao.OrderMapper">
+    <select id="findAll" resultType="com.o2.site.half.domain.Order">
+        select * from half_order
+        <where>
+            <if test="buyerMemberId != null and buyerMemberId != ''">
+                and BUYER_MEMBER_ID = #{buyerMemberId}
+            </if>
+            <if test="buyerPhone != null and buyerPhone != ''">
+                and BUYER_PHONE = #{buyerPhone}
+            </if>
+            <if test="recipientName != null and recipientName != ''">
+                and RECIPIENT_NAME = #{recipientName}
+            </if>
+            <if test="recipientPhone != null and recipientPhone != ''">
+                and RECIPIENT_PHONE = #{recipientPhone}
+            </if>
+        </where>
+    </select>
+</mapper>
