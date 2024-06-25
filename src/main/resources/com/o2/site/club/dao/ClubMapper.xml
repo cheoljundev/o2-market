@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.o2.site.club.dao.ClubMapper">
+
+    <insert id="clubInsert">
+        INSERT INTO CLUB(
+        CLUB_NAME, READER_NO, CATEGORY_ID, MEMBERS_LIMIT, AGE_LIMIT_START, AGE_LIMIT_END, AREA, ONE_LINE_INTRO, INTRO, THUMBNAIL)
+        VALUES (#{clubName}, #{readerNo}, #{categoryId}, #{membersLimit},#{ageLimitStart},#{ageLimitEnd},#{area},#{oneLineIntro},#{intro},#{thumbnail})
+    </insert>
+</mapper>
