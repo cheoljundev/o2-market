@@ -4,11 +4,11 @@ html{
 body{
     height: 100%;
 }
-body > .row{
-    height: 100%;
+body > div{
+    min-height: 100%;
 }
 aside{
-    height: 100%;
+    min-height: 100%;
 }
 
 .logo{
