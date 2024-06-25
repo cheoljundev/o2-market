@@ -12,7 +12,7 @@ public class Order {
     private Long productNo;
     private Date createdAt;
     private String title;
-    private String category;
+    private String categoryCode;
     private String image;
     private Long price;
     private Long halfPrice;
