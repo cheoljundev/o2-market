@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 @Builder
 public class OrderSearchCond {
-    private String BUYER_MEMBER_ID;
-    private String BUYER_PHONE;
-    private String RECIPIENT_NAME;
-    private String RECIPIENT_PHONE;
+    private String buyerMemberId;
+    private String buyerPhone;
+    private String recipientName;
+    private String recipientPhone;
 }
