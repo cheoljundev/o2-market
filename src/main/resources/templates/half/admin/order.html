@@ -15,7 +15,7 @@
             <form action="" class="px-0">
                 <div class="row gx-2 mx-2 mb-4">
                     <div class="col-auto">
-                        <select class="form-select col-auto">
+                        <select class="form-select col-auto search-select">
                             <option selected>검색 조건</option>
                             <option value="buyerMemberId">구매자 ID</option>
                             <option value="buyerPhone">구매자 전화 번호</option>
@@ -24,7 +24,7 @@
                         </select>
                     </div>
                     <div class="col-auto">
-                        <input class="form-control col-auto" type="text" placeholder="입력하세요.">
+                        <input class="form-control col-auto search-input" type="text" name="" placeholder="입력하세요.">
                     </div>
                     <div class="col-auto">
                         <button type="submit" class="btn btn-primary col-auto">검색</button>
@@ -146,6 +146,24 @@
             </div>
         </div>
     </div>
+    <script>
+        document.querySelector(".search-select").addEventListener("change", function () {
+            const searchInput = document.querySelector(".search-input");
+            if (this.value === "buyerMemberId") {
+                searchInput.placeholder = "구매자 ID를 입력하세요.";
+                searchInput.name = "buyerMemberId";
+            } else if (this.value === "buyerPhone") {
+                searchInput.placeholder = "구매자 전화 번호를 입력하세요.";
+                searchInput.name = "buyerPhone";
+            } else if (this.value === "recipientName") {
+                searchInput.placeholder = "수령자 이름을 입력하세요.";
+                searchInput.name = "recipientName";
+            } else if (this.value === "recipientPhone") {
+                searchInput.placeholder = "수령자 전화 번호를 입력하세요.";
+                searchInput.name = "recipientPhone";
+            }
+        });
+    </script>
 </main>
 </body>
 </html>
