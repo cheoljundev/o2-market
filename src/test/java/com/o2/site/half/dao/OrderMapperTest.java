@@ -21,6 +21,19 @@ class OrderMapperTest {
     OrderMapper orderMapper;
 
     @Test
+    void findByOrderNo() {
+        // given
+        Long orderNo = 1L;
+
+        // when
+        Order order = orderMapper.findByOrderNo(orderNo);
+        Long orderNoResult = order.getOrderNo();
+
+        // then
+        assertThat(orderNoResult).isEqualTo(orderNo);
+    }
+
+    @Test
     void findAll() {
         // given
         OrderSearchCond orderSearchCond1 = OrderSearchCond.builder()

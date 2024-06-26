@@ -9,6 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface OrderMapper {
+    public Order findByOrderNo(Long orderNo);
     public List<Order> findAll(OrderSearchCond orderSearchCond);
     public List<Order> findRange(int start, int end, OrderSearchCond orderSearchCond);
     public void insertOrder(InsertOrderDto insertOrderDto);
