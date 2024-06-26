@@ -4,11 +4,70 @@
 <head>
     <title>모임</title>
     <th:block th:fragment="insertHead">
+        <script
+                src="https://code.jquery.com/jquery-3.7.1.js"
+                integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+                crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                getList();
+            });
+
+            function getList(pageNo) {
+                        $('#clubTableDiv').html('');
+                        let clubName = '';
+                        let area = '';
+
+                        let searchSel = $('#searchSel').val();
+                        if (searchSel == 'clubName') {
+                            clubName = $('#keyword').val();
+                        } else if (searchSel == 'area') {
+                            area = $('#keyword').val();
+                        }
+                        console.log(clubName);
+                        console.log(area);
+                        console.log(searchSel);
+                        $.ajax({
+                                type : "GET",
+                                url : "/club/getList",
+                                dataType : "json",
+                                data : {'clubName' : clubName, 'area' : area, 'page' : pageNo},
+                                success : function(result) {
+                                    console.log(result);
+                                    for (var i = 0; i < result.size; i++) {
+                                    console.log('실행');
+                                    let template = `
+                                         <div class="col">
+                                            <a class="page-link" href="#">
+                                                <div class="card h-100">
+                                                    <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">${result.content[i].clubName}</h5>
+                                                        <p class="card-text">장소 : ${result.content[i].area}</p>
+                                                        <p class="card-text">연령 : ${result.content[i].ageLimitStart} ~ ${result.content[i].ageLimitEnd}&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / ${result.content[i].membersLimit}</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    `;
+
+                                $('#clubTableDiv').append(template);
+                                }
+                            }
+                        });
+                    }
+
+        </script>
     </th:block>
 
+
 </head>
+
 <body>
+
 <main>
+    <p id="clubName"></p>
+    <p id="area"></p>
     <div class="container mt-5">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -16,115 +75,19 @@
             </ol>
         </nav>
         <h2 class="mb-2">모임 홍보</h2>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-                <a class="page-link" href="#">
-                    <div class="card h-100">
-                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">모임1</h5>
-                            <p class="card-text">장소 : 울산</p>
-                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
-                        </div>
-                    </div>
-                </a>
+            <div class="px-0  col-4  col-md-3 col-lg-2">
+                <div class="d-inline-flex">
+                    <select class="form-select form-select-sm h-100" aria-label=".form-select-sm example" id="searchSel">
+                        <option selected value="clubName">모임명</option>
+                        <option value="area">장소</option>
+                    </select>
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 300px;" id="keyword">
+                    <button class="btn btn-outline-success" type="submit" onclick="getList(1);">검색</button>
+                </div>
             </div>
-            <div class="col">
-                <a class="page-link" href="#">
-                    <div class="card h-100">
-                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">모임2</h5>
-                            <p class="card-text">장소 : 울산</p>
-                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <a class="page-link" href="#">
-                    <div class="card h-100">
-                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">모임3</h5>
-                            <p class="card-text">장소 : 울산</p>
-                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <a class="page-link" href="#">
-                    <div class="card h-100">
-                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">모임4</h5>
-                            <p class="card-text">장소 : 울산</p>
-                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <a class="page-link" href="#">
-                    <div class="card h-100">
-                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">모임5</h5>
-                            <p class="card-text">장소 : 울산</p>
-                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <a class="page-link" href="#">
-                    <div class="card h-100">
-                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">모임6</h5>
-                            <p class="card-text">장소 : 울산</p>
-                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <a class="page-link" href="#">
-                    <div class="card h-100">
-                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">모임7</h5>
-                            <p class="card-text">장소 : 울산</p>
-                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <a class="page-link" href="#">
-                    <div class="card h-100">
-                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">모임8</h5>
-                            <p class="card-text">장소 : 울산</p>
-                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col">
-                <a class="page-link" href="#">
-                    <div class="card h-100">
-                        <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">모임9</h5>
-                            <p class="card-text">장소 : 울산</p>
-                            <p class="card-text">연령 : 25 ~ 30&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / 30</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="clubTableDiv">
+
         </div>
         <br>
         <div class="d-md-flex justify-content-md-end">
@@ -139,8 +102,6 @@
                         </a>
                     </li>
                     <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
                     <li class="page-item">
                         <a class="page-link" href="#" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>

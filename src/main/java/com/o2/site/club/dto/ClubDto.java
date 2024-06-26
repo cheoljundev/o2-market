@@ -1,5 +1,6 @@
 package com.o2.site.club.dto;
 
+import com.o2.site.club.domain.RequestList;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

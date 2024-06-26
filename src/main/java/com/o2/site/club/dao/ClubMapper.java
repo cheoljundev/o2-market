@@ -1,19 +1,23 @@
 package com.o2.site.club.dao;
 
+import com.o2.site.club.domain.RequestList;
 import com.o2.site.club.dto.ClubDto;
 import com.o2.site.club.dto.ClubUserDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface ClubMapper {
 
     // 모임 리스트
-    public ArrayList<ClubDto> clubList();
+    public List<Map<String, Object>> clubList(RequestList<?> requestList);
     
     // 모임 리스트 총 카운트
-    public ArrayList<ClubDto> clubListCount();
+    public int clubListCount(ClubDto clubDto);
 
     // 모임 생성
     public int clubInsert(ClubDto clubDto);
@@ -42,6 +46,8 @@ public interface ClubMapper {
 
     // 신청원 취소
     public int clubUserCancle();
+
+
 // 관리자 end
 
     
