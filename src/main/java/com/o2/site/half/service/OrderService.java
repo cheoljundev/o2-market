@@ -15,22 +15,22 @@ import java.util.List;
 public class OrderService {
     private final OrderDao orderDao;
 
-    List<Order> findAll(OrderSearchCond orderSearchCond){
+    public List<Order> findAll(OrderSearchCond orderSearchCond){
         return orderDao.findAll(orderSearchCond);
     }
-    Order findByOrderNo(Long orderNo){
+    public Order findByOrderNo(Long orderNo){
         return orderDao.findByOrderNo(orderNo);
     }
-    List<Order> findRange(int start, int end, OrderSearchCond orderSearchCond){
+    public List<Order> findRange(int start, int end, OrderSearchCond orderSearchCond){
         return orderDao.findRange(start, end, orderSearchCond);
     }
-    void insertOrder(InsertOrderDto insertOrderDto){
+    public void insertOrder(InsertOrderDto insertOrderDto){
         orderDao.insertOrder(insertOrderDto);
     }
-    void updateOrder(UpdateOrderDto updateOrderDto){
+    public void updateOrder(UpdateOrderDto updateOrderDto){
         orderDao.updateOrder(updateOrderDto);
     }
-    void deleteOrder(Long orderNo){
+    public void deleteOrder(Long orderNo){
         orderDao.deleteOrder(orderNo);
     }
 }
