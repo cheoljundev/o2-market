@@ -8,10 +8,10 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface OrderDao {
-    public Order findByOrderNo(Long orderNo);
-    public List<Order> findAll(OrderSearchCond orderSearchCond);
-    public List<Order> findRange(@Param("start") int start, @Param("end") int end, @Param("orderSearchCond") OrderSearchCond orderSearchCond);
-    public void insertOrder(InsertOrderDto insertOrderDto);
-    public void updateOrder(UpdateOrderDto updateOrderDto);
-    public void deleteOrder(Long orderNo);
+    Order findByOrderNo(Long orderNo);
+    List<Order> findAll(OrderSearchCond orderSearchCond);
+    List<Order> findRange(@Param("start") int start, @Param("end") int end, @Param("orderSearchCond") OrderSearchCond orderSearchCond);
+    void insertOrder(InsertOrderDto insertOrderDto);
+    void updateOrder(UpdateOrderDto updateOrderDto);
+    void deleteOrder(Long orderNo);
 }
