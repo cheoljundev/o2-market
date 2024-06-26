@@ -4,4 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.o2.site.club.dao.ClubBoardMapper">
 
+    <insert id="clubBoardInsert">
+        INSERT INTO CLUB_BOARD (CLUB_BOARD_ID, CLUB_NAME, WRITER, TITLE, CONTENT) VALUES (SEQ_CLUB_BOARD.NEXTVAL, #{clubName}, #{writer}, #{title}, #{content})
+    </insert>
+
+    <insert id="clubBoardImgInsert">
+        INSERT INTO CLUB_BOARD_IMG (BOARD_IMG_ID, BOARD_ID, IMAGE) VALUES(
+        SEQ_CLUB_CATEGORY_IMG.NEXTVAL
+            , SEQ_CLUB_BOARD.CURRVAL
+            , #{image})
+    </insert>
 </mapper>

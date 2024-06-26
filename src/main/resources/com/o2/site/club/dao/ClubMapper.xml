@@ -9,4 +9,40 @@
         CLUB_NAME, READER_NO, CATEGORY_ID, MEMBERS_LIMIT, AGE_LIMIT_START, AGE_LIMIT_END, AREA, ONE_LINE_INTRO, INTRO, THUMBNAIL)
         VALUES (#{clubName}, #{readerNo}, #{categoryId}, #{membersLimit},#{ageLimitStart},#{ageLimitEnd},#{area},#{oneLineIntro},#{intro},#{thumbnail})
     </insert>
+
+    <select id="clubList" resultType="com.o2.site.club.dto.ClubDto">
+        SELECT  ROWNUM
+                , CLUB_NAME
+                , CATEGORY_ID
+                , MEMBERS_LIMIT
+                , AGE_LIMIT_START
+                , AGE_LIMIT_END
+                , AREA
+                , THUMBNAIL
+        FROM (select ROW_NUMBER() over(order by CLUB_NAME desc) as "rownum", c.*
+        from club c
+        <where>
+            <if test="data.clubName != null and data.clubName != ''">
+                AND CLUB_NAME LIKE '%' || #{data.clubName} || '%'
+            </if>
+            <if test="data.area != null and data.area != ''">
+                AND AREA LIKE '%' || #{data.area} || '%'
+            </if>
+        </where>
+        ) club
+<!--        where club."rownum" between #{pageable.offset} and #{pageable.pageSize}-->
+    </select>
+
+    <select id="clubListCount" resultType="int">
+        SELECT COUNT(*) AS CNT
+        FROM CLUB
+        <where>
+            <if test="clubName != null and clubName != ''">
+                AND CLUB_NAME LIKE '%' || #{clubName} || '%'
+            </if>
+            <if test="area != null and area != ''">
+                AND AREA LIKE '%' || #{area} || '%'
+            </if>
+        </where>
+    </select>
 </mapper>
