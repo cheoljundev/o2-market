@@ -4,7 +4,6 @@ import com.o2.site.config.O2Application;
 import com.o2.site.half.domain.Order;
 import com.o2.site.half.dto.InsertOrderDto;
 import com.o2.site.half.dto.UpdateOrderDto;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -130,5 +129,14 @@ class OrderMapperTest {
 
     @Test
     void deleteOrder() {
+        // given
+        Long orderNo = 1L;
+
+        // when
+        orderMapper.deleteOrder(orderNo);
+
+        // then
+        Order order = orderMapper.findByOrderNo(orderNo);
+        assertThat(order).isNull();
     }
 }

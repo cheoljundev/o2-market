@@ -76,4 +76,8 @@
         </set>
         where ORDER_NO = #{orderNo}
     </update>
+
+    <delete id="deleteOrder">
+        delete from half_order where ORDER_NO = #{orderNo}
+    </delete>
 </mapper>
