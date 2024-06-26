@@ -45,44 +45,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                    <tr th:each="order : ${orders}">
                         <td>
                             <button type="button"
+                                    th:text="${order.orderNo}"
                                     class="link-primary border-0 bg-transparent text-decoration-underline">202406240000
                             </button>
                         </td>
-                        <td>2024-06-25</td>
-                        <td><img src="https://via.placeholder.com/100" alt="썸네일 이미지"></td>
-                        <td>한번 쓴 ㅇㅇㅇ</td>
-                        <td>홍길동</td>
-                        <td>5,000</td>
-                        <td>발송대기</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button type="button"
-                                    class="link-primary border-0 bg-transparent text-decoration-underline">202406240000
-                            </button>
-                        </td>
-                        <td>2024-06-25</td>
-                        <td><img src="https://via.placeholder.com/100" alt="썸네일 이미지"></td>
-                        <td>한번 쓴 ㅇㅇㅇ</td>
-                        <td>홍길동</td>
-                        <td>5,000</td>
-                        <td>배송중</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button type="button"
-                                    class="link-primary border-0 bg-transparent text-decoration-underline">202406240000
-                            </button>
-                        </td>
-                        <td>2024-06-25</td>
-                        <td><img src="https://via.placeholder.com/100" alt="썸네일 이미지"></td>
-                        <td>한번 쓴 ㅇㅇㅇ</td>
-                        <td>홍길동</td>
-                        <td>5,000</td>
-                        <td>구매확정</td>
+                        <td th:text="${{order.createAt}}">2024-06-25</td>
+                        <td><img th:src="@{/{image} (image=${order.image})}" src="https://via.placeholder.com/100" alt="썸네일 이미지"></td>
+                        <td th:text="${order.title}">한번 쓴 ㅇㅇㅇ</td>
+                        <td th:text="${order.recipientName}">홍길동</td>
+                        <td th:text="${{order.halfPrice}}">5,000</td>
+                        <td th:text="${order.stateName}">발송대기</td>
                     </tr>
                     </tbody>
                 </table>

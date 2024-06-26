@@ -10,7 +10,7 @@ import java.util.Date;
 public class Order {
     private Long orderNo;
     private Long productNo;
-    private Date createdAt;
+    private Date createAt;
     private String title;
     private String categoryCode;
     private String image;
