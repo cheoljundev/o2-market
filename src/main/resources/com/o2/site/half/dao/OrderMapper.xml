@@ -16,5 +16,47 @@
                 and RECIPIENT_PHONE = #{recipientPhone}
             </if>
         </where>
+        order by ORDER_NO DESC
     </select>
+
+    <insert id="insertOrder" parameterType="com.o2.site.half.dto.InsertOrderDto">
+        insert into half_order (
+            ORDER_NO,
+            PRODUCT_NO,
+            title,
+            CATEGORY_CODE,
+            IMAGE,
+            PRICE,
+            HALF_PRICE,
+            SELLER_MEMBER_NO,
+            SELLER_MEMBER_ID,
+            SELLER_PHONE,
+            BUYER_MEMBER_NO,
+            BUYER_MEMBER_ID,
+            BUYER_PHONE,
+            RECIPIENT_NAME,
+            RECIPIENT_PHONE,
+            RECIPIENT_ADDRESS,
+            DELIVERY_MEMO
+        )
+        values(
+            SEQ_HALF_ORDER_NO.nextval,
+            #{productNo},
+            #{title},
+            #{categoryCode},
+            #{image},
+            #{price},
+            #{halfPrice},
+            #{sellerMemberNo},
+            #{sellerMemberId},
+            #{sellerPhone},
+            #{buyerMemberNo},
+            #{buyerMemberId},
+            #{buyerPhone},
+            #{recipientName},
+            #{recipientPhone},
+            #{recipientAddress},
+            #{deliveryMemo}
+              )
+    </insert>
 </mapper>

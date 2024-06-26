@@ -2,6 +2,7 @@ package com.o2.site.half.dao;
 
 import com.o2.site.config.O2Application;
 import com.o2.site.half.domain.Order;
+import com.o2.site.half.dto.InsertOrderDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest(classes = O2Application.class)
 @Transactional
@@ -52,10 +53,10 @@ class OrderMapperTest {
         String recipientPhone = orders4.get(0).getRecipientPhone();
 
         // then
-        Assertions.assertThat(buyerMemberId).isEqualTo(orderSearchCond1.getBuyerMemberId());
-        Assertions.assertThat(buyerPhone).isEqualTo(orderSearchCond2.getBuyerPhone());
-        Assertions.assertThat(recipientName).isEqualTo(orderSearchCond3.getRecipientName());
-        Assertions.assertThat(recipientPhone).isEqualTo(orderSearchCond4.getRecipientPhone());
+        assertThat(buyerMemberId).isEqualTo(orderSearchCond1.getBuyerMemberId());
+        assertThat(buyerPhone).isEqualTo(orderSearchCond2.getBuyerPhone());
+        assertThat(recipientName).isEqualTo(orderSearchCond3.getRecipientName());
+        assertThat(recipientPhone).isEqualTo(orderSearchCond4.getRecipientPhone());
     }
 
     @Test
@@ -64,6 +65,35 @@ class OrderMapperTest {
 
     @Test
     void insertOrder() {
+        // given
+        InsertOrderDto insertOrderDto = InsertOrderDto.builder()
+                .productNo(1L)
+                .title("한번 사용한 아이패드2")
+                .categoryCode("cg_life")
+                .image("thumbnail.jpg")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김박사")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build();
+        orderMapper.insertOrder(insertOrderDto);
+        OrderSearchCond orderSearchCond = OrderSearchCond.builder()
+                .build();
+
+        // when
+        List<Order> orders = orderMapper.findAll(orderSearchCond);
+        Order order = orders.get(0);
+        int size = orders.size();
+        assertThat(size).isEqualTo(2);
+        assertThat(order.getTitle()).isEqualTo(insertOrderDto.getTitle());
     }
 
     @Test
