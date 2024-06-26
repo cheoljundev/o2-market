@@ -113,7 +113,7 @@ class OrderMapperTest {
         List<Order> orders = orderMapper.findAll(orderSearchCond);
         Order order = orders.get(0);
         int size = orders.size();
-        assertThat(size).isEqualTo(2);
+        assertThat(size).isEqualTo(3);
         assertThat(order.getTitle()).isEqualTo(insertOrderDto.getTitle());
     }
 
