@@ -8,4 +8,5 @@ import lombok.Data;
 public class UpdateOrderDto {
     private Long orderNo;
     private Long invoice;
+    private int state;
 }

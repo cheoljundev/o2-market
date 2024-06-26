@@ -3,6 +3,7 @@ package com.o2.site.half.dao;
 import com.o2.site.config.O2Application;
 import com.o2.site.half.domain.Order;
 import com.o2.site.half.dto.InsertOrderDto;
+import com.o2.site.half.dto.UpdateOrderDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +112,20 @@ class OrderMapperTest {
 
     @Test
     void updateOrder() {
+        // given
+        UpdateOrderDto updateOrderDto1 = UpdateOrderDto.builder()
+                .orderNo(1L)
+                .invoice(123456789L)
+                .state(1)
+                .build();
+
+        // when
+        orderMapper.updateOrder(updateOrderDto1);
+
+        // then
+        Order order = orderMapper.findByOrderNo(1L);
+        assertThat(order.getInvoice()).isEqualTo(updateOrderDto1.getInvoice());
+        assertThat(order.getState()).isEqualTo(updateOrderDto1.getState());
     }
 
     @Test

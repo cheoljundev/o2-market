@@ -63,4 +63,17 @@
             #{deliveryMemo}
               )
     </insert>
+
+    <update id="updateOrder" parameterType="com.o2.site.half.dto.UpdateOrderDto">
+        update half_order
+        <set>
+            <if test="invoice != null and invoice != ''">
+                INVOICE = #{invoice},
+            </if>
+            <if test="state!= null and state != ''">
+                STATE = #{state},
+            </if>
+        </set>
+        where ORDER_NO = #{orderNo}
+    </update>
 </mapper>
