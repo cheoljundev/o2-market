@@ -9,6 +9,22 @@
         <result property="title" column="TITLE"/>
         <result property="price" column="PRICE"/>
     </resultMap>
+    <resultMap id="TradeDomain" type="com.o2.site.trade.domain.TradeDomain">
+        <id property="tradeNo" column="TRADE_NO"/>
+        <result property="memberNo" column="MEMBER_NO"/>
+        <result property="title" column="TITLE"/>
+        <result property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="content" column="CONTENT"/>
+        <result property="visitCount" column="VISIT_COUNT"/>
+        <result property="price" column="PRICE"/>
+        <result property="approve" column="APPROVE"/>
+        <result property="isTrade" column="IS_TRADE"/>
+        <result property="postDate" column="POST_DATE"/>
+    </resultMap>
+    <resultMap id="ImageDto" type="com.o2.site.trade.dto.ImageDto">
+        <id property="no" column="TRADE_NO"/>
+        <result property="address" column="IMAGE_ADDRESS"/>
+    </resultMap>
 
     <insert id="insertApp" useGeneratedKeys="true" keyProperty="trade_No" keyColumn="TRADE_NO">
         INSERT INTO TRADE_BOARD
@@ -37,39 +53,95 @@
     </insert>
 
     <select id="selectMainList" resultMap="TradeMainDto">
-        SELECT TRADE_NO, TITLE, PRICE, IMAGE_ADDRESS
+        SELECT TRADE_NO, TITLE, PRICE, IMAGE_ADDRESS, CATEGORY
         FROM (
         SELECT
         A.TRADE_NO,
         A.TITLE,
         A.PRICE,
+        C.CATEGORY,
         B.IMAGE_ADDRESS,
-        ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY A.TRADE_NO) AS rn
+        ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY B.IMAGE_NO) AS rn
         FROM
         TRADE_BOARD A
         JOIN
         TRADE_IMAGE B ON A.TRADE_NO = B.TRADE_NO
+        JOIN
+        CATEGORY C ON A.CATEGORY_CODE = C.CATEGORY_CODE
         )
         WHERE rn = 1
         ORDER BY TRADE_NO
     </select>
 
     <select id="selectSearchList" resultMap="TradeMainDto">
-        SELECT TRADE_NO, TITLE, PRICE, IMAGE_ADDRESS
+        SELECT
+        TRADE_NO,
+        TITLE,
+        PRICE,
+        IMAGE_ADDRESS,
+        CATEGORY
         FROM (
         SELECT
         A.TRADE_NO,
         A.TITLE,
         A.PRICE,
         B.IMAGE_ADDRESS,
-        ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY A.TRADE_NO) AS rn
+        C.CATEGORY,
+        ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY B.IMAGE_NO) AS rn
         FROM
         TRADE_BOARD A
         JOIN
         TRADE_IMAGE B ON A.TRADE_NO = B.TRADE_NO
-        WHERE A.CATEGORY LIKE '%' || #{category} || '%' AND A.TITLE LIKE '%' || #{keyword} || '%'
+        JOIN
+        CATEGORY C ON A.CATEGORY_CODE = C.CATEGORY_CODE
+        WHERE
+        A.TITLE LIKE '%' || #{keyword} || '%' AND A.CATEGORY_CODE LIKE '%' || #{category} || '%'
         )
         WHERE rn = 1
         ORDER BY TRADE_NO
     </select>
+
+    <select id="getCg">
+        SELECT
+        CATEGORY
+        FROM
+        CATEGORY
+        WHERE
+        CATEGORY_CODE=#{category}
+
+    </select>
+
+    <select id="getBoard" resultMap="TradeDomain">
+        SELECT * FROM TRADE_BOARD
+        WHERE TRADE_NO = #{tradeNo}
+    </select>
+
+    <select id="getImages">
+        SELECT IMAGE_ADDRESS FROM TRADE_IMAGE
+        WHERE TRADE_NO = #{tradeNo}
+        ORDER BY TRADE_NO
+    </select>
+
+    <select id="getWishCount">
+        SELECT COUNT(#{memberNo})
+        FROM WISH_LIST
+        GROUP BY #{tradeNo}
+    </select>
+
+    <update id="upVisitCount">
+        UPDATE
+        TRADE_BOARD
+        SET VISIT_COUNT = VISIT_COUNT+1
+        WHERE TRADE_NO=#{tradeNo}
+    </update>
+
+    <delete id="deleteBoard">
+        DELETE FROM TRADE_BOARD
+        WHERE TRADE_NO=#{tradeNo}
+    </delete>
+
+    <insert id="addWish">
+        INSERT INTO WISH_LIST
+        VALUES(#{memberNo},#{tradeNo})
+    </insert>
 </mapper>
