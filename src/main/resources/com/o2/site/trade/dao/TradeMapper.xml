@@ -3,30 +3,30 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.o2.site.trade.dao.TradeMapper">
-    <resultMap id="TradeMainDto" type="com.o2.site.trade.dto.TradeMainDto">
-        <id property="boardNo" column="TRADE_NO"/>
-        <result property="image" column="IMAGE_ADDRESS"/>
-        <result property="title" column="TITLE"/>
-        <result property="price" column="PRICE"/>
-    </resultMap>
-    <resultMap id="TradeDomain" type="com.o2.site.trade.domain.TradeDomain">
-        <id property="tradeNo" column="TRADE_NO"/>
-        <result property="memberNo" column="MEMBER_NO"/>
-        <result property="title" column="TITLE"/>
-        <result property="categoryCode" column="CATEGORY_CODE"/>
-        <result property="content" column="CONTENT"/>
-        <result property="visitCount" column="VISIT_COUNT"/>
-        <result property="price" column="PRICE"/>
-        <result property="approve" column="APPROVE"/>
-        <result property="isTrade" column="IS_TRADE"/>
-        <result property="postDate" column="POST_DATE"/>
-    </resultMap>
-    <resultMap id="ImageDto" type="com.o2.site.trade.dto.ImageDto">
-        <id property="no" column="TRADE_NO"/>
-        <result property="address" column="IMAGE_ADDRESS"/>
-    </resultMap>
+<!--    <resultMap id="TradeMainDto" type="com.o2.site.trade.dto.TradeMainDto">-->
+<!--        <id property="boardNo" column="TRADE_NO"/>-->
+<!--        <result property="image" column="IMAGE_ADDRESS"/>-->
+<!--        <result property="title" column="TITLE"/>-->
+<!--        <result property="price" column="PRICE"/>-->
+<!--    </resultMap>-->
+<!--    <resultMap id="TradeDomain" type="com.o2.site.trade.domain.TradeDomain">-->
+<!--        <id property="tradeNo" column="TRADE_NO"/>-->
+<!--        <result property="memberNo" column="MEMBER_NO"/>-->
+<!--        <result property="title" column="TITLE"/>-->
+<!--        <result property="categoryCode" column="CATEGORY_CODE"/>-->
+<!--        <result property="content" column="CONTENT"/>-->
+<!--        <result property="visitCount" column="VISIT_COUNT"/>-->
+<!--        <result property="price" column="PRICE"/>-->
+<!--        <result property="approve" column="APPROVE"/>-->
+<!--        <result property="isTrade" column="IS_TRADE"/>-->
+<!--        <result property="postDate" column="POST_DATE"/>-->
+<!--    </resultMap>-->
+<!--    <resultMap id="ImageDto" type="com.o2.site.trade.dto.ImageDto">-->
+<!--        <id property="no" column="TRADE_NO"/>-->
+<!--        <result property="address" column="IMAGE_ADDRESS"/>-->
+<!--    </resultMap>-->
 
-    <insert id="insertApp" useGeneratedKeys="true" keyProperty="trade_No" keyColumn="TRADE_NO">
+    <insert id="insertApp" useGeneratedKeys="true" keyProperty="tradeNo" keyColumn="TRADE_NO">
         INSERT INTO TRADE_BOARD
         VALUES (
             SEQ_TRADE_TRADE_NO.NEXTVAL,
@@ -47,12 +47,12 @@
         INSERT INTO TRADE_IMAGE
         VALUES(
             SEQ_TRADE_IMAGE_NO.NEXTVAL,
-            #{no},
-            #{address}
+            #{tradeNo},
+            #{imageAddress}
         )
     </insert>
 
-    <select id="selectMainList" resultMap="TradeMainDto">
+    <select id="selectMainList" resultType="com.o2.site.trade.dto.TradeMainDto">
         SELECT TRADE_NO, TITLE, PRICE, IMAGE_ADDRESS, CATEGORY
         FROM (
         SELECT
@@ -73,7 +73,7 @@
         ORDER BY TRADE_NO
     </select>
 
-    <select id="selectSearchList" resultMap="TradeMainDto">
+    <select id="selectSearchList" resultType="com.o2.site.trade.dto.TradeMainDto">
         SELECT
         TRADE_NO,
         TITLE,
@@ -111,7 +111,7 @@
 
     </select>
 
-    <select id="getBoard" resultMap="TradeDomain">
+    <select id="getBoard" resultType="com.o2.site.trade.domain.TradeDomain">
         SELECT * FROM TRADE_BOARD
         WHERE TRADE_NO = #{tradeNo}
     </select>
@@ -119,7 +119,7 @@
     <select id="getImages">
         SELECT IMAGE_ADDRESS FROM TRADE_IMAGE
         WHERE TRADE_NO = #{tradeNo}
-        ORDER BY TRADE_NO
+        ORDER BY IMAGE_NO
     </select>
 
     <select id="getWishCount">

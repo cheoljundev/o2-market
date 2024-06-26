@@ -49,9 +49,9 @@ public class TradeService {
             throw new RuntimeException(e);
         }
         tradeMapper.insertApp(ad);
-        int no = ad.getTrade_No();
+        int tradeNo = ad.getTradeNo();
         for(String image : images){
-            ImageDto imageDto = new ImageDto(no, image);
+            ImageDto imageDto = new ImageDto(tradeNo, image);
             tradeMapper.insertImg(imageDto);
             result=1;
         }
