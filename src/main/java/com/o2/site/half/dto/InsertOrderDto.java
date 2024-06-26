@@ -1,4 +1,4 @@
-package com.o2.site.half.domain;
+package com.o2.site.half.dto;
 
 import lombok.Builder;
 import lombok.Data;
@@ -7,10 +7,8 @@ import java.util.Date;
 
 @Data
 @Builder
-public class Order {
-    private Long orderNo;
+public class InsertOrderDto {
     private Long productNo;
-    private Date createAt;
     private String title;
     private String categoryCode;
     private String image;
@@ -19,8 +17,6 @@ public class Order {
     private Long sellerMemberNo;
     private String sellerMemberId;
     private String sellerPhone;
-    private int state;
-    private Long invoice;
     private Long buyerMemberNo;
     private String buyerMemberId;
     private String buyerPhone;

@@ -1,10 +1,9 @@
 package com.o2.site.trade.service;
 
 import com.o2.site.trade.dao.TradeMapper;
-import com.o2.site.trade.dto.ApplicationDto;
-import com.o2.site.trade.dto.ImageDto;
-import com.o2.site.trade.dto.SearchDto;
-import com.o2.site.trade.dto.TradeMainDto;
+import com.o2.site.trade.domain.TradeDomain;
+import com.o2.site.trade.dto.*;
+import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +28,6 @@ public class TradeService {
         int result = 0;
         ArrayList<String> images = new ArrayList<>();
         System.out.println(ad);
-
         try{
             for (MultipartFile file : files) {
                 String fileName = file.getOriginalFilename();
@@ -38,11 +36,15 @@ public class TradeService {
                 String ext = fileName.substring(pos+1);
                 String uploadName = uuid+"."+ext;
                 System.out.println(uploadName);
-                file.transferTo(new File("C:/workspace/multi/semi/o2-market/src/main/resources/static/images/trade/app/"+uploadName));
+                String filePath="C:/workspace/multi/semi/o2-market/src/main/resources/static/images/trade/app/";
+                File mkdir = new File(filePath);
+                if(!mkdir.exists()) {
+                    mkdir.mkdirs();
+                }
+                file.transferTo(new File(filePath+uploadName));
                 images.add(uploadName);
             }
             System.out.println(images);
-            result=1;
         }catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -51,6 +53,7 @@ public class TradeService {
         for(String image : images){
             ImageDto imageDto = new ImageDto(no, image);
             tradeMapper.insertImg(imageDto);
+            result=1;
         }
         return result;
     }
@@ -61,9 +64,34 @@ public class TradeService {
     }
 
     public ArrayList<TradeMainDto> selectSearchList(SearchDto searchDto) {
-        if(searchDto.getCategory().equals("전체")){
-            searchDto.setCategory("");
-        }
         return tradeMapper.selectSearchList(searchDto);
+    }
+
+    public String getCg(SearchDto searchDto) {
+        return tradeMapper.getCg(searchDto);
+    }
+
+    public TradeDomain getBoard(String tradeNo) {
+        return tradeMapper.getBoard(tradeNo);
+    }
+
+    public ArrayList<String> getImages(String tradeNo) {
+        return tradeMapper.getImages(tradeNo);
+    }
+
+    public int getWishCount(String tradeNo) throws BindingException {
+        return tradeMapper.getWishCount(tradeNo);
+    }
+
+    public void upVisitCount(String tradeNo) {
+        tradeMapper.upVisitCount(tradeNo);
+    }
+
+    public int deleteBoard(String tradeNo) {
+        return tradeMapper.deleteBoard(tradeNo);
+    }
+
+    public int addWish(WishListDto wishListDto) {
+        return tradeMapper.addWish(wishListDto);
     }
 }

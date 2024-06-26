@@ -8,7 +8,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 
 @Configuration
 @ComponentScan(basePackages = "com.o2.site")
-public class ContextConfigration {
+public class ContextConfiguration {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
