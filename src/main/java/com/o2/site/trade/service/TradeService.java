@@ -3,6 +3,7 @@ package com.o2.site.trade.service;
 import com.o2.site.trade.dao.TradeMapper;
 import com.o2.site.trade.domain.TradeDomain;
 import com.o2.site.trade.dto.*;
+import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,8 +79,8 @@ public class TradeService {
         return tradeMapper.getImages(tradeNo);
     }
 
-    public WishListDto getWishCount(int memberNo, String tradeNo) {
-        return tradeMapper.getWishCount(memberNo,tradeNo);
+    public int getWishCount(String tradeNo) throws BindingException {
+        return tradeMapper.getWishCount(tradeNo);
     }
 
     public void upVisitCount(String tradeNo) {

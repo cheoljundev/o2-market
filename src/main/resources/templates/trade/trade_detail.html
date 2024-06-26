@@ -68,6 +68,23 @@
         <h1 th:text="${tradeDomain.title}" align="center">제목</h1>
     </div>
     <hr class="border border-dark">
+<!--    <div class="row justify-content-center mb-5">-->
+<!--        <div id="carouselExampleInterval" class="carousel slide col-12 col-md-8 col-lg-6" data-bs-ride="carousel">-->
+<!--            <div class="carousel-inner">-->
+<!--                <div class="col-md-4" th:each="image : ${imageList}">-->
+<!--                    <img th:src="@{/images/trade/app/{image}(image=${imageList[0]})}" class="rounded-2" style="width:400px; height:400px">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">-->
+<!--                <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+<!--                <span class="visually-hidden">Previous</span>-->
+<!--            </button>-->
+<!--            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">-->
+<!--                <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+<!--                <span class="visually-hidden">Next</span>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </div>-->
     <div align="center">
         <button type="button" class="btn btn-secondary" onclick="prevImage()" id="prevButton" style="display: none;">이전</button>
         <img id="currentImage" th:src="@{/images/trade/app/{image}(image=${imageList[0]})}" class="rounded-2" style="width:400px; height:400px">

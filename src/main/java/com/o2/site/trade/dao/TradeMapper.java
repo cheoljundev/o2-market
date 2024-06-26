@@ -3,6 +3,7 @@ package com.o2.site.trade.dao;
 import com.o2.site.trade.domain.TradeDomain;
 import com.o2.site.trade.dto.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.binding.BindingException;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public interface TradeMapper {
 
     ArrayList<String> getImages(String tradeNo);
 
-    WishListDto getWishCount(int memberNo, String tradeNo);
+    int getWishCount(String tradeNo) throws BindingException;
 
     void upVisitCount(String tradeNo);
 

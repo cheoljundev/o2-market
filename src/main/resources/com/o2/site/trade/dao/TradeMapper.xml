@@ -123,9 +123,10 @@
     </select>
 
     <select id="getWishCount">
-        SELECT COUNT(#{memberNo})
+        SELECT COUNT(MEMBER_NO)
         FROM WISH_LIST
-        GROUP BY #{tradeNo}
+        WHERE TRADE_NO=#{tradeNo}
+        GROUP BY TRADE_NO
     </select>
 
     <update id="upVisitCount">

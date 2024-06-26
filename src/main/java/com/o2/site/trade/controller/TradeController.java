@@ -3,6 +3,7 @@ package com.o2.site.trade.controller;
 import com.o2.site.trade.domain.TradeDomain;
 import com.o2.site.trade.dto.*;
 import com.o2.site.trade.service.TradeService;
+import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,13 +56,14 @@ public class TradeController {
         tradeService.upVisitCount(tradeNo);
         ArrayList<String> imageList = tradeService.getImages(tradeNo);
         System.out.println(imageList);
-        int memberNo=1;//이후 로그인한 멤버번호로 변경 예정
-        WishListDto wishListDto = tradeService.getWishCount(memberNo,tradeNo);
-        if(wishListDto==null){
-            model.addAttribute("wishCount",0);
-        }else {
-            model.addAttribute("wishCount",wishListDto.getCount());
+        int wishList = 0;
+        try {
+            wishList = tradeService.getWishCount(tradeNo);
+        } catch (BindingException e) {
+            wishList=0;
         }
+        System.out.println(wishList);
+        model.addAttribute("wishCount",wishList);
         model.addAttribute("tradeDomain",tradeDomain);
         model.addAttribute("imageList",imageList);
     }
