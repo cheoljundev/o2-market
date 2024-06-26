@@ -74,6 +74,14 @@ class OrderMapperTest {
 
     @Test
     void findRange() {
+        // given
+        OrderSearchCond orderSearchCond = OrderSearchCond.builder()
+                .build();
+
+        // when
+        List<Order> orders = orderMapper.findRange(1, 2, orderSearchCond);
+        int size = orders.size();
+        assertThat(size).isEqualTo(2);
     }
 
     @Test
