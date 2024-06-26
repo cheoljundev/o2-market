@@ -5,87 +5,158 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>거래디테일</title>
+
     <th:block th:fragment="insertHead">
     </th:block>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 <main>
     <div class="container mt-5">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand me-5" href="#">전체 조회</a>
+                <a class="navbar-brand me-5" href="/trade/trade_main">전체 조회</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-3 mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="categoryDropdown">
-                                카테고리
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-                                <li><a class="dropdown-item" href="#">생활/가전</a></li>
-                                <li><a class="dropdown-item" href="#">가구/인테리어</a></li>
-                                <li><a class="dropdown-item" href="#">디지털</a></li>
-                                <li><a class="dropdown-item" href="#">도서/티켓</a></li>
-                                <li><a class="dropdown-item" href="#">취미/게임</a></li>
-                                <li><a class="dropdown-item" href="#">스포츠/레저</a></li>
-                                <li><a class="dropdown-item" href="#">뷰티/미용</a></li>
-                                <li><a class="dropdown-item" href="#">의류/남성</a></li>
-                                <li><a class="dropdown-item" href="#">의류/여성</a></li>
-                                <li><a class="dropdown-item" href="#">식물</a></li>
-                                <li><a class="dropdown-item" href="#"></a></li>
-                                <li><a class="dropdown-item" href="#">반려동물용품</a></li>
-                                <li><a class="dropdown-item" href="#">기타</a></li>
-                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">찜 목록</a>
                         </li>
+                        <form class="d-flex" role="search" action="/trade/trade_search">
+                            <li class="nav-item">
+                                <a id="cg" class="nav-link" th:text="${cg}">카테고리</a>
+                            </li>
+                            <li class="nav-item">
+                                <select class="form-select" id="inputGroupSelect01" name="category">
+                                    <option selected value="cg_all">전체</option>
+                                    <option value="cg_life">생활/가전</option>
+                                    <option value="cg_fur">가구/인테리어</option>
+                                    <option value="cg_digital">디지털</option>
+                                    <option value="cg_book">도서/티켓</option>
+                                    <option value="cg_game">게임/취미</option>
+                                    <option value="cg_sports">스포츠/레저</option>
+                                    <option value="cg_beauty">뷰티/미용</option>
+                                    <option value="cg_man">남성의류/용품</option>
+                                    <option value="cg_woman">여성의류/용품</option>
+                                    <option value="cg_plant">식물</option>
+                                    <option value="cg_animal">반려동물</option>
+                                    <option value="cg_else">기타</option>
+                                </select>
+                            </li>
+
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 300px;" name="keyword">
+                            <button id="searchButton" class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
                     </ul>
-                    <form class="d-flex" role="search" >
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 300px;">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
                 </div>
             </div>
         </nav>
     </div>
     <div align="right">
-        조회수/찜/날짜
+        <span th:text="'조회수: '+${tradeDomain.visitCount}">조회수</span>
+        <span th:text="'찜: '+${wishCount}">찜</span>
+        <span th:text="'작성일: '+${tradeDomain.postDate}">날짜</span>
     </div>
     <div align="right">
-        수정/삭제
+<!--        <a th:href="@{/trade/trade_delete(tradeNo=${tradeDomain.tradeNo})}">삭제</a> 구현 완료 권환이 있으면 나타나도록 수정 예정-->
     </div>
     <div>
-        <h1 align="center">제목</h1>
+        <h1 th:text="${tradeDomain.title}" align="center">제목</h1>
     </div>
     <hr class="border border-dark">
+<!--    <div class="row justify-content-center mb-5">-->
+<!--        <div id="carouselExampleInterval" class="carousel slide col-12 col-md-8 col-lg-6" data-bs-ride="carousel">-->
+<!--            <div class="carousel-inner">-->
+<!--                <div class="col-md-4" th:each="image : ${imageList}">-->
+<!--                    <img th:src="@{/images/trade/app/{image}(image=${imageList[0]})}" class="rounded-2" style="width:400px; height:400px">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">-->
+<!--                <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+<!--                <span class="visually-hidden">Previous</span>-->
+<!--            </button>-->
+<!--            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">-->
+<!--                <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+<!--                <span class="visually-hidden">Next</span>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </div>-->
     <div align="center">
-        <button type="button" class="btn btn-secondary"><</button>
-        <img src="/images/trade/example.jpg" class="rounded-2">
-        <button type="button" class="btn btn-secondary">></button>
+        <button type="button" class="btn btn-secondary" onclick="prevImage()" id="prevButton" style="display: none;">이전</button>
+        <img id="currentImage" th:src="@{/images/trade/app/{image}(image=${imageList[0]})}" class="rounded-2" style="width:400px; height:400px">
+        <button class="btn btn-secondary" onclick="nextImage()" id="nextButton">다음</button>
     </div>
+    <script th:inline="javascript">
+        let imageList = [[${imageList}]];
+        let baseUrl = "/images/trade/app/"; // 이미지 기본 경로
+
+        let currentIndex = 0;
+
+        function nextImage() {
+            if (currentIndex < imageList.length - 1) {
+                currentIndex++;
+                updateDisplay();
+            }
+            updateButtonState();
+        }
+
+        function prevImage() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateDisplay();
+            }
+            updateButtonState();
+        }
+
+        function updateDisplay() {
+            let imageName = imageList[currentIndex]; // 이미지 객체에서 주소 가져오기
+            document.getElementById("currentImage").src = baseUrl + imageName;
+        }
+
+        function updateButtonState() {
+            if (currentIndex === 0) {
+                // 첫 번째 이미지일 때는 이전 버튼 숨김
+                document.getElementById("prevButton").style.display = "none";
+            } else {
+                document.getElementById("prevButton").style.display = "inline-block";
+            }
+
+            if (currentIndex === imageList.length - 1) {
+                // 마지막 이미지일 때는 다음 버튼 숨김
+                document.getElementById("nextButton").style.display = "none";
+            } else {
+                document.getElementById("nextButton").style.display = "inline-block";
+            }
+        }
+
+        window.onload = function() {
+            updateDisplay();
+        };
+    </script>
     <hr class="border border-dark">
     <div class="col" align="center">
-        <span>
-            <img src="..." class="rounded-circle">
-            판매자
-        </span>
-        <span>주소</span>
-        <span>가격</span>
+<!--            <img src="..." class="rounded-circle">-->
+        <span th:text="'판매자: '+${tradeDomain.memberNo}">판매자</span>
+        <span th:text="'주소: '+${tradeDomain.address}">주소</span>
+        <span th:text="'가격: '+${tradeDomain.price}">가격</span>
     </div>
     <hr class="border border-dark">
     <div align="center">
-        <h1>상세 내용</h1>
+        <span th:text="${tradeDomain.content}">상세내용</span>
     </div>
     <div align="center">
 
         <div class="btn-group" aria-label="Small button group">
             <a href="#" class="btn bg-body-secondary">문의하기</a>
-            <a href="#" class="btn bg-body-secondary">찜하기</a>
+            <a th:href="@{/trade/trade_addWish(tradeNo=${tradeDomain.tradeNo})}" class="btn bg-body-secondary">찜하기</a>
             <a href="/trade/trade_main" class="btn bg-body-secondary">목록으로</a>
         </div>
     </div>
 </main>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </html>

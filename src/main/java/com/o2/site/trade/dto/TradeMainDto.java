@@ -12,4 +12,5 @@ public class TradeMainDto {
     private String image;
     private String title;
     private int price;
+    private String category;
 }

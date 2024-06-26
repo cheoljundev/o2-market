@@ -1,10 +1,9 @@
 package com.o2.site.trade.dao;
 
-import com.o2.site.trade.dto.ApplicationDto;
-import com.o2.site.trade.dto.ImageDto;
-import com.o2.site.trade.dto.SearchDto;
-import com.o2.site.trade.dto.TradeMainDto;
+import com.o2.site.trade.domain.TradeDomain;
+import com.o2.site.trade.dto.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.binding.BindingException;
 
 import java.util.ArrayList;
 
@@ -17,4 +16,18 @@ public interface TradeMapper {
     ArrayList<TradeMainDto> selectMainList();
 
     ArrayList<TradeMainDto> selectSearchList(SearchDto searchDto);
+
+    String getCg(SearchDto searchDto);
+
+    TradeDomain getBoard(String tradeNo);
+
+    ArrayList<String> getImages(String tradeNo);
+
+    int getWishCount(String tradeNo) throws BindingException;
+
+    void upVisitCount(String tradeNo);
+
+    int deleteBoard(String tradeNo);
+
+    int addWish(WishListDto wishListDto);
 }
