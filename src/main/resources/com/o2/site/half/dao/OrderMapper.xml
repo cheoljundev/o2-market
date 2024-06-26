@@ -8,16 +8,16 @@
         select * from half_order
         <where>
             <if test="buyerMemberId != null and buyerMemberId != ''">
-                and BUYER_MEMBER_ID = #{buyerMemberId}
+                AND BUYER_MEMBER_ID LIKE '%' || #{buyerMemberId} || '%'
             </if>
             <if test="buyerPhone != null and buyerPhone != ''">
-                and BUYER_PHONE = #{buyerPhone}
+                AND BUYER_PHONE LIKE '%' || #{buyerPhone} || '%'
             </if>
             <if test="recipientName != null and recipientName != ''">
-                and RECIPIENT_NAME = #{recipientName}
+                AND RECIPIENT_NAME LIKE '%' || #{recipientName} || '%'
             </if>
             <if test="recipientPhone != null and recipientPhone != ''">
-                and RECIPIENT_PHONE = #{recipientPhone}
+                AND RECIPIENT_PHONE LIKE '%' || #{recipientPhone} || '%'
             </if>
         </where>
         order by ORDER_NO DESC
@@ -32,17 +32,17 @@
         DELIVERY_MEMO, ROW_NUMBER() OVER (ORDER BY ORDER_NO DESC) AS rnum
         FROM half_order
         <where>
-            <if test="orderSearchCond.buyerMemberId != null and orderSearchCond.buyerMemberId != ''">
-                AND BUYER_MEMBER_ID = #{orderSearchCond.buyerMemberId}
+            <if test="buyerMemberId != null and buyerMemberId != ''">
+                AND BUYER_MEMBER_ID LIKE '%' || #{orderSearchCond.buyerMemberId} || '%'
             </if>
-            <if test="orderSearchCond.buyerPhone != null and orderSearchCond.buyerPhone != ''">
-                AND BUYER_PHONE = #{orderSearchCond.buyerPhone}
+            <if test="buyerPhone != null and buyerPhone != ''">
+                AND BUYER_PHONE LIKE '%' || #{orderSearchCond.buyerPhone} || '%'
             </if>
-            <if test="orderSearchCond.recipientName != null and orderSearchCond.recipientName != ''">
-                AND RECIPIENT_NAME = #{orderSearchCond.recipientName}
+            <if test="recipientName != null and recipientName != ''">
+                AND RECIPIENT_NAME LIKE '%' || #{orderSearchCond.recipientName} || '%'
             </if>
-            <if test="orderSearchCond.recipientPhone != null and orderSearchCond.recipientPhone != ''">
-                AND RECIPIENT_PHONE = #{orderSearchCond.recipientPhone}
+            <if test="recipientPhone != null and recipientPhone != ''">
+                AND RECIPIENT_PHONE LIKE '%' || #{orderSearchCond.recipientPhone} || '%'
             </if>
         </where>
         ) subquery
