@@ -23,7 +23,6 @@ class UploadMapperTest {
     @Test
     void insertImage() {
         uploadMapper.insertImage(UploadImage.builder()
-                .imageNo(99L)
                 .imageName("test.jpg")
                 .storedImageName(UUID.randomUUID().toString() + ".jpg")
                 .orderNo(1L)
@@ -52,6 +51,22 @@ class UploadMapperTest {
 
     @Test
     void deleteImage() {
+        uploadMapper.insertImage(UploadImage.builder()
+                .imageName("test1.jpg")
+                .storedImageName(UUID.randomUUID().toString() + ".jpg")
+                .orderNo(1L)
+                .build());
+        uploadMapper.insertImage(UploadImage.builder()
+                .imageName("test2.jpg")
+                .storedImageName(UUID.randomUUID().toString() + ".jpg")
+                .orderNo(1L)
+                .build());
+        uploadMapper.insertImage(UploadImage.builder()
+                .imageName("test3.jpg")
+                .storedImageName(UUID.randomUUID().toString() + ".jpg")
+                .orderNo(1L)
+                .build());
+
         uploadMapper.deleteImage(UploadImage.builder()
                 .orderNo(1L)
                 .build());
@@ -64,15 +79,26 @@ class UploadMapperTest {
     @Test
     void findByImageNo() {
         Long imageNo = 1L;
+        uploadMapper.insertImage(UploadImage.builder()
+                .imageNo(imageNo)
+                .imageName("test.jpg")
+                .storedImageName(UUID.randomUUID().toString() + ".jpg")
+                .orderNo(1L)
+                .build());
+
         UploadImage uploadImage = uploadMapper.findByImageNo(imageNo);
         Assertions.assertThat(uploadImage.getImageNo()).isEqualTo(imageNo);
     }
 
     @Test
     void findImage() {
+        uploadMapper.insertImage(UploadImage.builder()
+                .imageName("test.jpg")
+                .storedImageName(UUID.randomUUID().toString() + ".jpg")
+                .orderNo(1L)
+                .build());
         Long orderNo = 1L;
         UploadImage uploadImage = uploadMapper.findImage(UploadImage.builder()
-                .imageNo(99L)
                 .orderNo(orderNo)
                 .build());
         Assertions.assertThat(uploadImage.getOrderNo()).isEqualTo(orderNo);
@@ -81,6 +107,26 @@ class UploadMapperTest {
     @Test
     void findImages() {
         Long orderNo = 1L;
+        uploadMapper.insertImage(UploadImage.builder()
+                .imageName("test1.jpg")
+                .storedImageName(UUID.randomUUID().toString() + ".jpg")
+                .orderNo(orderNo)
+                .build());
+        uploadMapper.insertImage(UploadImage.builder()
+                .imageName("test2.jpg")
+                .storedImageName(UUID.randomUUID().toString() + ".jpg")
+                .orderNo(orderNo)
+                .build());
+        uploadMapper.insertImage(UploadImage.builder()
+                .imageName("test3.jpg")
+                .storedImageName(UUID.randomUUID().toString() + ".jpg")
+                .orderNo(orderNo)
+                .build());
+        uploadMapper.insertImage(UploadImage.builder()
+                .imageName("test4.jpg")
+                .storedImageName(UUID.randomUUID().toString() + ".jpg")
+                .orderNo(orderNo)
+                .build());
         List<UploadImage> images = uploadMapper.findImages(UploadImage.builder()
                 .orderNo(orderNo)
                 .build());
