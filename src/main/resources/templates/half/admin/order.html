@@ -46,7 +46,7 @@
                         <td>
                             <button type="button"
                                     th:text="${order.orderNo}"
-                                    class="link-primary border-0 bg-transparent text-decoration-underline">202406240000
+                                    class="link-primary border-0 bg-transparent text-decoration-underline btn-order-no">202406240000
                             </button>
                         </td>
                         <td th:text="${{order.createAt}}">2024-06-25</td>
@@ -79,42 +79,47 @@
                 </nav>
             </div>
         </div>
-        <div class="row px-2 pb-5">
+        <div class="row px-2 pb-5 order-detail d-none">
             <h2 class="text-center my-5">주문 상세정보</h2>
             <div class="row">
                 <p><strong>주문번호</strong></p>
-                <p>202406240000</p>
+                <p class="order-no">202406240000</p>
             </div>
             <div class="row">
                 <p><strong>주문일자</strong></p>
-                <p>2024-06-25</p>
+                <p class="create-at">2024-06-25</p>
             </div>
             <div class="row">
                 <p><strong>상품명</strong></p>
-                <p>한 번쓴 ㅇㅇㅇ</p>
+                <p class="title">한 번쓴 ㅇㅇㅇ</p>
             </div>
             <div class="row">
                 <p><strong>수령인</strong></p>
-                <p>홍길동</p>
-            </div>
-            <div class="row">
-                <p><strong>수령지</strong></p>
-                <p>서울시 ㅇㅇㅇ</p>
+                <p class="recipient-name">홍길동</p>
             </div>
             <div class="row">
                 <p><strong>수령인 휴대전화</strong></p>
-                <p>01012345678</p>
+                <p class="recipient-phone">01012345678</p>
+            </div>
+            <div class="row">
+                <p><strong>수령지</strong></p>
+                <p class="recipient-address">서울시 ㅇㅇㅇ</p>
             </div>
             <div class="row">
                 <p><strong>배송메모</strong></p>
-                <p>안전하게 배송해주세요.</p>
+                <p class="delivery-memo">안전하게 배송해주세요.</p>
             </div>
             <div class="row mb-4">
                 <p class="col-12"><strong>송장번호</strong></p>
-                <input type="text" class="form-control mx-2 col-12 w-auto px-2 flex-shrink-0">
+                <input type="text" class="form-control mx-2 col-12 w-auto px-2 flex-shrink-0 invoice">
             </div>
-            <div class="row">
-                <button type="button" class="btn btn-primary col-auto mx-2">발송하기</button>
+            <div class="row gx-0">
+                <div class="col-auto mx-2">
+                    <button type="button" class="btn btn-primary btn-send-invoice">발송하기</button>
+                </div>
+                <div class="col-auto mx-2">
+                    <button type="button" class="btn btn-outline-danger btn-order-detail-close">닫기</button>
+                </div>
             </div>
         </div>
     </div>
@@ -122,6 +127,8 @@
 
         const searchSelect = document.querySelector(".search-select");
         const searchInput = document.querySelector(".search-input");
+        const orderNoBtn = document.querySelectorAll(".btn-order-no");
+        const orderDetailCloseBtn = document.querySelector(".btn-order-detail-close");
 
         const searchConditions = {
             /*[# th:each="searchCond : ${searchConds}"]*/
@@ -139,6 +146,52 @@
             const placeholder = searchConditions[selectedValue] || "검색어를 입력하세요.";
             searchInput.placeholder = placeholder;
             searchInput.name = selectedValue;
+        });
+
+        orderNoBtn.forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                const orderNo = parseInt(this.textContent);
+                fetch("/admin/half/order", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: orderNo
+                }).then(
+                    response => response.json()
+                ).then(
+                    data => {
+                        const orderDetail = document.querySelector(".order-detail");
+                        if (orderDetail.classList.contains("d-none")) {
+                            orderDetail.classList.toggle("d-none");
+                        }
+                        orderDetail.querySelector(".order-no").textContent = data.orderNo;
+                        orderDetail.querySelector(".create-at").textContent = data.createAt;
+                        orderDetail.querySelector(".title").textContent = data.title;
+                        orderDetail.querySelector(".recipient-name").textContent = data.recipientName;
+                        orderDetail.querySelector(".recipient-phone").textContent = data.recipientPhone;
+                        orderDetail.querySelector(".recipient-address").textContent = data.recipientAddress;
+                        orderDetail.querySelector(".delivery-memo").textContent = data.deliveryMemo;
+                        orderDetail.querySelector(".invoice").value = data.invoice;
+                        if (data.invoice) {
+                            orderDetail.querySelector(".invoice").readOnly = true;
+                            orderDetail.querySelector(".btn-send-invoice").disabled = true;
+                        } else {
+                            orderDetail.querySelector(".invoice").readOnly = false;
+                            orderDetail.querySelector(".btn-send-invoice").disabled = false;
+                        }
+
+                    }
+                ).catch(
+                    error => console.error(error)
+                );
+            });
+            orderDetailCloseBtn.addEventListener("click", function () {
+                const orderDetail = document.querySelector(".order-detail");
+                if (!orderDetail.classList.contains("d-none")) {
+                    orderDetail.classList.toggle("d-none");
+                }
+            });
         });
     </script>
 </main>
