@@ -19,4 +19,24 @@ public class AdminOrderListDto {
     @NumberFormat(pattern = "#,###")
     private Long halfPrice;
     private String stateName;
+
+    // Builder 패턴을 사용할 때 enum 값을 설정하는 메서드
+    public static class AdminOrderListDtoBuilder {
+        public AdminOrderListDtoBuilder stateName(int state) {
+            switch (state) {
+                case 0:
+                    this.stateName = OrderState.WAITING.getStateName();
+                    break;
+                case 1:
+                    this.stateName = OrderState.SHIPPING.getStateName();
+                    break;
+                case 2:
+                    this.stateName = OrderState.CONFIRMED.getStateName();
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid state: " + state);
+            }
+            return this;
+        }
+    }
 }
