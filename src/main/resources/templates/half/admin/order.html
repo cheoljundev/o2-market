@@ -12,19 +12,16 @@
     <div class="container">
         <div class="row mb-5">
             <h2 class="text-center my-5 m-2 mb-4">주문건 확인</h2>
-            <form action="" class="px-0">
+            <form action="" th:action="@{/admin/half/order}" class="px-0">
                 <div class="row gx-2 mx-2 mb-4">
                     <div class="col-auto">
-                        <select class="form-select col-auto search-select">
-                            <option selected>검색 조건</option>
-                            <option value="buyerMemberId">구매자 ID</option>
-                            <option value="buyerPhone">구매자 전화 번호</option>
-                            <option value="recipientName">수령자 이름</option>
-                            <option value="recipientPhone">수령자 전화 번호</option>
+                        <select class="form-select col-auto search-select" name="searchField">
+                            <option selected value="searchCond">검색 조건</option>
+                            <option th:each="searchCond : ${searchConds}" th:text="${searchCond.name}" th:value="${searchCond.field}" th:selected="${searchCond.field == searchField}">검색조건</option>
                         </select>
                     </div>
                     <div class="col-auto">
-                        <input class="form-control col-auto search-input" type="text" name="" placeholder="입력하세요.">
+                        <input class="form-control col-auto search-input" type="text" th:value="${searchValue}" placeholder="입력하세요.">
                     </div>
                     <div class="col-auto">
                         <button type="submit" class="btn btn-primary col-auto">검색</button>
@@ -49,7 +46,7 @@
                         <td>
                             <button type="button"
                                     th:text="${order.orderNo}"
-                                    class="link-primary border-0 bg-transparent text-decoration-underline">202406240000
+                                    class="link-primary border-0 bg-transparent text-decoration-underline btn-order-no">202406240000
                             </button>
                         </td>
                         <td th:text="${{order.createAt}}">2024-06-25</td>
@@ -82,61 +79,119 @@
                 </nav>
             </div>
         </div>
-        <div class="row px-2 pb-5">
+        <div class="row px-2 pb-5 order-detail d-none">
             <h2 class="text-center my-5">주문 상세정보</h2>
             <div class="row">
                 <p><strong>주문번호</strong></p>
-                <p>202406240000</p>
+                <p class="order-no">202406240000</p>
             </div>
             <div class="row">
                 <p><strong>주문일자</strong></p>
-                <p>2024-06-25</p>
+                <p class="create-at">2024-06-25</p>
             </div>
             <div class="row">
                 <p><strong>상품명</strong></p>
-                <p>한 번쓴 ㅇㅇㅇ</p>
+                <p class="title">한 번쓴 ㅇㅇㅇ</p>
             </div>
             <div class="row">
                 <p><strong>수령인</strong></p>
-                <p>홍길동</p>
-            </div>
-            <div class="row">
-                <p><strong>수령지</strong></p>
-                <p>서울시 ㅇㅇㅇ</p>
+                <p class="recipient-name">홍길동</p>
             </div>
             <div class="row">
                 <p><strong>수령인 휴대전화</strong></p>
-                <p>01012345678</p>
+                <p class="recipient-phone">01012345678</p>
+            </div>
+            <div class="row">
+                <p><strong>수령지</strong></p>
+                <p class="recipient-address">서울시 ㅇㅇㅇ</p>
             </div>
             <div class="row">
                 <p><strong>배송메모</strong></p>
-                <p>안전하게 배송해주세요.</p>
+                <p class="delivery-memo">안전하게 배송해주세요.</p>
             </div>
             <div class="row mb-4">
                 <p class="col-12"><strong>송장번호</strong></p>
-                <input type="text" class="form-control mx-2 col-12 w-auto px-2 flex-shrink-0">
+                <input type="text" class="form-control mx-2 col-12 w-auto px-2 flex-shrink-0 invoice">
             </div>
-            <div class="row">
-                <button type="button" class="btn btn-primary col-auto mx-2">발송하기</button>
+            <div class="row gx-0">
+                <div class="col-auto mx-2">
+                    <button type="button" class="btn btn-primary btn-send-invoice">발송하기</button>
+                </div>
+                <div class="col-auto mx-2">
+                    <button type="button" class="btn btn-outline-danger btn-order-detail-close">닫기</button>
+                </div>
             </div>
         </div>
     </div>
-    <script>
-        document.querySelector(".search-select").addEventListener("change", function () {
-            const searchInput = document.querySelector(".search-input");
-            if (this.value === "buyerMemberId") {
-                searchInput.placeholder = "구매자 ID를 입력하세요.";
-                searchInput.name = "buyerMemberId";
-            } else if (this.value === "buyerPhone") {
-                searchInput.placeholder = "구매자 전화 번호를 입력하세요.";
-                searchInput.name = "buyerPhone";
-            } else if (this.value === "recipientName") {
-                searchInput.placeholder = "수령자 이름을 입력하세요.";
-                searchInput.name = "recipientName";
-            } else if (this.value === "recipientPhone") {
-                searchInput.placeholder = "수령자 전화 번호를 입력하세요.";
-                searchInput.name = "recipientPhone";
-            }
+    <script th:inline="javascript">
+
+        const searchSelect = document.querySelector(".search-select");
+        const searchInput = document.querySelector(".search-input");
+        const orderNoBtn = document.querySelectorAll(".btn-order-no");
+        const orderDetailCloseBtn = document.querySelector(".btn-order-detail-close");
+
+        const searchConditions = {
+            /*[# th:each="searchCond : ${searchConds}"]*/
+               [[${searchCond.field}]] : [[${searchCond.name}]],
+            /*[/]*/
+        };
+
+        const selectedValue = searchSelect.value;
+        const placeholder = searchConditions[selectedValue] || "검색어를 입력하세요.";
+        searchInput.placeholder = placeholder;
+        searchInput.name = selectedValue;
+
+        searchSelect.addEventListener("change", function () {
+            const selectedValue = this.value;
+            const placeholder = searchConditions[selectedValue] || "검색어를 입력하세요.";
+            searchInput.placeholder = placeholder;
+            searchInput.name = selectedValue;
+        });
+
+        orderNoBtn.forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                const orderNo = parseInt(this.textContent);
+                fetch("/admin/half/order", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: orderNo
+                }).then(
+                    response => response.json()
+                ).then(
+                    data => {
+                        const orderDetail = document.querySelector(".order-detail");
+                        if (orderDetail.classList.contains("d-none")) {
+                            orderDetail.classList.toggle("d-none");
+                        }
+                        orderDetail.querySelector(".order-no").textContent = data.orderNo;
+                        orderDetail.querySelector(".create-at").textContent = data.createAt;
+                        orderDetail.querySelector(".title").textContent = data.title;
+                        orderDetail.querySelector(".recipient-name").textContent = data.recipientName;
+                        orderDetail.querySelector(".recipient-phone").textContent = data.recipientPhone;
+                        orderDetail.querySelector(".recipient-address").textContent = data.recipientAddress;
+                        orderDetail.querySelector(".delivery-memo").textContent = data.deliveryMemo;
+                        orderDetail.querySelector(".invoice").value = data.invoice;
+                        if (data.invoice) {
+                            orderDetail.querySelector(".invoice").readOnly = true;
+                            orderDetail.querySelector(".btn-send-invoice").disabled = true;
+                        } else {
+                            orderDetail.querySelector(".invoice").readOnly = false;
+                            orderDetail.querySelector(".btn-send-invoice").disabled = false;
+                        }
+
+                    }
+                ).catch(
+                    error => console.error(error)
+                );
+            });
+            orderDetailCloseBtn.addEventListener("click", function () {
+                const orderDetail = document.querySelector(".order-detail");
+                if (!orderDetail.classList.contains("d-none")) {
+                    orderDetail.classList.toggle("d-none");
+                }
+            });
         });
     </script>
 </main>

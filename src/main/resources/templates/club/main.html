@@ -10,10 +10,18 @@
                 crossorigin="anonymous"></script>
         <script type="text/javascript">
             $(document).ready(function(){
+
+                $("#createGo").click(function(){
+                    location.href='create';
+                });
+
                 getList();
             });
 
             function getList(pageNo) {
+                        if (pageNo == 0 || pageNo == '' || pageNo == null) {
+                            pageNo = 1;
+                        }
                         $('#clubTableDiv').html('');
                         let clubName = '';
                         let area = '';
@@ -40,11 +48,11 @@
                                          <div class="col">
                                             <a class="page-link" href="#">
                                                 <div class="card h-100">
-                                                    <img src="/images/trade/example.jpg" class="card-img-top" alt="...">
+                                                    <img src="/images/club/imgAdd.jpg" class="card-img-top" alt="...">
                                                     <div class="card-body">
                                                         <h5 class="card-title">${result.content[i].clubName}</h5>
                                                         <p class="card-text">장소 : ${result.content[i].area}</p>
-                                                        <p class="card-text">연령 : ${result.content[i].ageLimitStart} ~ ${result.content[i].ageLimitEnd}&nbsp;&nbsp;&nbsp;&nbsp;인원 : 20 / ${result.content[i].membersLimit}</p>
+                                                        <p class="card-text">연령 : ${result.content[i].ageLimitStart} ~ ${result.content[i].ageLimitEnd}<br>인원 : 20 / ${result.content[i].membersLimit}</p>
                                                     </div>
                                                 </div>
                                             </a>
@@ -52,10 +60,75 @@
                                     `;
 
                                 $('#clubTableDiv').append(template);
+
                                 }
+                                PAGE.paging(pageNo,result.totalPages,result.totalElements);
                             }
                         });
                     }
+
+            const PAGE = {
+	            paging: function pagenation(pageNo, totalPageCount, totalElementCount) {
+
+                if (totalElementCount == 0) {
+                    $('#pagination').html('');
+                    return false;
+                }
+
+                let pageBlock = 11;
+                let blockNo = PAGE.toInt(pageNo / pageBlock) + 1;
+                let startPageNo = (blockNo - 1) * pageBlock;
+                let endPageNo = blockNo * pageBlock - 1;
+
+                if (endPageNo > totalPageCount - 1) {
+                    endPageNo = totalPageCount - 1;
+                }
+
+                let prevBlockPageNo = (blockNo - 1) * pageBlock - 1;
+                let nextBlockPageNo = blockNo * pageBlock;
+
+                 $('#pagination').html('');
+                 let pageHtml = '';
+                 if (prevBlockPageNo >= 0) {
+                 // 나중에 수정할것 1
+                 pageHtml += `
+                       <li class="page-item">
+                            <a class="page-link" href="#" onclick="getList(1);" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                     `;
+                 }
+                 for (let i = startPageNo + 1; i <= endPageNo; i++) {
+                    if (i == pageNo) {
+                        pageHtml += `
+                            <li class="page-item active"><a class="page-link">`+(i)+`</a></li>
+                        `;
+                    } else {
+                        pageHtml += `
+                            <li class="page-item"><a class="page-link" onclick="getList(`+(i)+`)">`+(i )+`</a></li>
+                        `;
+                    }
+                 }
+                 if (nextBlockPageNo < totalPageCount) {
+                     pageHtml += `
+                        <li class="page-item">
+                            <a class="page-link" href="#" onclick="getList(`+ nextBlockPageNo +`)" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    `;
+                 }
+
+
+                $('#pagination').append(pageHtml);
+                },
+                    toInt: function(value) {
+                    if (value != null) {
+                        return parseInt(value, 10);
+                    }
+	            }
+            }
 
         </script>
     </th:block>
@@ -75,15 +148,13 @@
             </ol>
         </nav>
         <h2 class="mb-2">모임 홍보</h2>
-            <div class="px-0  col-4  col-md-3 col-lg-2">
-                <div class="d-inline-flex">
+            <div class="inline-flex px-0  col-4  col-md-3 col-lg-2">
                     <select class="form-select form-select-sm h-100" aria-label=".form-select-sm example" id="searchSel">
                         <option selected value="clubName">모임명</option>
                         <option value="area">장소</option>
                     </select>
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 300px;" id="keyword">
                     <button class="btn btn-outline-success" type="submit" onclick="getList(1);">검색</button>
-                </div>
             </div>
 
         <div class="row row-cols-1 row-cols-md-3 g-4" id="clubTableDiv">
@@ -91,22 +162,12 @@
         </div>
         <br>
         <div class="d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-primary">모임 생성</button>
+            <button type="button" class="btn btn-primary" id="createGo">모임 생성</button>
         </div>
         <div class="pagination justify-content-center">
             <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
+                <ul class="pagination" id="pagination">
+
                 </ul>
             </nav>
         </div>

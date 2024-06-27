@@ -3,30 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.o2.site.trade.dao.TradeMapper">
-    <resultMap id="TradeMainDto" type="com.o2.site.trade.dto.TradeMainDto">
-        <id property="boardNo" column="TRADE_NO"/>
-        <result property="image" column="IMAGE_ADDRESS"/>
-        <result property="title" column="TITLE"/>
-        <result property="price" column="PRICE"/>
-    </resultMap>
-    <resultMap id="TradeDomain" type="com.o2.site.trade.domain.TradeDomain">
-        <id property="tradeNo" column="TRADE_NO"/>
-        <result property="memberNo" column="MEMBER_NO"/>
-        <result property="title" column="TITLE"/>
-        <result property="categoryCode" column="CATEGORY_CODE"/>
-        <result property="content" column="CONTENT"/>
-        <result property="visitCount" column="VISIT_COUNT"/>
-        <result property="price" column="PRICE"/>
-        <result property="approve" column="APPROVE"/>
-        <result property="isTrade" column="IS_TRADE"/>
-        <result property="postDate" column="POST_DATE"/>
-    </resultMap>
-    <resultMap id="ImageDto" type="com.o2.site.trade.dto.ImageDto">
-        <id property="no" column="TRADE_NO"/>
-        <result property="address" column="IMAGE_ADDRESS"/>
-    </resultMap>
 
-    <insert id="insertApp" useGeneratedKeys="true" keyProperty="trade_No" keyColumn="TRADE_NO">
+    <insert id="insertApp" useGeneratedKeys="true" keyProperty="tradeNo" keyColumn="TRADE_NO">
         INSERT INTO TRADE_BOARD
         VALUES (
             SEQ_TRADE_TRADE_NO.NEXTVAL,
@@ -47,12 +25,12 @@
         INSERT INTO TRADE_IMAGE
         VALUES(
             SEQ_TRADE_IMAGE_NO.NEXTVAL,
-            #{no},
-            #{address}
+            #{tradeNo},
+            #{imageAddress}
         )
     </insert>
 
-    <select id="selectMainList" resultMap="TradeMainDto">
+    <select id="selectMainList" resultType="com.o2.site.trade.dto.TradeMainDto">
         SELECT TRADE_NO, TITLE, PRICE, IMAGE_ADDRESS, CATEGORY
         FROM (
         SELECT
@@ -68,12 +46,13 @@
         TRADE_IMAGE B ON A.TRADE_NO = B.TRADE_NO
         JOIN
         CATEGORY C ON A.CATEGORY_CODE = C.CATEGORY_CODE
+        WHERE A.APPROVE='Y'
         )
         WHERE rn = 1
         ORDER BY TRADE_NO
     </select>
 
-    <select id="selectSearchList" resultMap="TradeMainDto">
+    <select id="selectSearchList" resultType="com.o2.site.trade.dto.TradeMainDto">
         SELECT
         TRADE_NO,
         TITLE,
@@ -101,6 +80,34 @@
         ORDER BY TRADE_NO
     </select>
 
+    <select id="myWishList" resultType="com.o2.site.trade.dto.TradeMainDto">
+        SELECT
+        wl.TRADE_NO,
+        TITLE,
+        PRICE,
+        CATEGORY,
+        IMAGE_ADDRESS
+        FROM (
+        SELECT
+        A.TRADE_NO,
+        A.TITLE,
+        A.PRICE,
+        C.CATEGORY,
+        B.IMAGE_ADDRESS,
+        ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY B.IMAGE_NO) AS rn
+        FROM
+        TRADE_BOARD A
+        JOIN TRADE_IMAGE B ON A.TRADE_NO = B.TRADE_NO
+        JOIN CATEGORY C ON A.CATEGORY_CODE = C.CATEGORY_CODE
+        ) X
+        JOIN WISH_LIST WL ON X.TRADE_NO = WL.TRADE_NO
+        WHERE
+        WL.MEMBER_NO = #{memberNo}
+        AND X.rn = 1
+        ORDER BY
+        X.TRADE_NO
+    </select>
+
     <select id="getCg">
         SELECT
         CATEGORY
@@ -111,7 +118,7 @@
 
     </select>
 
-    <select id="getBoard" resultMap="TradeDomain">
+    <select id="getBoard" resultType="com.o2.site.trade.domain.TradeDomain">
         SELECT * FROM TRADE_BOARD
         WHERE TRADE_NO = #{tradeNo}
     </select>
@@ -119,7 +126,7 @@
     <select id="getImages">
         SELECT IMAGE_ADDRESS FROM TRADE_IMAGE
         WHERE TRADE_NO = #{tradeNo}
-        ORDER BY TRADE_NO
+        ORDER BY IMAGE_NO
     </select>
 
     <select id="getWishCount">
@@ -145,4 +152,40 @@
         INSERT INTO WISH_LIST
         VALUES(#{memberNo},#{tradeNo})
     </insert>
+
+    <select id="selectAppList" resultType="com.o2.site.trade.dto.TradeMainDto">
+        SELECT TRADE_NO, TITLE, PRICE, IMAGE_ADDRESS, CATEGORY
+        FROM (
+        SELECT
+        A.TRADE_NO,
+        A.TITLE,
+        A.PRICE,
+        C.CATEGORY,
+        B.IMAGE_ADDRESS,
+        ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY B.IMAGE_NO) AS rn
+        FROM
+        TRADE_BOARD A
+        JOIN
+        TRADE_IMAGE B ON A.TRADE_NO = B.TRADE_NO
+        JOIN
+        CATEGORY C ON A.CATEGORY_CODE = C.CATEGORY_CODE
+        WHERE A.APPROVE='N'
+        )
+        WHERE rn = 1
+        ORDER BY TRADE_NO
+    </select>
+
+    <update id="approveBoard">
+        UPDATE
+        TRADE_BOARD
+        SET
+        APPROVE = 'Y' WHERE TRADE_NO = #{tradeNo}
+    </update>
+
+    <update id="rejectBoard">
+        UPDATE
+        TRADE_BOARD
+        SET
+        APPROVE = 'R' WHERE TRADE_NO = #{tradeNo}
+    </update>
 </mapper>

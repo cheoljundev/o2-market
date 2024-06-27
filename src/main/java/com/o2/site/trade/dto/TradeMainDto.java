@@ -8,8 +8,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class TradeMainDto {
-    private int boardNo;
-    private String image;
+    private int tradeNo;
+    private String imageAddress;
     private String title;
     private int price;
     private String category;
