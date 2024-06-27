@@ -10,9 +10,11 @@
         VALUES (#{id}, #{password}, #{name}, #{phoneNumber}, #{address})
     </insert>
 
-    <!--    <select id="findAll" resultType="com.example.demo.domain.User">-->
-    <!--        SELECT * FROM users-->
-    <!--    </select>-->
+        <select id="findById" resultType="com.o2.site.member.domain.Member">
+            SELECT id, password, role
+            FROM member
+            WHERE id = #{id}
+        </select>
 
     <!--    <select id="findById" parameterType="long" resultType="com.example.demo.domain.User">-->
     <!--        SELECT * FROM users WHERE id = #{id}-->

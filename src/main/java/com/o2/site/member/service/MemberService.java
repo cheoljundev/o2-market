@@ -6,4 +6,3 @@ public interface MemberService {
     // 유저 가입시
     void registerMember(MemberDTO memberDTO);
 }
-q

@@ -16,4 +16,6 @@ public class Member {
     private String address;
     private String image;
     private int mileage;
+
+    private String role;
 }

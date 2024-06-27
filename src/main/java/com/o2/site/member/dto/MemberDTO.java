@@ -6,7 +6,7 @@ import lombok.*;
 
 @Getter
 @Setter
-@ToString
+@Data
 public class MemberDTO {
         private String id;
         private String password;
@@ -14,6 +14,7 @@ public class MemberDTO {
         private String name;
         private String phoneNumber;
         private String address;
-        private String image; // 가입할 때 null 값 허용
-        private int mileage; // 가입할 때 null 값 허용
+        private String image;
+        private int mileage;
+        private String userRole;
 }
