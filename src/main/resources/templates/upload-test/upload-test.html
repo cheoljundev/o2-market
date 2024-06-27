@@ -21,5 +21,9 @@
 <form action="/delete-test" method="post">
     <input type="submit" value="삭제">
 </form>
+복사 테스트
+<form action="/duplicate-test" method="post">
+    <input type="submit" value="복사">
+</form>
 <img th:each="image : ${images}" src="" th:src="@{/images/{image} (image=${image.storedImageName})}" alt="">
 </html>

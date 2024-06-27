@@ -16,6 +16,9 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
+import static org.apache.commons.io.FileUtils.copyFile;
+
+
 @Service
 @RequiredArgsConstructor
 public class UploadService {
@@ -30,6 +33,30 @@ public class UploadService {
         if (uploadImageDto.getImage() != null) {
             saveFile(uploadImageDto.getImage(), uploadImage.getStoredImageName());
         }
+    }
+
+    public void duplicateImage(UploadImage uploadImage, UploadImageDto uploadImageDto) throws IOException {
+        // 기존 파일 경로
+        String sourceFilePath = projectPath + fileDir + uploadImage.getStoredImageName();
+        String ext = uploadImage.getStoredImageName().substring(uploadImage.getStoredImageName().lastIndexOf(".") + 1);
+
+        // 새 파일 이름 설정을 위한 UUID 생성
+        String uuid = UUID.randomUUID().toString();
+        String newFileName = uuid + "." + ext;
+
+        // 새 파일 경로
+        String newFilePath = projectPath + fileDir + newFileName;
+
+        // 파일 복사
+        copyFile(new File(sourceFilePath), new File(newFilePath));
+
+        // 새 UploadImage 객체 생성
+        UploadImage newUploadImage = createUploadImage(uploadImageDto);
+        newUploadImage.setImageName(uploadImage.getImageName());
+        newUploadImage.setStoredImageName(newFileName);
+
+        // 새 파일 정보를 DB에 저장
+        uploadDao.insertImage(newUploadImage);
     }
 
     public void updateImage(Long ImageNo, UploadImageDto uploadImageDto){

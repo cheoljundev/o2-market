@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,6 +63,19 @@ public class UploadTestController {
                 .build();
 
         uploadService.deleteImage(uploadImageDto);
+        return "redirect:/upload-test/" + "1";
+    }
+
+    @PostMapping("/duplicate-test")
+    public String duplicate() throws IOException {
+        UploadImage oldImage = uploadService.findImages(UploadImageDto.builder()
+                .orderNo(1L)
+                .build()).get(0);
+        UploadImageDto uploadImageDto = UploadImageDto.builder()
+                        .tradeNo(1L)
+                        .build();
+
+        uploadService.duplicateImage(oldImage, uploadImageDto);
         return "redirect:/upload-test/" + "1";
     }
 }
