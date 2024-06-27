@@ -1,7 +1,10 @@
 package com.o2.site.trade.controller;
 
 import com.o2.site.trade.domain.TradeDomain;
-import com.o2.site.trade.dto.*;
+import com.o2.site.trade.dto.ApplicationDto;
+import com.o2.site.trade.dto.SearchDto;
+import com.o2.site.trade.dto.TradeMainDto;
+import com.o2.site.trade.dto.WishListDto;
 import com.o2.site.trade.service.TradeService;
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +29,9 @@ public class TradeController {
     public void trade_main(Model model){
         ArrayList<TradeMainDto> mainlist = tradeService.selectMainList();
         System.out.println(mainlist);
+        System.out.println("총 갯수: "+mainlist.size());
         model.addAttribute("mainlist", mainlist);
         model.addAttribute("cg","전체");
-
     }
     //검색 리스트
     @GetMapping("/trade_search")
@@ -38,6 +41,7 @@ public class TradeController {
         }
         ArrayList<TradeMainDto> searchList = tradeService.selectSearchList(searchDto);
         System.out.println(searchList);
+        System.out.println("총 갯수: "+searchList.size());
         model.addAttribute("mainlist", searchList);
         if(tradeService.getCg(searchDto)==null){
             model.addAttribute("cg","전체");
@@ -85,12 +89,55 @@ public class TradeController {
         int result = tradeService.addWish(wishListDto);
         return "redirect:/trade/trade_detail?tradeNo="+wishListDto.getTradeNo();
     }
+    //내 찜목록 보기
+    @GetMapping("/trade_mywish")
+    public String trade_mywish(Model model){
+        int memberNo = 1;
+        ArrayList<TradeMainDto> wishList = tradeService.myWishList(memberNo);
+        System.out.println(wishList);
+        model.addAttribute("mainlist",wishList);
+        return "/trade/trade_main";
+    }
     @GetMapping("/trade_admin")
     public void trade_admin(){}
+    //관리자 페이지 신청 리스트 조회
     @GetMapping("/trade_admin_application")
-    public void trade_admin_application(){}
+    public void trade_admin_application(Model model){
+        ArrayList<TradeMainDto> mainlist = tradeService.selectAppList();
+        System.out.println(mainlist);
+        System.out.println("총 갯수: "+mainlist.size());
+        model.addAttribute("mainlist", mainlist);
+        model.addAttribute("cg","전체");
+    }
+    //관리자 페이지 신청 상세 조회
     @GetMapping("/trade_admin_approve")
-    public void trade_admin_approve(){}
+    public void trade_admin_approve(Model model, String tradeNo){
+        TradeDomain tradeDomain = tradeService.getBoard(tradeNo);
+        System.out.println(tradeDomain);
+        ArrayList<String> imageList = tradeService.getImages(tradeNo);
+        System.out.println(imageList);
+        model.addAttribute("tradeDomain",tradeDomain);
+        model.addAttribute("imageList",imageList);
+    }
+    //관리자-신청 승인
+    @GetMapping("/approve")
+    public String admin_approve(String tradeNo){
+        int result = tradeService.approveBoard(tradeNo);
+        if(result>0){
+            System.out.println("승인");
+        }
+        return "redirect:/trade/trade_admin_application";
+    }
+    //관리자-신청 거절
+    @GetMapping("/reject")
+    public String admin_reject(String tradeNo){
+        System.out.println(tradeNo);
+        int result = tradeService.rejectBoard(tradeNo);
+        if(result>0){
+            System.out.println("거절");
+        }
+        return "redirect:/trade/trade_admin_application";
+    }
     @GetMapping("/trade_adv_detail")
     public void trade_adv_detail(){}
     @GetMapping("/trade_adv_list")

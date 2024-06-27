@@ -8,11 +8,11 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ImageDto {
-    private int no;
-    private String address;
+    private int tradeNo;
+    private String imageAddress;
 
-    public ImageDto(int no, String address) {
-        this.no = no;
-        this.address = address;
+    public ImageDto(int tradeNo, String imageAddress) {
+        this.tradeNo = tradeNo;
+        this.imageAddress = imageAddress;
     }
 }

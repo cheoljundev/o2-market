@@ -30,4 +30,12 @@ public interface TradeMapper {
     int deleteBoard(String tradeNo);
 
     int addWish(WishListDto wishListDto);
+
+    ArrayList<TradeMainDto> myWishList(int memberNo);
+
+    ArrayList<TradeMainDto> selectAppList();
+
+    int approveBoard(String tradeNo);
+
+    int rejectBoard(String tradeNo);
 }

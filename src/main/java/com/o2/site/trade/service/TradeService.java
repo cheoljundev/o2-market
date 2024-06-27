@@ -5,6 +5,7 @@ import com.o2.site.trade.domain.TradeDomain;
 import com.o2.site.trade.dto.*;
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,8 @@ import java.util.UUID;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class TradeService {
+    @Value("${file.app}") String apppath;
+    String sysPath = System.getProperty("user.dir");
     private final TradeMapper tradeMapper;
 
     @Autowired
@@ -36,7 +39,8 @@ public class TradeService {
                 String ext = fileName.substring(pos+1);
                 String uploadName = uuid+"."+ext;
                 System.out.println(uploadName);
-                String filePath="C:/workspace/multi/semi/o2-market/src/main/resources/static/images/trade/app/";
+                String filePath=sysPath+apppath;
+                System.out.println(filePath);
                 File mkdir = new File(filePath);
                 if(!mkdir.exists()) {
                     mkdir.mkdirs();
@@ -49,9 +53,9 @@ public class TradeService {
             throw new RuntimeException(e);
         }
         tradeMapper.insertApp(ad);
-        int no = ad.getTrade_No();
+        int tradeNo = ad.getTradeNo();
         for(String image : images){
-            ImageDto imageDto = new ImageDto(no, image);
+            ImageDto imageDto = new ImageDto(tradeNo, image);
             tradeMapper.insertImg(imageDto);
             result=1;
         }
@@ -93,5 +97,21 @@ public class TradeService {
 
     public int addWish(WishListDto wishListDto) {
         return tradeMapper.addWish(wishListDto);
+    }
+
+    public ArrayList<TradeMainDto> myWishList(int memberNo) {
+        return tradeMapper.myWishList(memberNo);
+    }
+
+    public ArrayList<TradeMainDto> selectAppList() {
+        return tradeMapper.selectAppList();
+    }
+
+    public int approveBoard(String tradeNo) {
+        return tradeMapper.approveBoard(tradeNo);
+    }
+
+    public int rejectBoard(String tradeNo) {
+        return tradeMapper.rejectBoard(tradeNo);
     }
 }
