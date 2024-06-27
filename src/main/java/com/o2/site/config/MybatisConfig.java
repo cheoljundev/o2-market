@@ -11,7 +11,8 @@ import org.springframework.context.annotation.Configuration;
         @MapperScan(basePackages = "com.o2.site.trade.dao", annotationClass = Mapper.class),
         @MapperScan(basePackages = "com.o2.site.half.dao", annotationClass = Mapper.class),
         @MapperScan(basePackages = "com.o2.site.club.dao", annotationClass = Mapper.class),
-        @MapperScan(basePackages = "com.o2.site.member.dao", annotationClass = Mapper.class)
+        @MapperScan(basePackages = "com.o2.site.member.dao", annotationClass = Mapper.class),
+        @MapperScan(basePackages = "com.o2.site.upload.dao", annotationClass = Mapper.class)
 })
 public class MybatisConfig {
 }
