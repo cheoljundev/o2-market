@@ -10,6 +10,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.IOException;
 import java.net.http.HttpRequest;
@@ -23,9 +24,16 @@ public class ClubContrlloer {
     @Autowired
     ClubService clubService;
 
-    @RequestMapping("/main")
-    public void mainGo(HttpServletRequest request) throws IOException {
+    @GetMapping("/main")
+    public void mainGo() {}
 
+    @GetMapping("/create")
+    public void createGo() {}
+
+    @PostMapping("/createAction")
+    public String createAction(ClubDto clubDto) {
+        System.out.println(clubDto);
+        return "redirect:main";
     }
 
     @GetMapping("/getList")
@@ -33,4 +41,5 @@ public class ClubContrlloer {
     public ResponseEntity<?> getListClub(ClubDto clubDto, @PageableDefault(size = 9) Pageable pageable) {
         return ResponseEntity.ok(clubService.getClubList(clubDto, pageable));
     }
+
 }
