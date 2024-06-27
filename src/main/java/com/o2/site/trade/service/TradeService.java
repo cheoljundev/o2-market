@@ -98,4 +98,12 @@ public class TradeService {
     public int addWish(WishListDto wishListDto) {
         return tradeMapper.addWish(wishListDto);
     }
+
+    public ArrayList<TradeMainDto> myWishList(int memberNo) {
+        return tradeMapper.myWishList(memberNo);
+    }
+
+    public ArrayList<TradeMainDto> selectAppList() {
+        return tradeMapper.selectAppList();
+    }
 }

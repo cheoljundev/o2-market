@@ -88,10 +88,24 @@ public class TradeController {
         int result = tradeService.addWish(wishListDto);
         return "redirect:/trade/trade_detail?tradeNo="+wishListDto.getTradeNo();
     }
+    //내 찜목록 보기
+    @GetMapping("/trade_mywish")
+    public String trade_mywish(Model model){
+        int memberNo = 1;
+        ArrayList<TradeMainDto> wishList = tradeService.myWishList(memberNo);
+        System.out.println(wishList);
+        model.addAttribute("mainlist",wishList);
+        return "/trade/trade_main";
+    }
     @GetMapping("/trade_admin")
     public void trade_admin(){}
     @GetMapping("/trade_admin_application")
-    public void trade_admin_application(){}
+    public void trade_admin_application(Model model){
+        ArrayList<TradeMainDto> mainlist = tradeService.selectAppList();
+        System.out.println(mainlist);
+        model.addAttribute("mainlist", mainlist);
+        model.addAttribute("cg","전체");
+    }
     @GetMapping("/trade_admin_approve")
     public void trade_admin_approve(){}
     @GetMapping("/trade_adv_detail")
