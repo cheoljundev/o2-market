@@ -13,3 +13,6 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+
+file:
+  app: /src/main/resources/static/images/trade/app/
