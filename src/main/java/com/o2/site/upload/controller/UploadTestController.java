@@ -25,20 +25,45 @@ public class UploadTestController {
         return "/upload-test/upload-test";
     }
     @GetMapping("/upload-test/{orderNo}")
-    public String uploadTestFormWithImage(@PathVariable("orderNo") Long orderNo, Model model) {
-        List<UploadImage> images = uploadService.findImages(UploadImage.builder()
-                .orderNo(orderNo)
+    public String uploadTestFormWithImage(Model model) {
+        List<UploadImage> images = uploadService.findImages(UploadImageDto.builder()
+                .orderNo(1L)
                 .build());
         model.addAttribute("images", images);
         return "/upload-test/upload-test";
     }
     @PostMapping("/upload-test")
-    public String uploadTestPost(@RequestParam("image") MultipartFile image, @RequestParam("orderNo") Long orderNo) throws IOException {
+    public String uploadTestPost(@RequestParam("image") MultipartFile image) throws IOException {
         UploadImageDto uploadImageDto = UploadImageDto.builder()
                 .image(image)
-                .orderNo(orderNo)
+                .orderNo(1L)
                 .build();
         uploadService.insertImage(uploadImageDto);
-        return "redirect:/upload-test/" + orderNo;
+        return "redirect:/upload-test/" + "1";
+    }
+
+    @PostMapping("/update-test")
+    public String update(@RequestParam("image") MultipartFile image) throws IOException {
+        UploadImageDto uploadImageDto = UploadImageDto.builder()
+                .image(image)
+                .orderNo(1L)
+                .build();
+
+        Long imageNo = uploadService.findImages(UploadImageDto.builder()
+                .orderNo(1L)
+                .build()).get(0).getImageNo();
+
+        uploadService.updateImage(imageNo, uploadImageDto);
+        return "redirect:/upload-test/" + "1";
+    }
+
+    @PostMapping("/delete-test")
+    public String delete() throws IOException {
+        UploadImageDto uploadImageDto = UploadImageDto.builder()
+                .orderNo(1L)
+                .build();
+
+        uploadService.deleteImage(uploadImageDto);
+        return "redirect:/upload-test/" + "1";
     }
 }

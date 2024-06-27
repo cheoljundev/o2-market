@@ -6,11 +6,20 @@
     <title>업로드 테스트</title>
 </head>
 <body>
+업로드 테스트
 <form action="/upload-test" method="post" enctype="multipart/form-data">
-    <input type="file" name="image" id="file">
-    <input type="text" name="orderNo">
+    <input type="file" name="image">
     <input type="submit" value="업로드">
 </form>
-<img th:each="image : ${images}" src="" th:src="@{/images/{image} (image=${image.storedImageName})}" alt="">
+업데이트 테스트
+<form action="/update-test" method="post" enctype="multipart/form-data">
+    <input type="file" name="image">
+    <input type="submit" value="업데이트">
+</form>
 </body>
+삭제 테스트
+<form action="/delete-test" method="post">
+    <input type="submit" value="삭제">
+</form>
+<img th:each="image : ${images}" src="" th:src="@{/images/{image} (image=${image.storedImageName})}" alt="">
 </html>

@@ -32,7 +32,7 @@ public class UploadService {
         }
     }
 
-    void updateImage(Long ImageNo, UploadImageDto uploadImageDto){
+    public void updateImage(Long ImageNo, UploadImageDto uploadImageDto){
         UploadImage uploadImage = findByImageNo(ImageNo);
         String oldStoredImageName = uploadImage.getStoredImageName();
         UploadImage createImage = createUploadImage(uploadImageDto);
@@ -55,22 +55,46 @@ public class UploadService {
             }
         }
     }
-    void deleteImage(UploadImage uploadImage){
-        try {
-            deleteFile(uploadImage.getStoredImageName());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        uploadDao.deleteImage(uploadImage);
+    public void deleteImage(UploadImageDto uploadImageDto){
+        UploadImage deleteImage = UploadImage.builder()
+                .orderNo(uploadImageDto.getOrderNo())
+                .tradeNo(uploadImageDto.getTradeNo())
+                .memberNo(uploadImageDto.getMemberNo())
+                .advNo(uploadImageDto.getAdvNo())
+                .clubBoardId(uploadImageDto.getClubBoardId())
+                .build();
+
+        List<UploadImage> images = findImages(uploadImageDto);
+        images.forEach(image -> {
+            try {
+                deleteFile(image.getStoredImageName());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        uploadDao.deleteImage(deleteImage);
     }
     public UploadImage findByImageNo(Long imageNo){
         return uploadDao.findByImageNo(imageNo);
     }
-    public UploadImage findImage(UploadImage uploadImage){
-        return uploadDao.findImage(uploadImage);
+    public UploadImage findImage(UploadImageDto uploadImageDto){
+        return uploadDao.findImage(UploadImage.builder()
+                .orderNo(uploadImageDto.getOrderNo())
+                .tradeNo(uploadImageDto.getTradeNo())
+                .memberNo(uploadImageDto.getMemberNo())
+                .advNo(uploadImageDto.getAdvNo())
+                .clubBoardId(uploadImageDto.getClubBoardId())
+                .build()
+                );
     }
-    public List<UploadImage> findImages(UploadImage uploadImage){
-        return uploadDao.findImages(uploadImage);
+    public List<UploadImage> findImages(UploadImageDto uploadImageDto){
+        return uploadDao.findImages(UploadImage.builder()
+                .orderNo(uploadImageDto.getOrderNo())
+                .tradeNo(uploadImageDto.getTradeNo())
+                .memberNo(uploadImageDto.getMemberNo())
+                .advNo(uploadImageDto.getAdvNo())
+                .clubBoardId(uploadImageDto.getClubBoardId())
+                .build());
     }
 
     private UploadImage createUploadImage(UploadImageDto uploadImageDto) {
