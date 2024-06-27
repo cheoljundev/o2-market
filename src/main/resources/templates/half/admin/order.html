@@ -128,6 +128,7 @@
         const searchSelect = document.querySelector(".search-select");
         const searchInput = document.querySelector(".search-input");
         const orderNoBtn = document.querySelectorAll(".btn-order-no");
+        const orderDetailSendInvoice = document.querySelector(".btn-send-invoice");
         const orderDetailCloseBtn = document.querySelector(".btn-order-detail-close");
 
         const searchConditions = {
@@ -186,6 +187,35 @@
                     error => console.error(error)
                 );
             });
+
+            orderDetailSendInvoice.addEventListener("click", function () {
+                const orderNo = parseInt(document.querySelector(".order-no").textContent);
+                const invoice = document.querySelector(".invoice").value;
+                fetch(`/admin/half/order/${orderNo}/invoice`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(invoice)
+                }).then(
+                    response => {
+                        if (!response.ok) {
+                            throw new Error("송장번호 발송에 실패했습니다.");
+                        }
+                    }
+                ).then(
+                    () => {
+                        const orderDetail = document.querySelector(".order-detail");
+                        orderDetail.classList.toggle("d-none");
+                        orderDetail.querySelector(".invoice").readOnly = true;
+                        orderDetail.querySelector(".btn-send-invoice").disabled = true;
+                        window.location.href = "/admin/half/order";
+                    }
+                ).catch(
+                    error => console.error(error)
+                );
+            });
+
             orderDetailCloseBtn.addEventListener("click", function () {
                 const orderDetail = document.querySelector(".order-detail");
                 if (!orderDetail.classList.contains("d-none")) {

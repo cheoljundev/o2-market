@@ -4,15 +4,18 @@ import com.o2.site.half.dao.OrderSearchCond;
 import com.o2.site.half.domain.Order;
 import com.o2.site.half.dto.AdminOrderDetailDto;
 import com.o2.site.half.dto.AdminOrderListDto;
+import com.o2.site.half.dto.UpdateOrderDto;
 import com.o2.site.half.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -74,5 +77,15 @@ public class HalfAdminController {
                 .deliveryMemo(order.getDeliveryMemo())
                 .invoice(order.getInvoice())
                 .build();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/order/{orderNo}/invoice")
+    public void updateInvoice(@PathVariable("orderNo") Long orderNo, @RequestBody Long invoice) {
+        orderService.updateOrder(UpdateOrderDto.builder()
+                .orderNo(orderNo)
+                .invoice(invoice)
+                .state(1)
+                .build());
     }
 }
