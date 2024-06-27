@@ -30,7 +30,7 @@
             </if>
         </where>
         ) club
-<!--        where club."rownum" between #{pageable.offset} and #{pageable.pageSize}-->
+        where club."rownum" between (#{pageable.offset} - 9) and #{pageable.offset}
     </select>
 
     <select id="clubListCount" resultType="int">
