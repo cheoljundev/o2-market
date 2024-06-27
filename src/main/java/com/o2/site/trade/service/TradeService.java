@@ -106,4 +106,12 @@ public class TradeService {
     public ArrayList<TradeMainDto> selectAppList() {
         return tradeMapper.selectAppList();
     }
+
+    public int approveBoard(String tradeNo) {
+        return tradeMapper.approveBoard(tradeNo);
+    }
+
+    public int rejectBoard(String tradeNo) {
+        return tradeMapper.rejectBoard(tradeNo);
+    }
 }

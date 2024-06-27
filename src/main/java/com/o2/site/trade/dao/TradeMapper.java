@@ -34,4 +34,8 @@ public interface TradeMapper {
     ArrayList<TradeMainDto> myWishList(int memberNo);
 
     ArrayList<TradeMainDto> selectAppList();
+
+    int approveBoard(String tradeNo);
+
+    int rejectBoard(String tradeNo);
 }
