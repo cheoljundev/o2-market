@@ -6,6 +6,8 @@ import com.o2.site.trade.dto.SearchDto;
 import com.o2.site.trade.dto.TradeMainDto;
 import com.o2.site.trade.dto.WishListDto;
 import com.o2.site.trade.service.TradeService;
+import com.o2.site.upload.dto.UploadImageDto;
+import com.o2.site.upload.service.UploadService;
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,13 @@ public class TradeController {
 
     @Autowired
     TradeService tradeService;
+
+    private final UploadService uploadService;
+
+    public TradeController(UploadService uploadService) {
+        this.uploadService = uploadService;
+    }
+
     //전체 리스트 관리자 페이지 구성 후 approve 조건 추가 예정
     @GetMapping("/trade_main")
     public void trade_main(Model model){
@@ -147,11 +156,19 @@ public class TradeController {
     //상품 등록 신청
     @PostMapping("/trade_app")
     public String insertApp(ApplicationDto ad, @RequestParam("files") MultipartFile[] files){
-        int result = tradeService.insertApp(ad,files);
-        if(result>0){
-            System.out.println("파일 업로드 성공");
-        }else {
-            System.out.println("파일 업로드 실패");
+        int result = tradeService.insertApp(ad);
+        System.out.println("no: "+ad.getTradeNo());
+        System.out.println(result);
+        try{
+            for(MultipartFile image : files){
+                UploadImageDto uploadImageDto = UploadImageDto.builder()
+                        .image(image)
+                        .tradeNo(Long.valueOf(ad.getTradeNo()))
+                        .build();
+                uploadService.insertImage(uploadImageDto);
+            }
+        }catch (Exception e){
+            System.out.println("이미지 등록 실패");
         }
         return "redirect:/trade/trade_main";
     }

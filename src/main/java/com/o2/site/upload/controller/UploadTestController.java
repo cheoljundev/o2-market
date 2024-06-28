@@ -26,7 +26,7 @@ public class UploadTestController {
     @GetMapping("/upload-test/{orderNo}")
     public String uploadTestFormWithImage(Model model) {
         List<UploadImage> images = uploadService.findImages(UploadImageDto.builder()
-                .orderNo(1L)
+                .tradeNo(3L)
                 .build());
         model.addAttribute("images", images);
         return "/upload-test/upload-test";
@@ -35,7 +35,7 @@ public class UploadTestController {
     public String uploadTestPost(@RequestParam("image") MultipartFile image) throws IOException {
         UploadImageDto uploadImageDto = UploadImageDto.builder()
                 .image(image)
-                .orderNo(1L)
+                .tradeNo(3L)
                 .build();
         uploadService.insertImage(uploadImageDto);
         return "redirect:/upload-test/" + "1";
@@ -45,11 +45,11 @@ public class UploadTestController {
     public String update(@RequestParam("image") MultipartFile image) throws IOException {
         UploadImageDto uploadImageDto = UploadImageDto.builder()
                 .image(image)
-                .orderNo(1L)
+                .tradeNo(3L)
                 .build();
 
         Long imageNo = uploadService.findImages(UploadImageDto.builder()
-                .orderNo(1L)
+                .tradeNo(3L)
                 .build()).get(0).getImageNo();
 
         uploadService.updateImage(imageNo, uploadImageDto);

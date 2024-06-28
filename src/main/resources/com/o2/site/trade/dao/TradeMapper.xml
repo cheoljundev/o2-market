@@ -21,29 +21,20 @@
         )
     </insert>
 
-    <insert id="insertImg">
-        INSERT INTO TRADE_IMAGE
-        VALUES(
-            SEQ_TRADE_IMAGE_NO.NEXTVAL,
-            #{tradeNo},
-            #{imageAddress}
-        )
-    </insert>
-
     <select id="selectMainList" resultType="com.o2.site.trade.dto.TradeMainDto">
-        SELECT TRADE_NO, TITLE, PRICE, IMAGE_ADDRESS, CATEGORY
+        SELECT TRADE_NO, TITLE, PRICE, STORED_IMAGE_NAME, CATEGORY
         FROM (
         SELECT
         A.TRADE_NO,
         A.TITLE,
         A.PRICE,
         C.CATEGORY,
-        B.IMAGE_ADDRESS,
+        B.STORED_IMAGE_NAME,
         ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY B.IMAGE_NO) AS rn
         FROM
         TRADE_BOARD A
         JOIN
-        TRADE_IMAGE B ON A.TRADE_NO = B.TRADE_NO
+        UPLOAD_IMAGE B ON A.TRADE_NO = B.TRADE_NO
         JOIN
         CATEGORY C ON A.CATEGORY_CODE = C.CATEGORY_CODE
         WHERE A.APPROVE='Y'
@@ -57,24 +48,24 @@
         TRADE_NO,
         TITLE,
         PRICE,
-        IMAGE_ADDRESS,
+        STORED_IMAGE_NAME,
         CATEGORY
         FROM (
         SELECT
         A.TRADE_NO,
         A.TITLE,
         A.PRICE,
-        B.IMAGE_ADDRESS,
+        B.STORED_IMAGE_NAME,
         C.CATEGORY,
         ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY B.IMAGE_NO) AS rn
         FROM
         TRADE_BOARD A
         JOIN
-        TRADE_IMAGE B ON A.TRADE_NO = B.TRADE_NO
+        UPLOAD_IMAGE B ON A.TRADE_NO = B.TRADE_NO
         JOIN
         CATEGORY C ON A.CATEGORY_CODE = C.CATEGORY_CODE
         WHERE
-        A.TITLE LIKE '%' || #{keyword} || '%' AND A.CATEGORY_CODE LIKE '%' || #{category} || '%'
+        A.TITLE LIKE '%' || #{keyword} || '%' AND A.CATEGORY_CODE LIKE '%' || #{category} || '%' AND A.APPROVE = 'Y'
         )
         WHERE rn = 1
         ORDER BY TRADE_NO
@@ -86,18 +77,18 @@
         TITLE,
         PRICE,
         CATEGORY,
-        IMAGE_ADDRESS
+        STORED_IMAGE_NAME
         FROM (
         SELECT
         A.TRADE_NO,
         A.TITLE,
         A.PRICE,
         C.CATEGORY,
-        B.IMAGE_ADDRESS,
+        B.STORED_IMAGE_NAME,
         ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY B.IMAGE_NO) AS rn
         FROM
         TRADE_BOARD A
-        JOIN TRADE_IMAGE B ON A.TRADE_NO = B.TRADE_NO
+        JOIN UPLOAD_IMAGE B ON A.TRADE_NO = B.TRADE_NO
         JOIN CATEGORY C ON A.CATEGORY_CODE = C.CATEGORY_CODE
         ) X
         JOIN WISH_LIST WL ON X.TRADE_NO = WL.TRADE_NO
@@ -124,7 +115,7 @@
     </select>
 
     <select id="getImages">
-        SELECT IMAGE_ADDRESS FROM TRADE_IMAGE
+        SELECT STORED_IMAGE_NAME FROM UPLOAD_IMAGE
         WHERE TRADE_NO = #{tradeNo}
         ORDER BY IMAGE_NO
     </select>
@@ -154,19 +145,19 @@
     </insert>
 
     <select id="selectAppList" resultType="com.o2.site.trade.dto.TradeMainDto">
-        SELECT TRADE_NO, TITLE, PRICE, IMAGE_ADDRESS, CATEGORY
+        SELECT TRADE_NO, TITLE, PRICE, STORED_IMAGE_NAME, CATEGORY
         FROM (
         SELECT
         A.TRADE_NO,
         A.TITLE,
         A.PRICE,
         C.CATEGORY,
-        B.IMAGE_ADDRESS,
+        B.STORED_IMAGE_NAME,
         ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY B.IMAGE_NO) AS rn
         FROM
         TRADE_BOARD A
         JOIN
-        TRADE_IMAGE B ON A.TRADE_NO = B.TRADE_NO
+        UPLOAD_IMAGE B ON A.TRADE_NO = B.TRADE_NO
         JOIN
         CATEGORY C ON A.CATEGORY_CODE = C.CATEGORY_CODE
         WHERE A.APPROVE='N'

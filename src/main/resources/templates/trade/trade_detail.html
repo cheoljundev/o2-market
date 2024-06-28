@@ -68,14 +68,15 @@
         <h1 th:text="${tradeDomain.title}" align="center">제목</h1>
     </div>
     <hr class="border border-dark">
+
     <div align="center">
         <button type="button" class="btn btn-secondary" onclick="prevImage()" id="prevButton" style="display: none;">이전</button>
-        <img id="currentImage" th:src="@{/images/trade/app/{image}(image=${imageList[0]})}" class="rounded-2" style="width:400px; height:400px">
+        <img id="currentImage" th:src="@{/images/{image}(image=${imageList[0]})}" class="rounded-2" style="width:400px; height:400px">
         <button class="btn btn-secondary" onclick="nextImage()" id="nextButton">다음</button>
     </div>
     <script th:inline="javascript">
         let imageList = [[${imageList}]];
-        let baseUrl = "/images/trade/app/"; // 이미지 기본 경로
+        let baseUrl = "/images/"; // 이미지 기본 경로
 
         let currentIndex = 0;
 

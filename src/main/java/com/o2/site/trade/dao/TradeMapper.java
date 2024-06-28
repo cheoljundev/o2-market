@@ -10,8 +10,7 @@ import java.util.ArrayList;
 @Mapper
 public interface TradeMapper {
 
-    void insertApp(ApplicationDto ad);
-    void insertImg(ImageDto imageDto);
+    int insertApp(ApplicationDto ad);
 
     ArrayList<TradeMainDto> selectMainList();
 
