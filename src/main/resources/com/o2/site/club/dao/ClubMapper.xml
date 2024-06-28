@@ -45,4 +45,8 @@
             </if>
         </where>
     </select>
+
+    <select id="clubCategoryList">
+        SELECT * FROM CLUB_CATEGORY
+    </select>
 </mapper>

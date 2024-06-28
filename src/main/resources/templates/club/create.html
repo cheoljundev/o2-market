@@ -10,6 +10,28 @@
                 crossorigin="anonymous"></script>
         <script type="text/javascript">
             $(document).ready(function(){
+
+                // 카테고리 option불러오기
+                $.ajax({
+                    type : "GET",
+                    url : "/club/getCategory",
+                    dataType : "json",
+                    success : function(result) {
+                        console.log(result);
+                            let optionText = '';
+                        for(var i = 0; i < result.length; i++) {
+                            optionText += `
+                                <option value="`+result[i].clubCategoryId+`">
+                                    `+result[i].categoryName+`
+                                </option>
+                            `;
+                        }
+
+                        $('#categoryId').html(optionText);
+                    }
+                });
+
+                // 이미지 로드
                 $("#imgAddDiv").click(function(input){
                     document.getElementById('thumbnail').click();
                     const fileDOM = document.querySelector('#thumbnail');
@@ -50,12 +72,7 @@
                 <div class="col-3">
                     <label for="categoryId" class="form-label">카테고리</label>
                     <select class="form-select" aria-label="Default" id="categoryId" name="categoryId">
-                        <option value="CCI-001">
-                            스포츠
-                        </option>
-                        <option value="CCI-002">
-                            친목
-                        </option>
+
                     </select>
                 </div>
 
@@ -73,7 +90,7 @@
                     <label for="ageLimitEnd" class="form-label">최대 나이</label>
                     <input type="number" class="form-control" id="ageLimitEnd" name="ageLimitEnd" placeholder="">
                 </div>
-                <div class="col" id="imgAddDiv">
+                <div class="col-3" id="imgAddDiv">
                     <img src="/images/club/imgAdd.jpg" id="image" alt="이미지가 없습니다." width="300" height="300">
                     <input type="file" id="thumbnail" style="visibility: hidden;" name="thumbnail" accept="image/*" onchange="loadFile(this)">
                 </div>
