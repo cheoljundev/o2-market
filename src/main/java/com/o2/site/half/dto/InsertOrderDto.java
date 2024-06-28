@@ -8,10 +8,10 @@ import java.util.Date;
 @Data
 @Builder
 public class InsertOrderDto {
+    private Long orderNo;
     private Long productNo;
     private String title;
     private String categoryCode;
-    private String image;
     private Long price;
     private Long halfPrice;
     private Long sellerMemberNo;
