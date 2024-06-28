@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/mainLayout :: layout(~{::title}, ~{::main}, ~{::insertHead})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>모임</title>
+    <th:block th:fragment="insertHead">
+        <script
+                src="https://code.jquery.com/jquery-3.7.1.js"
+                integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+                crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            let sel_files = [];
+
+            $(document).ready(function(){
+                // 이미지 로드
+                $('#fileDom').on('change', handleImgsFilesSelect);
+            });
+
+            function handleImgsFilesSelect(e) {
+                let files = e.target.files;
+                let filesArr = Array.prototype.slice.call(files);
+
+                filesArr.forEach(function(f) {
+
+                    sel_files.push(f);
+
+                    let reader = new FileReader();
+                    reader.onload = function(e) {
+                        let img_html = "<img src=\"" + e.target.result + "\" width='150' height='150'/>";
+                        console.log(img_html);
+                        $('#imgAddDiv').append(img_html);
+                    }
+                    reader.readAsDataURL(f);
+                });
+            }
+        </script>
+    </th:block>
+
+
+</head>
+
+<body>
+
+<main>
+    <div class="container mt-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">모임</li>
+                <li class="breadcrumb-item active" aria-current="page">모임 상세보기</li>
+                <li class="breadcrumb-item active" aria-current="page">모임 내 게시판 리스트</li>
+                <li class="breadcrumb-item active" aria-current="page">모임 내 게시판 작성</li>
+            </ol>
+        </nav>
+        <h2 class="mb-2">모임 내 게시판 작성</h2>
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-bottom: 20px;">
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/detail'">메인</button>
+                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/board/list'">게시판</button>
+                <button type="button"  class="btn btn-outline-primary">일정</button>
+            </div>
+
+        </div>
+        <form action="createAction" method="post">
+            <div class="mb-3">
+                <label for="title" class="form-label">제목</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="">
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">소개</label>
+                <textarea class="form-control" id="content" name="content" rows="4"></textarea>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="col-3">
+                        <input type="file" id="fileDom" accept="image/*">
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12" id="imgAddDiv">
+
+                </div>
+            </div>
+            <div class="d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-primary" id="createGo">생성</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

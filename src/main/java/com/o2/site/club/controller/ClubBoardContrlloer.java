@@ -30,4 +30,7 @@ public class ClubBoardContrlloer {
     @GetMapping("/detail")
     public void detailGo() {}
 
+    @GetMapping("/create")
+    public void createGo() {}
+
 }
