@@ -1,15 +1,12 @@
 package com.o2.site.trade.controller;
 
+
 import com.o2.site.trade.domain.TradeDomain;
-import com.o2.site.trade.dto.ApplicationDto;
-import com.o2.site.trade.dto.SearchDto;
-import com.o2.site.trade.dto.TradeMainDto;
-import com.o2.site.trade.dto.WishListDto;
+import com.o2.site.trade.dto.*;
 import com.o2.site.trade.service.TradeService;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
 import org.apache.ibatis.binding.BindingException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,12 +21,12 @@ import java.util.ArrayList;
 @RequestMapping("/trade")
 public class TradeController {
 
-    @Autowired
-    TradeService tradeService;
+    private final TradeService tradeService;
 
     private final UploadService uploadService;
 
-    public TradeController(UploadService uploadService) {
+    public TradeController(TradeService tradeService, UploadService uploadService) {
+        this.tradeService = tradeService;
         this.uploadService = uploadService;
     }
 
@@ -37,10 +34,12 @@ public class TradeController {
     @GetMapping("/trade_main")
     public void trade_main(Model model){
         ArrayList<TradeMainDto> mainlist = tradeService.selectMainList();
+        ArrayList<CategoryDto> category = tradeService.getCategory();
         System.out.println(mainlist);
         System.out.println("총 갯수: "+mainlist.size());
         model.addAttribute("mainlist", mainlist);
         model.addAttribute("cg","전체");
+        model.addAttribute("category",category);
     }
     //검색 리스트
     @GetMapping("/trade_search")
@@ -57,10 +56,15 @@ public class TradeController {
         }else {
         model.addAttribute("cg",tradeService.getCg(searchDto));
         }
+        ArrayList<CategoryDto> category = tradeService.getCategory();
+        model.addAttribute("category",category);
         return "/trade/trade_main";
     }
     @GetMapping("/trade_application")
-    public void trade_application(){}
+    public void trade_application(Model model){
+        ArrayList<CategoryDto> category = tradeService.getCategory();
+        model.addAttribute("category",category);
+    }
     //게시글 한개 조회
     @GetMapping("/trade_detail")
     public void trade_detail(Model model, String tradeNo){
@@ -76,6 +80,8 @@ public class TradeController {
             wishList=0;
         }
         System.out.println(wishList);
+        ArrayList<CategoryDto> category = tradeService.getCategory();
+        model.addAttribute("category",category);
         model.addAttribute("wishCount",wishList);
         model.addAttribute("tradeDomain",tradeDomain);
         model.addAttribute("imageList",imageList);

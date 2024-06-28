@@ -37,4 +37,6 @@ public interface TradeMapper {
     int approveBoard(String tradeNo);
 
     int rejectBoard(String tradeNo);
+
+    ArrayList<CategoryDto> getCategory();
 }

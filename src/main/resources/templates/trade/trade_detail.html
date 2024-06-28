@@ -31,20 +31,11 @@
                                 <a id="cg" class="nav-link" th:text="${cg}">카테고리</a>
                             </li>
                             <li class="nav-item">
-                                <select class="form-select" id="inputGroupSelect01" name="category">
-                                    <option selected value="cg_all">전체</option>
-                                    <option value="cg_life">생활/가전</option>
-                                    <option value="cg_fur">가구/인테리어</option>
-                                    <option value="cg_digital">디지털</option>
-                                    <option value="cg_book">도서/티켓</option>
-                                    <option value="cg_game">게임/취미</option>
-                                    <option value="cg_sports">스포츠/레저</option>
-                                    <option value="cg_beauty">뷰티/미용</option>
-                                    <option value="cg_man">남성의류/용품</option>
-                                    <option value="cg_woman">여성의류/용품</option>
-                                    <option value="cg_plant">식물</option>
-                                    <option value="cg_animal">반려동물</option>
-                                    <option value="cg_else">기타</option>
+                                <select class="form-select" id="categorySelect" name="category">
+                                    <option th:each="categories : ${category}"
+                                            th:value="${categories.categoryCode}"
+                                            th:text="${categories.category}">
+                                    </option>
                                 </select>
                             </li>
 

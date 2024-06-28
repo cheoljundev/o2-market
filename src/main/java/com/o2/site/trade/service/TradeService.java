@@ -1,11 +1,11 @@
 package com.o2.site.trade.service;
 
+
 import com.o2.site.trade.dao.TradeMapper;
 import com.o2.site.trade.domain.TradeDomain;
 import com.o2.site.trade.dto.*;
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +14,7 @@ import java.util.ArrayList;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class TradeService {
-    @Value("${file.app}") String apppath;
-    String sysPath = System.getProperty("user.dir");
+
     private final TradeMapper tradeMapper;
 
     @Autowired
@@ -80,5 +79,9 @@ public class TradeService {
 
     public int rejectBoard(String tradeNo) {
         return tradeMapper.rejectBoard(tradeNo);
+    }
+
+    public ArrayList<CategoryDto> getCategory() {
+        return tradeMapper.getCategory();
     }
 }

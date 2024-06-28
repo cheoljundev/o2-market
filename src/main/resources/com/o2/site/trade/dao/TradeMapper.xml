@@ -179,4 +179,11 @@
         SET
         APPROVE = 'R' WHERE TRADE_NO = #{tradeNo}
     </update>
+
+    <select id="getCategory" resultType="com.o2.site.trade.dto.CategoryDto">
+        SELECT
+        *
+        FROM
+        CATEGORY
+    </select>
 </mapper>
