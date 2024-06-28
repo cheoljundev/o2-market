@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/mainLayout :: layout(~{::title}, ~{::main}, ~{::insertHead})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>모임</title>
+    <th:block th:fragment="insertHead">
+        <script
+                src="https://code.jquery.com/jquery-3.7.1.js"
+                integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+                crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+
+
+
+            });
+        </script>
+    </th:block>
+
+
+</head>
+
+<body>
+
+<main>
+    <div class="container mt-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">모임</li>
+                <li class="breadcrumb-item active" aria-current="page">모임 상세보기</li>
+                <li class="breadcrumb-item active" aria-current="page">일정 캘린더</li>
+                <li class="breadcrumb-item active" aria-current="page">일정 상세보기</li>
+            </ol>
+        </nav>
+        <h2 class="mb-2">일정 상세보기</h2>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-bottom: 20px;">
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/detail'">메인</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/board/list'">게시판</button>
+                    <button type="button" onclick="location.href='/club/schedule/list'"  class="btn btn-outline-primary">일정</button>
+                </div>
+
+            </div>
+
+        <div class="">
+            <h2>날짜</h2>
+            <h4>2024-06-18 17:50</h4>
+            <br>
+            <h2>장소</h2>
+
+        </div>
+
+    </div>
+</main>
+</body>
+</html>

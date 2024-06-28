@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/mainLayout :: layout(~{::title}, ~{::main}, ~{::insertHead})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>모임</title>
+    <th:block th:fragment="insertHead">
+        <script
+                src="https://code.jquery.com/jquery-3.7.1.js"
+                integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+                crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
+
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function() {
+              var calendarEl = document.getElementById('calendar');
+              var calendar = new FullCalendar.Calendar(calendarEl, {
+                  initialView : 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
+                  headerToolbar : { // 헤더에 표시할 툴 바
+                      start : 'prev next today',
+                      center : 'title',
+                      end : ''
+                  },
+                  titleFormat : function(date) {
+                      return date.date.year + '년 ' + (parseInt(date.date.month) + 1) + '월';
+                  },
+                  //initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
+                  selectable : true, // 달력 일자 드래그 설정가능
+                  droppable : true,
+                  editable : true,
+                  nowIndicator: true, // 현재 시간 마크
+                  locale: 'ko', // 한국어 설정
+                  events: [
+                      {
+                        title: 'ㅇㅇ 체육관 17:50',
+                        url : '/club/schedule/detail',
+                        start: '2024-06-20'
+                      },
+                      {
+                        title: '00 고기집 14:30',
+                        start: '2024-06-24',
+                        end: '2024-06-26',
+                        url : '/club/schedule/detail'
+                      },
+                    ]
+              });
+              calendar.render();
+          });
+
+        </script>
+    </th:block>
+
+
+</head>
+
+<body>
+
+<main>
+    <div class="container mt-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">모임</li>
+                <li class="breadcrumb-item active" aria-current="page">모임 상세보기</li>
+                <li class="breadcrumb-item active" aria-current="page">일정 캘린더</li>
+            </ol>
+        </nav>
+        <h2 class="mb-2">일정 캘린더</h2>
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-bottom: 20px;">
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/detail'">메인</button>
+                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/board/list'">게시판</button>
+                <button type="button" onclick="location.href='/club/schedule/list'"  class="btn btn-outline-primary">일정</button>
+            </div>
+
+        </div>
+
+        <div id='calendar'></div>
+    </div>
+</main>
+</body>
+</html>

@@ -2,6 +2,8 @@ package com.o2.site.club.service;
 
 import com.o2.site.club.dao.ClubMapper;
 import com.o2.site.club.domain.RequestList;
+import com.o2.site.club.dto.ClubBoardDto;
+import com.o2.site.club.dto.ClubCategoryDto;
 import com.o2.site.club.dto.ClubDto;
 import com.o2.site.club.dto.ClubUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,11 @@ public class ClubService {
         int total = clubMapper.clubListCount(clubDto);
 
         return new PageImpl<>(content, pageable, total);
+    }
+
+    public ArrayList<ClubCategoryDto> clubCategoryList() {
+        System.out.println(clubMapper.clubCategoryList());
+        return clubMapper.clubCategoryList();
     }
 
 }

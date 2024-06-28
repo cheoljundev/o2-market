@@ -1,6 +1,7 @@
 package com.o2.site.club.dao;
 
 import com.o2.site.club.domain.RequestList;
+import com.o2.site.club.dto.ClubCategoryDto;
 import com.o2.site.club.dto.ClubDto;
 import com.o2.site.club.dto.ClubUserDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,6 +22,9 @@ public interface ClubMapper {
 
     // 모임 생성
     public int clubInsert(ClubDto clubDto);
+
+    // 모임 카테고리 리스트
+    public ArrayList<ClubCategoryDto> clubCategoryList();
 
     // 모임 수정
     public int clubUpdate();

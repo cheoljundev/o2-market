@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/mainLayout :: layout(~{::title}, ~{::main}, ~{::insertHead})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>모임</title>
+    <th:block th:fragment="insertHead">
+        <script
+                src="https://code.jquery.com/jquery-3.7.1.js"
+                integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+                crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+
+
+
+            });
+        </script>
+    </th:block>
+
+
+</head>
+
+<body>
+
+<main>
+    <div class="container mt-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">모임</li>
+                <li class="breadcrumb-item active" aria-current="page">모임 상세보기</li>
+            </ol>
+        </nav>
+        <h2 class="mb-2">모임 상세보기</h2>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-bottom: 20px;">
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/detail'">메인</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/board/list'">게시판</button>
+                    <button type="button" onclick="location.href='/club/schedule/list'"  class="btn btn-outline-primary">일정</button>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <img src="/images/club/moonge.jpg" id="image" alt="이미지가 없습니다." width="300" height="300">
+                </div>
+                <div class="col-3">
+                    <h2>테니스를 위한 모임</h2>
+                    <p>스포츠</p>
+                    <p>부산 서면</p>
+                    <p>멤버 수 : 15 / 30 연령 제한 : 20 ~ 25</p>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-6">
+                    <table class="table">
+                        <tr>
+                            <td>2024-06-18 17:30</td>
+                            <td>부산 00동 00 고기</td>
+                        </tr>
+                        <tr>
+                            <td>2024-06-14 15:30</td>
+                            <td>부산 00동 00 고기</td>
+                        </tr>
+                        <tr>
+                            <td>2024-06-19 19:30</td>
+                            <td>부산 00동 00 고기</td>
+                        </tr>
+                        <tr>
+                            <td>2024-06-19 19:30</td>
+                            <td>부산 00동 00 고기</td>
+                        </tr>
+                        <tr>
+                            <td>2024-06-19 19:30</td>
+                            <td>부산 00동 00 고기</td>
+                        </tr>
+                        <tr>
+                            <td>2024-06-19 19:30</td>
+                            <td>부산 00동 00 고기</td>
+                        </tr>
+                        <tr>
+                            <td>2024-06-19 19:30</td>
+                            <td>부산 00동 00 고기</td>
+                        </tr>
+                        <tr>
+                            <td>2024-06-19 19:30</td>
+                            <td>부산 00동 00 고기</td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="col-6">
+                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
+                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
+                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
+                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
+                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
+                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
+                </div>
+
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>
