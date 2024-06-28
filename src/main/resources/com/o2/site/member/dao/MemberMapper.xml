@@ -5,27 +5,13 @@
 
 <mapper namespace="com.o2.site.member.dao.MemberMapper">
 
-    <insert id="insertMember" parameterType="com.o2.site.member.domain.Member">
+    <insert id="insertMember" useGeneratedKeys="true" parameterType="com.o2.site.member.domain.Member">
         INSERT INTO member (id, password, name, phone_number, address)
         VALUES (#{id}, #{password}, #{name}, #{phoneNumber}, #{address})
     </insert>
 
-        <select id="findById" resultType="com.o2.site.member.domain.Member">
-            SELECT id, password, role
-            FROM member
-            WHERE id = #{id}
-        </select>
+    <select id="findByUsername" resultType="com.o2.site.member.domain.Member">
+        SELECT * FROM member WHERE id = #{id}
+    </select>
 
-    <!--    <select id="findById" parameterType="long" resultType="com.example.demo.domain.User">-->
-    <!--        SELECT * FROM users WHERE id = #{id}-->
-    <!--    </select>-->
-
-
-    <!--    <update id="update" parameterType="com.example.demo.domain.User">-->
-    <!--        UPDATE users SET name = #{name}, email = #{email} WHERE id = #{id}-->
-    <!--    </update>-->
-
-    <!--    <delete id="delete" parameterType="long">-->
-    <!--        DELETE FROM users WHERE id = #{id}-->
-    <!--    </delete>-->
 </mapper>
