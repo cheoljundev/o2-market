@@ -11,5 +11,4 @@ public interface MemberMapper {
 
     MemberDTO findByUsername(String id);
 
-
 }
