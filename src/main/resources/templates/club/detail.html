@@ -12,6 +12,7 @@
             $(document).ready(function(){
 
 
+
             });
         </script>
     </th:block>
@@ -31,14 +32,12 @@
         </nav>
         <h2 class="mb-2">모임 상세보기</h2>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-bottom: 20px;">
-                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="btnradio1">메인</label>
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='detail'">메인</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='board/list'">게시판</button>
+                    <button type="button"  class="btn btn-outline-primary">일정</button>
+                </div>
 
-                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-                <label class="btn btn-outline-primary" for="btnradio2">게시판</label>
-
-                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-                <label class="btn btn-outline-primary" for="btnradio3">일정</label>
             </div>
 
             <div class="row">
