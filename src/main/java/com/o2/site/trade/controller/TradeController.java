@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Controller
 @RequestMapping("/trade")
 public class TradeController {
-
+    private static final int PAGE_SIZE = 5;
     private final TradeService tradeService;
 
     private final UploadService uploadService;
@@ -31,7 +33,7 @@ public class TradeController {
         this.uploadService = uploadService;
     }
 
-    //전체 리스트 관리자 페이지 구성 후 approve 조건 추가 예정
+//    전체 리스트 관리자 페이지 구성 후 approve 조건 추가 예정
     @GetMapping("/trade_main")
     public void trade_main(Model model){
         ArrayList<TradeMainDto> mainlist = tradeService.selectMainList();
@@ -42,6 +44,33 @@ public class TradeController {
         model.addAttribute("cg","전체");
         model.addAttribute("category",category);
     }
+    //페이징 테스트
+    @GetMapping("/trade_main_test")
+    public void trade_main(Model model, @RequestParam(defaultValue = "0") int page){
+        ArrayList<TradeMainDto> mainlist = tradeService.selectMainList();
+        ArrayList<AdvListDto> advList = tradeService.getAdvList();
+
+        List<TradeMainDto> paginatedMainList = paginate(mainlist, page, PAGE_SIZE);
+
+        Random random = new Random();
+        int rand=random.nextInt(advList.size());
+        AdvListDto firstAdv = advList.isEmpty() ? null : advList.get(rand);
+
+        int totalPages = (int) Math.ceil((double) mainlist.size() / PAGE_SIZE);
+
+        model.addAttribute("mainList", paginatedMainList);
+        model.addAttribute("advItem", firstAdv);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+    }
+
+    // 리스트를 페이지 단위로 자르는 메서드
+    private List<TradeMainDto> paginate(List<TradeMainDto> list, int page, int pageSize) {
+        int start = page * pageSize;
+        int end = Math.min(start + pageSize, list.size());
+        return list.subList(start, end);
+    }
+
     //검색 리스트
     @GetMapping("/trade_search")
     public String trade_sarch(Model model, SearchDto searchDto){
@@ -120,6 +149,8 @@ public class TradeController {
         int memberNo = 1;
         ArrayList<TradeMainDto> wishList = tradeService.myWishList(memberNo);
         System.out.println(wishList);
+        ArrayList<CategoryDto> category = tradeService.getCategory();
+        model.addAttribute("category",category);
         model.addAttribute("mainlist",wishList);
         return "/trade/trade_main";
     }
