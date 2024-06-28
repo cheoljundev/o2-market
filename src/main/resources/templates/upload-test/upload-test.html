@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>업로드 테스트</title>
+</head>
+<body>
+업로드 테스트
+<form action="/upload-test" method="post" enctype="multipart/form-data">
+    <input type="file" name="image">
+    <input type="submit" value="업로드">
+</form>
+업데이트 테스트
+<form action="/update-test" method="post" enctype="multipart/form-data">
+    <input type="file" name="image">
+    <input type="submit" value="업데이트">
+</form>
+</body>
+삭제 테스트
+<form action="/delete-test" method="post">
+    <input type="submit" value="삭제">
+</form>
+복사 테스트
+<form action="/duplicate-test" method="post">
+    <input type="submit" value="복사">
+</form>
+<img th:each="image : ${images}" src="" th:src="@{/images/{image} (image=${image.storedImageName})}" alt="">
+</html>
