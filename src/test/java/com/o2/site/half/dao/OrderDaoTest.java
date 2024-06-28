@@ -25,6 +25,24 @@ class OrderDaoTest {
     void findByOrderNo() {
         // given
         Long orderNo = 1L;
+        orderDao.insertOrder(InsertOrderDto.builder()
+                .orderNo(1L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김박사")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
 
         // when
         Order order = orderDao.findByOrderNo(orderNo);
@@ -37,6 +55,79 @@ class OrderDaoTest {
     @Test
     void findAll() {
         // given
+        orderDao.insertOrder(InsertOrderDto.builder()
+                .orderNo(1L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+        orderDao.insertOrder(InsertOrderDto.builder()
+                .orderNo(2L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+        orderDao.insertOrder(InsertOrderDto.builder()
+                .orderNo(3L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+        orderDao.insertOrder(InsertOrderDto.builder()
+                .orderNo(4L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+
         OrderSearchCond orderSearchCond1 = OrderSearchCond.builder()
                 .buyerMemberId("user02")
                 .build();
@@ -76,6 +167,43 @@ class OrderDaoTest {
     @Test
     void findRange() {
         // given
+        orderDao.insertOrder(InsertOrderDto.builder()
+                .orderNo(1L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+        orderDao.insertOrder(InsertOrderDto.builder()
+                .orderNo(2L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+
         OrderSearchCond orderSearchCond = OrderSearchCond.builder()
                 .build();
 
@@ -92,7 +220,6 @@ class OrderDaoTest {
                 .productNo(1L)
                 .title("한번 사용한 아이패드2")
                 .categoryCode("cg_life")
-                .image("thumbnail.jpg")
                 .price(100000L)
                 .halfPrice(50000L)
                 .sellerMemberNo(1L)
@@ -114,13 +241,32 @@ class OrderDaoTest {
         List<Order> orders = orderDao.findAll(orderSearchCond);
         Order order = orders.get(0);
         int size = orders.size();
-        assertThat(size).isEqualTo(3);
+        assertThat(size).isEqualTo(1);
         assertThat(order.getTitle()).isEqualTo(insertOrderDto.getTitle());
     }
 
     @Test
     void updateOrder() {
         // given
+        orderDao.insertOrder(InsertOrderDto.builder()
+                .orderNo(1L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+
         UpdateOrderDto updateOrderDto1 = UpdateOrderDto.builder()
                 .orderNo(1L)
                 .invoice(123456789L)
@@ -139,13 +285,30 @@ class OrderDaoTest {
     @Test
     void deleteOrder() {
         // given
-        Long orderNo = 1L;
+        orderDao.insertOrder(InsertOrderDto.builder()
+                .orderNo(1L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
 
         // when
-        orderDao.deleteOrder(orderNo);
+        orderDao.deleteOrder(1L);
 
         // then
-        Order order = orderDao.findByOrderNo(orderNo);
+        Order order = orderDao.findByOrderNo(1L);
         assertThat(order).isNull();
     }
 }

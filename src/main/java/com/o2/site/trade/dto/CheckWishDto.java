@@ -7,10 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class TradeMainDto {
+public class CheckWishDto {
+    private int memberNo;
     private int tradeNo;
-    private String storedImageName;
-    private String title;
-    private int price;
-    private String category;
 }

@@ -34,25 +34,21 @@
                             <a id="cg" class="nav-link" th:text="${cg}">카테고리</a>
                         </li>
                         <li class="nav-item">
-                            <select class="form-select" id="inputGroupSelect01" name="category">
-                                <option selected value="cg_all">전체</option>
-                                <option value="cg_life">생활/가전</option>
-                                <option value="cg_fur">가구/인테리어</option>
-                                <option value="cg_digital">디지털</option>
-                                <option value="cg_book">도서/티켓</option>
-                                <option value="cg_game">게임/취미</option>
-                                <option value="cg_sports">스포츠/레저</option>
-                                <option value="cg_beauty">뷰티/미용</option>
-                                <option value="cg_man">남성의류/용품</option>
-                                <option value="cg_woman">여성의류/용품</option>
-                                <option value="cg_plant">식물</option>
-                                <option value="cg_animal">반려동물</option>
-                                <option value="cg_else">기타</option>
+                            <select class="form-select" id="categorySelect" name="category">
+                                <option th:each="categories : ${category}"
+                                        th:value="${categories.categoryCode}"
+                                        th:text="${categories.category}">
+                                </option>
                             </select>
                         </li>
 
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 300px;" name="keyword">
                             <button id="searchButton" class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                        <form action="/trade/trade_mywish" id="myList" method="get" class="px-4">
+                            <li class="nav-item">
+                                <button class="btn btn-outline-success" type="submit">작성글</button>
+                            </li>
                         </form>
                     </ul>
                 </div>
@@ -62,7 +58,7 @@
             <div class="row row-cols-3">
                 <div class="col-md-4" th:each="trade : ${mainlist}">
                     <a th:href="@{/trade/trade_detail(tradeNo=${trade.tradeNo})}" name="tradeNo">
-                        <img th:src="@{/images/trade/app/{image}(image=${trade.imageAddress})}" class="img-thumbnail" style="width:400px; height:400px">
+                        <img th:src="@{/images/{image}(image=${trade.storedImageName})}" class="img-thumbnail" style="width:400px; height:400px">
                         <br>
                         <span th:text="${trade.title}">Title</span>
                         <br>
@@ -96,6 +92,7 @@
         </div>
 
         <a class="btn btn-primary btn-lg" href="/trade/trade_admin" role="button">거래 관리자 이동</a>
+        <a class="btn btn-primary btn-lg" href="/trade/trade_main_test" role="button">페이지 테스트 이동</a>
     </div>
 </main>
 

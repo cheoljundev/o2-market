@@ -13,7 +13,6 @@ public class Order {
     private Date createAt;
     private String title;
     private String categoryCode;
-    private String image;
     private Long price;
     private Long halfPrice;
     private Long sellerMemberNo;

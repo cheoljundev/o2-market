@@ -16,4 +16,3 @@ mybatis:
 
 file:
   dir: /uploads/
-  app: /src/main/resources/static/images/trade/app/

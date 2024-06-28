@@ -26,7 +26,7 @@
             <div class="row row-cols-3">
                 <div class="col-md-4" th:each="trade : ${mainlist}">
                     <a th:href="@{/trade/trade_admin_approve(tradeNo=${trade.tradeNo})}" name="tradeNo">
-                        <img th:src="@{/images/trade/app/{image}(image=${trade.imageAddress})}" class="img-thumbnail" style="width:400px; height:400px">
+                        <img th:src="@{/images/{image}(image=${trade.storedImageName})}" class="img-thumbnail" style="width:400px; height:400px">
                         <br>
                         <span th:text="${trade.title}">Title</span>
                         <br>

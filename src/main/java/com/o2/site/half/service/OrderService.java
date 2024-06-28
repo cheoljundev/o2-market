@@ -3,8 +3,12 @@ package com.o2.site.half.service;
 import com.o2.site.half.dao.OrderDao;
 import com.o2.site.half.dao.OrderSearchCond;
 import com.o2.site.half.domain.Order;
+import com.o2.site.half.dto.AdminOrderDetailDto;
+import com.o2.site.half.dto.AdminOrderListDto;
 import com.o2.site.half.dto.InsertOrderDto;
 import com.o2.site.half.dto.UpdateOrderDto;
+import com.o2.site.upload.dto.UploadImageDto;
+import com.o2.site.upload.service.UploadService;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -17,15 +21,61 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderDao orderDao;
+    private final UploadService uploadService;
 
-    public List<Order> findAll(OrderSearchCond orderSearchCond){
-        return orderDao.findAll(orderSearchCond);
+    public List<AdminOrderListDto> findAll(OrderSearchCond orderSearchCond){
+        List<AdminOrderListDto> orders = new ArrayList<>();
+        orderDao.findAll(orderSearchCond).stream().forEach((order -> {
+            orders.add(AdminOrderListDto.builder()
+                    .orderNo(order.getOrderNo())
+                    .createAt(order.getCreateAt())
+                    .image(uploadService.findImage(UploadImageDto.builder()
+                            .orderNo(order.getOrderNo())
+                            .build()
+                    ))
+                    .title(order.getTitle())
+                    .recipientName(order.getRecipientName())
+                    .halfPrice(order.getHalfPrice())
+                    .stateName(order.getState())
+                    .build());
+        }));
+        return orders;
     }
-    public Order findByOrderNo(Long orderNo){
-        return orderDao.findByOrderNo(orderNo);
+    public AdminOrderDetailDto findByOrderNo(Long orderNo){
+        Order order = orderDao.findByOrderNo(orderNo);
+
+        if (order == null) {
+            return null;
+        }
+
+        return AdminOrderDetailDto.builder()
+                    .orderNo(order.getOrderNo())
+                    .createAt(order.getCreateAt())
+                    .title(order.getTitle())
+                    .recipientName(order.getRecipientName())
+                    .recipientPhone(order.getRecipientPhone())
+                    .recipientAddress(order.getRecipientAddress())
+                    .deliveryMemo(order.getDeliveryMemo())
+                    .invoice(order.getInvoice())
+                    .build();
     }
-    public List<Order> findRange(int start, int end, OrderSearchCond orderSearchCond){
-        return orderDao.findRange(start, end, orderSearchCond);
+    public List<AdminOrderListDto>  findRange(int start, int end, OrderSearchCond orderSearchCond){
+        List<AdminOrderListDto> orders = new ArrayList<>();
+        orderDao.findRange(start, end, orderSearchCond).stream().forEach((order -> {
+            orders.add(AdminOrderListDto.builder()
+                    .orderNo(order.getOrderNo())
+                    .createAt(order.getCreateAt())
+                    .image(uploadService.findImage(UploadImageDto.builder()
+                            .orderNo(order.getOrderNo())
+                            .build()
+                    ))
+                    .title(order.getTitle())
+                    .recipientName(order.getRecipientName())
+                    .halfPrice(order.getHalfPrice())
+                    .stateName(order.getState())
+                    .build());
+        }));
+        return orders;
     }
     public void insertOrder(InsertOrderDto insertOrderDto){
         orderDao.insertOrder(insertOrderDto);

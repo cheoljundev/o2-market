@@ -4,6 +4,7 @@
 <head>
     <title>주문건 확인</title>
     <th:block th:fragment="insertHead">
+        <link rel="stylesheet" href="/css/admin/half/order.css">
     </th:block>
 
 </head>
@@ -50,7 +51,7 @@
                             </button>
                         </td>
                         <td th:text="${{order.createAt}}">2024-06-25</td>
-                        <td><img th:src="@{/{image} (image=${order.image})}" src="https://via.placeholder.com/100" alt="썸네일 이미지"></td>
+                        <td><img th:src="@{/images/{image} (image=${order.image.storedImageName})}" src="https://via.placeholder.com/100" th:alt="${order.image.imageName}" class="img-thumb"></td>
                         <td th:text="${order.title}">한번 쓴 ㅇㅇㅇ</td>
                         <td th:text="${order.recipientName}">홍길동</td>
                         <td th:text="${{order.halfPrice}}">5,000</td>
@@ -111,7 +112,7 @@
             </div>
             <div class="row mb-4">
                 <p class="col-12"><strong>송장번호</strong></p>
-                <input type="text" class="form-control mx-2 col-12 w-auto px-2 flex-shrink-0 invoice">
+                <input type="text" class="form-control mx-2 col-12 w-auto px-2 flex-shrink-0 invoice" maxlength="12">
             </div>
             <div class="row gx-0">
                 <div class="col-auto mx-2">
@@ -128,6 +129,7 @@
         const searchSelect = document.querySelector(".search-select");
         const searchInput = document.querySelector(".search-input");
         const orderNoBtn = document.querySelectorAll(".btn-order-no");
+        const orderDetailSendInvoice = document.querySelector(".btn-send-invoice");
         const orderDetailCloseBtn = document.querySelector(".btn-order-detail-close");
 
         const searchConditions = {
@@ -186,6 +188,35 @@
                     error => console.error(error)
                 );
             });
+
+            orderDetailSendInvoice.addEventListener("click", function () {
+                const orderNo = parseInt(document.querySelector(".order-no").textContent);
+                const invoice = document.querySelector(".invoice").value;
+                fetch(`/admin/half/order/${orderNo}/invoice`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(invoice)
+                }).then(
+                    response => {
+                        if (!response.ok) {
+                            throw new Error("송장번호 발송에 실패했습니다.");
+                        }
+                    }
+                ).then(
+                    () => {
+                        const orderDetail = document.querySelector(".order-detail");
+                        orderDetail.classList.toggle("d-none");
+                        orderDetail.querySelector(".invoice").readOnly = true;
+                        orderDetail.querySelector(".btn-send-invoice").disabled = true;
+                        window.location.href = "/admin/half/order";
+                    }
+                ).catch(
+                    error => console.error(error)
+                );
+            });
+
             orderDetailCloseBtn.addEventListener("click", function () {
                 const orderDetail = document.querySelector(".order-detail");
                 if (!orderDetail.classList.contains("d-none")) {

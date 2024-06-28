@@ -1,25 +1,21 @@
 package com.o2.site.trade.service;
 
+
 import com.o2.site.trade.dao.TradeMapper;
+import com.o2.site.trade.domain.AdvDomain;
 import com.o2.site.trade.domain.TradeDomain;
 import com.o2.site.trade.dto.*;
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.UUID;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class TradeService {
-    @Value("${file.app}") String apppath;
-    String sysPath = System.getProperty("user.dir");
+
     private final TradeMapper tradeMapper;
 
     @Autowired
@@ -27,38 +23,9 @@ public class TradeService {
         this.tradeMapper = tradeMapper;
     }
 
-    public int insertApp(ApplicationDto ad, MultipartFile[] files) {
-        int result = 0;
-        ArrayList<String> images = new ArrayList<>();
+    public int insertApp(ApplicationDto ad) {
         System.out.println(ad);
-        try{
-            for (MultipartFile file : files) {
-                String fileName = file.getOriginalFilename();
-                String uuid = UUID.randomUUID().toString();
-                int pos = fileName.lastIndexOf(".");
-                String ext = fileName.substring(pos+1);
-                String uploadName = uuid+"."+ext;
-                System.out.println(uploadName);
-                String filePath=sysPath+apppath;
-                System.out.println(filePath);
-                File mkdir = new File(filePath);
-                if(!mkdir.exists()) {
-                    mkdir.mkdirs();
-                }
-                file.transferTo(new File(filePath+uploadName));
-                images.add(uploadName);
-            }
-            System.out.println(images);
-        }catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        tradeMapper.insertApp(ad);
-        int tradeNo = ad.getTradeNo();
-        for(String image : images){
-            ImageDto imageDto = new ImageDto(tradeNo, image);
-            tradeMapper.insertImg(imageDto);
-            result=1;
-        }
+        int result = tradeMapper.insertApp(ad);
         return result;
     }
 
@@ -113,5 +80,21 @@ public class TradeService {
 
     public int rejectBoard(String tradeNo) {
         return tradeMapper.rejectBoard(tradeNo);
+    }
+
+    public ArrayList<CategoryDto> getCategory() {
+        return tradeMapper.getCategory();
+    }
+
+    public CheckWishDto checkWish(WishListDto wishListDto) {
+        return tradeMapper.checkWish(wishListDto);
+    }
+
+    public int insertAdv(AdvDomain advListDto) {
+        return tradeMapper.insertAdv(advListDto);
+    }
+
+    public ArrayList<AdvListDto> getAdvList() {
+        return tradeMapper.getAdvList();
     }
 }
