@@ -39,6 +39,9 @@ public class ClubContrlloer {
     @GetMapping("/detail")
     public void detailGo(){}
 
+    @GetMapping("/userList")
+    public void userListGo(){}
+
     @PostMapping("/createAction")
     public String createAction(ClubDto clubDto) {
         System.out.println(clubDto);
