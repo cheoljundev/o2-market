@@ -24,6 +24,24 @@ class OrderMapperTest {
     void findByOrderNo() {
         // given
         Long orderNo = 1L;
+        orderMapper.insertOrder(InsertOrderDto.builder()
+                .orderNo(1L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김박사")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
 
         // when
         Order order = orderMapper.findByOrderNo(orderNo);
@@ -36,6 +54,79 @@ class OrderMapperTest {
     @Test
     void findAll() {
         // given
+        orderMapper.insertOrder(InsertOrderDto.builder()
+                .orderNo(1L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+        orderMapper.insertOrder(InsertOrderDto.builder()
+                .orderNo(2L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+        orderMapper.insertOrder(InsertOrderDto.builder()
+                .orderNo(3L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+        orderMapper.insertOrder(InsertOrderDto.builder()
+                .orderNo(4L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+
         OrderSearchCond orderSearchCond1 = OrderSearchCond.builder()
                 .buyerMemberId("user02")
                 .build();
@@ -75,6 +166,43 @@ class OrderMapperTest {
     @Test
     void findRange() {
         // given
+        orderMapper.insertOrder(InsertOrderDto.builder()
+                .orderNo(1L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+        orderMapper.insertOrder(InsertOrderDto.builder()
+                .orderNo(2L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+
         OrderSearchCond orderSearchCond = OrderSearchCond.builder()
                 .build();
 
@@ -91,7 +219,6 @@ class OrderMapperTest {
                 .productNo(1L)
                 .title("한번 사용한 아이패드2")
                 .categoryCode("cg_life")
-                .image("thumbnail.jpg")
                 .price(100000L)
                 .halfPrice(50000L)
                 .sellerMemberNo(1L)
@@ -113,13 +240,32 @@ class OrderMapperTest {
         List<Order> orders = orderMapper.findAll(orderSearchCond);
         Order order = orders.get(0);
         int size = orders.size();
-        assertThat(size).isEqualTo(3);
+        assertThat(size).isEqualTo(1);
         assertThat(order.getTitle()).isEqualTo(insertOrderDto.getTitle());
     }
 
     @Test
     void updateOrder() {
         // given
+        orderMapper.insertOrder(InsertOrderDto.builder()
+                .orderNo(1L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+
         UpdateOrderDto updateOrderDto1 = UpdateOrderDto.builder()
                 .orderNo(1L)
                 .invoice(123456789L)
@@ -138,13 +284,30 @@ class OrderMapperTest {
     @Test
     void deleteOrder() {
         // given
-        Long orderNo = 1L;
+        orderMapper.insertOrder(InsertOrderDto.builder()
+                .orderNo(1L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
 
         // when
-        orderMapper.deleteOrder(orderNo);
+        orderMapper.deleteOrder(1L);
 
         // then
-        Order order = orderMapper.findByOrderNo(orderNo);
+        Order order = orderMapper.findByOrderNo(1L);
         assertThat(order).isNull();
     }
 }
