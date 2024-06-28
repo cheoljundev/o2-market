@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -62,6 +63,9 @@ public class HalfAdminController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/order/{orderNo}/invoice")
     public void updateInvoice(@PathVariable("orderNo") Long orderNo, @RequestBody Long invoice) {
+        if (orderService.findByOrderNo(orderNo) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "송장번호가 이미 등록되었습니다.");
+        }
         orderService.updateOrder(UpdateOrderDto.builder()
                 .orderNo(orderNo)
                 .invoice(invoice)
