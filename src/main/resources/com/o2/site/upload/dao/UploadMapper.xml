@@ -1,0 +1,167 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.o2.site.upload.dao.UploadMapper">
+    <insert id="insertImage" parameterType="com.o2.site.upload.domain.UploadImage">
+        INSERT INTO upload_image (
+            image_no,
+            image_name,
+            stored_image_name,
+            order_no,
+            trade_no,
+            member_no,
+            adv_no,
+            club_board_id
+        )
+        values(
+                    <choose>
+                        <when test="imageNo != null">#{imageNo}</when>
+                        <otherwise>SEQ_UPLOAD_IMAGE_NO.NEXTVAL</otherwise>
+                    </choose>,
+                   #{imageName},
+                   #{storedImageName},
+                    <choose>
+                        <when test="orderNo != null">#{orderNo}</when>
+                        <otherwise>null</otherwise>
+                    </choose>,
+                    <choose>
+                        <when test="tradeNo != null">#{tradeNo}</when>
+                        <otherwise>null</otherwise>
+                    </choose>,
+                    <choose>
+                        <when test="memberNo != null">#{memberNo}</when>
+                        <otherwise>null</otherwise>
+                    </choose>,
+                    <choose>
+                        <when test="advNo != null">#{advNo}</when>
+                        <otherwise>null</otherwise>
+                    </choose>,
+                    <choose>
+                        <when test="clubBoardId != null">#{clubBoardId}</when>
+                        <otherwise>null</otherwise>
+                    </choose>
+              )
+    </insert>
+    <update id="updateImage" parameterType="com.o2.site.upload.domain.UploadImage">
+        UPDATE upload_image
+        SET
+            image_name = #{imageName},
+            stored_image_name = #{storedImageName},
+            order_no = <choose>
+                <when test="orderNo != null">#{orderNo}</when>
+                <otherwise>null</otherwise>
+            </choose>,
+            trade_no = <choose>
+                <when test="tradeNo != null">#{tradeNo}</when>
+                <otherwise>null</otherwise>
+            </choose>,
+            member_no = <choose>
+                <when test="memberNo != null">#{memberNo}</when>
+                <otherwise>null</otherwise>
+            </choose>,
+            adv_no = <choose>
+                <when test="advNo != null">#{advNo}</when>
+                <otherwise>null</otherwise>
+            </choose>,
+            club_board_id = <choose>
+                <when test="clubBoardId != null">#{clubBoardId}</when>
+                <otherwise>null</otherwise>
+            </choose>
+        WHERE image_no = #{imageNo}
+    </update>
+    <select id="findByImageNo" resultType="com.o2.site.upload.domain.UploadImage">
+        SELECT
+            *
+        FROM upload_image
+        WHERE image_no = #{imageNo}
+    </select>
+    <select id="findImage" parameterType="com.o2.site.upload.domain.UploadImage">
+        SELECT
+            *
+        FROM upload_image
+        <where>
+            <if test="imageNo != null">
+                AND image_no = #{imageNo}
+            </if>
+            <if test="imageName != null">
+                AND image_name = #{imageName}
+            </if>
+            <if test="storedImageName != null">
+                AND stored_image_name = #{storedImageName}
+            </if>
+            <if test="orderNo != null">
+                AND order_no = #{orderNo}
+            </if>
+            <if test="tradeNo != null">
+                AND trade_no = #{tradeNo}
+            </if>
+            <if test="memberNo != null">
+                AND member_no = #{memberNo}
+            </if>
+            <if test="advNo != null">
+                AND adv_no = #{advNo}
+            </if>
+            <if test="clubBoardId != null">
+                AND club_board_id = #{clubBoardId}
+            </if>
+        </where>
+    </select>
+    <select id="findImages" resultType="com.o2.site.upload.domain.UploadImage">
+        SELECT
+            *
+        FROM upload_image
+        <where>
+            <if test="imageNo != null">
+                AND image_no = #{imageNo}
+            </if>
+            <if test="imageName != null">
+                AND image_name = #{imageName}
+            </if>
+            <if test="storedImageName != null">
+                AND stored_image_name = #{storedImageName}
+            </if>
+            <if test="orderNo != null">
+                AND order_no = #{orderNo}
+            </if>
+            <if test="tradeNo != null">
+                AND trade_no = #{tradeNo}
+            </if>
+            <if test="memberNo != null">
+                AND member_no = #{memberNo}
+            </if>
+            <if test="advNo != null">
+                AND adv_no = #{advNo}
+            </if>
+            <if test="clubBoardId != null">
+                AND club_board_id = #{clubBoardId}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteImage" parameterType="com.o2.site.upload.domain.UploadImage">
+        DELETE FROM upload_image
+        <where>
+            <if test="imageNo != null">
+                AND image_no = #{imageNo}
+            </if>
+            <if test="imageName != null">
+                AND image_name = #{imageName}
+            </if>
+            <if test="storedImageName != null">
+                AND stored_image_name = #{storedImageName}
+            </if>
+            <if test="orderNo != null">
+                AND order_no = #{orderNo}
+            </if>
+            <if test="tradeNo != null">
+                AND trade_no = #{tradeNo}
+            </if>
+            <if test="memberNo != null">
+                AND member_no = #{memberNo}
+            </if>
+            <if test="advNo != null">
+                AND adv_no = #{advNo}
+            </if>
+            <if test="clubBoardId != null">
+                AND club_board_id = #{clubBoardId}
+            </if>
+        </where>
+    </delete>
+</mapper>
