@@ -27,4 +27,7 @@ public class ClubBoardContrlloer {
     @GetMapping("/list")
     public void listGo() {}
 
+    @GetMapping("/detail")
+    public void detailGo() {}
+
 }
