@@ -63,8 +63,12 @@ public class HalfAdminController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/order/{orderNo}/invoice")
     public void updateInvoice(@PathVariable("orderNo") Long orderNo, @RequestBody Long invoice) {
-        if (orderService.findByOrderNo(orderNo) != null) {
+        if (orderService.findByOrderNo(orderNo).getInvoice() != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "송장번호가 이미 등록되었습니다.");
+        }
+        int invoiceLength = String.valueOf(invoice).length();
+        if (invoiceLength != 12) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "송장번호는 12자리로 입력해주세요.");
         }
         orderService.updateOrder(UpdateOrderDto.builder()
                 .orderNo(orderNo)

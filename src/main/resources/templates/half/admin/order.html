@@ -5,6 +5,7 @@
     <title>주문건 확인</title>
     <th:block th:fragment="insertHead">
         <link rel="stylesheet" href="/css/admin/half/order.css">
+        <script th:inline="javascript" src="/js/admin/half/order.js" defer></script>
     </th:block>
 
 </head>
@@ -13,7 +14,7 @@
     <div class="container">
         <div class="row mb-5">
             <h2 class="text-center my-5 m-2 mb-4">주문건 확인</h2>
-            <form action="" th:action="@{/admin/half/order}" class="px-0">
+            <form action="" th:action="@{/admin/half/order}" method="get" class="px-0">
                 <div class="row gx-2 mx-2 mb-4">
                     <div class="col-auto">
                         <select class="form-select col-auto search-select" name="searchField">
@@ -47,8 +48,8 @@
                         <td>
                             <button type="button"
                                     th:text="${order.orderNo}"
-                                    class="link-primary border-0 bg-transparent text-decoration-underline btn-order-no">202406240000
-                            </button>
+                                    class="link-primary border-0 bg-transparent text-decoration-underline btn-order-no"
+                                    onclick="showDetail(this)">1</button>
                         </td>
                         <td th:text="${{order.createAt}}">2024-06-25</td>
                         <td><img th:src="@{/images/{image} (image=${order.image.storedImageName})}" src="https://via.placeholder.com/100" th:alt="${order.image.imageName}" class="img-thumb"></td>
@@ -116,25 +117,21 @@
             </div>
             <div class="row gx-0">
                 <div class="col-auto mx-2">
-                    <button type="button" class="btn btn-primary btn-send-invoice">발송하기</button>
+                    <button type="button" class="btn btn-primary btn-send-invoice" onclick="sendInvoice()">발송하기</button>
                 </div>
                 <div class="col-auto mx-2">
-                    <button type="button" class="btn btn-outline-danger btn-order-detail-close">닫기</button>
+                    <button type="button" class="btn btn-outline-danger btn-order-detail-close" onclick="closeDetail()">닫기</button>
                 </div>
             </div>
         </div>
     </div>
     <script th:inline="javascript">
-
         const searchSelect = document.querySelector(".search-select");
         const searchInput = document.querySelector(".search-input");
-        const orderNoBtn = document.querySelectorAll(".btn-order-no");
-        const orderDetailSendInvoice = document.querySelector(".btn-send-invoice");
-        const orderDetailCloseBtn = document.querySelector(".btn-order-detail-close");
 
         const searchConditions = {
             /*[# th:each="searchCond : ${searchConds}"]*/
-               [[${searchCond.field}]] : [[${searchCond.name}]],
+            [[${searchCond.field}]] : [[${searchCond.name}]],
             /*[/]*/
         };
 
@@ -148,81 +145,6 @@
             const placeholder = searchConditions[selectedValue] || "검색어를 입력하세요.";
             searchInput.placeholder = placeholder;
             searchInput.name = selectedValue;
-        });
-
-        orderNoBtn.forEach(function (btn) {
-            btn.addEventListener("click", function () {
-                const orderNo = parseInt(this.textContent);
-                fetch("/admin/half/order", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: orderNo
-                }).then(
-                    response => response.json()
-                ).then(
-                    data => {
-                        const orderDetail = document.querySelector(".order-detail");
-                        if (orderDetail.classList.contains("d-none")) {
-                            orderDetail.classList.toggle("d-none");
-                        }
-                        orderDetail.querySelector(".order-no").textContent = data.orderNo;
-                        orderDetail.querySelector(".create-at").textContent = data.createAt;
-                        orderDetail.querySelector(".title").textContent = data.title;
-                        orderDetail.querySelector(".recipient-name").textContent = data.recipientName;
-                        orderDetail.querySelector(".recipient-phone").textContent = data.recipientPhone;
-                        orderDetail.querySelector(".recipient-address").textContent = data.recipientAddress;
-                        orderDetail.querySelector(".delivery-memo").textContent = data.deliveryMemo;
-                        orderDetail.querySelector(".invoice").value = data.invoice;
-                        if (data.invoice) {
-                            orderDetail.querySelector(".invoice").readOnly = true;
-                            orderDetail.querySelector(".btn-send-invoice").disabled = true;
-                        } else {
-                            orderDetail.querySelector(".invoice").readOnly = false;
-                            orderDetail.querySelector(".btn-send-invoice").disabled = false;
-                        }
-
-                    }
-                ).catch(
-                    error => console.error(error)
-                );
-            });
-
-            orderDetailSendInvoice.addEventListener("click", function () {
-                const orderNo = parseInt(document.querySelector(".order-no").textContent);
-                const invoice = document.querySelector(".invoice").value;
-                fetch(`/admin/half/order/${orderNo}/invoice`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(invoice)
-                }).then(
-                    response => {
-                        if (!response.ok) {
-                            throw new Error("송장번호 발송에 실패했습니다.");
-                        }
-                    }
-                ).then(
-                    () => {
-                        const orderDetail = document.querySelector(".order-detail");
-                        orderDetail.classList.toggle("d-none");
-                        orderDetail.querySelector(".invoice").readOnly = true;
-                        orderDetail.querySelector(".btn-send-invoice").disabled = true;
-                        window.location.href = "/admin/half/order";
-                    }
-                ).catch(
-                    error => console.error(error)
-                );
-            });
-
-            orderDetailCloseBtn.addEventListener("click", function () {
-                const orderDetail = document.querySelector(".order-detail");
-                if (!orderDetail.classList.contains("d-none")) {
-                    orderDetail.classList.toggle("d-none");
-                }
-            });
         });
     </script>
 </main>
