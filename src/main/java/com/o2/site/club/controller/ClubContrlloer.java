@@ -34,7 +34,10 @@ public class ClubContrlloer {
     public void mainGo() {}
 
     @GetMapping("/create")
-    public void createGo(Model model) {}
+    public void createGo() {}
+
+    @GetMapping("/detail")
+    public void detailGo(){}
 
     @PostMapping("/createAction")
     public String createAction(ClubDto clubDto) {
