@@ -8,12 +8,10 @@
                 src="https://code.jquery.com/jquery-3.7.1.js"
                 integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
                 crossorigin="anonymous"></script>
-
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
-
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', function() {
               var calendarEl = document.getElementById('calendar');
@@ -22,7 +20,14 @@
                   headerToolbar : { // 헤더에 표시할 툴 바
                       start : 'prev next today',
                       center : 'title',
-                      end : ''
+                      end : 'createScheduleGoBtn'
+                  }, customButtons : {
+                    createScheduleGoBtn : {
+                        text : "일정 생성",
+                        click : function() {
+                            location.href='/club/schedule/create';
+                        }
+                    }
                   },
                   titleFormat : function(date) {
                       return date.date.year + '년 ' + (parseInt(date.date.month) + 1) + '월';
@@ -78,7 +83,9 @@
         </div>
 
         <div id='calendar'></div>
+
     </div>
+
 </main>
 </body>
 </html>
