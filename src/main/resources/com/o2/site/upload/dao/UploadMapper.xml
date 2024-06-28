@@ -1,16 +1,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.o2.site.upload.dao.UploadMapper">
     <insert id="insertImage" parameterType="com.o2.site.upload.domain.UploadImage">
-        INSERT INTO upload_image (
-            image_no,
-            image_name,
-            stored_image_name,
-            order_no,
-            trade_no,
-            member_no,
-            adv_no,
-            club_board_id
-        )
+        INSERT INTO upload_image
         values(
                     <choose>
                         <when test="imageNo != null">#{imageNo}</when>
@@ -36,6 +27,10 @@
                     </choose>,
                     <choose>
                         <when test="clubBoardId != null">#{clubBoardId}</when>
+                        <otherwise>null</otherwise>
+                    </choose>,
+                    <choose>
+                        <when test="clubName != null">#{clubName}</when>
                         <otherwise>null</otherwise>
                     </choose>
               )
@@ -63,6 +58,10 @@
             </choose>,
             club_board_id = <choose>
                 <when test="clubBoardId != null">#{clubBoardId}</when>
+                <otherwise>null</otherwise>
+            </choose>,
+            club_name = <choose>
+                <when test="clubName != null">#{clubName}</when>
                 <otherwise>null</otherwise>
             </choose>
         WHERE image_no = #{imageNo}
@@ -102,6 +101,9 @@
             <if test="clubBoardId != null">
                 AND club_board_id = #{clubBoardId}
             </if>
+            <if test="clubName != null">
+                AND club_name = #{clubName}
+            </if>
         </where>
     </select>
     <select id="findImages" resultType="com.o2.site.upload.domain.UploadImage">
@@ -133,6 +135,9 @@
             <if test="clubBoardId != null">
                 AND club_board_id = #{clubBoardId}
             </if>
+            <if test="clubName != null">
+                AND club_name = #{clubName}
+            </if>
         </where>
     </select>
     <delete id="deleteImage" parameterType="com.o2.site.upload.domain.UploadImage">
@@ -161,6 +166,9 @@
             </if>
             <if test="clubBoardId != null">
                 AND club_board_id = #{clubBoardId}
+            </if>
+            <if test="clubName != null">
+                AND club_name = #{clubName}
             </if>
         </where>
     </delete>

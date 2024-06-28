@@ -17,4 +17,5 @@ public class UploadImageDto {
     private Long memberNo;
     private Long advNo;
     private Long clubBoardId;
+    private String clubName;
 }
