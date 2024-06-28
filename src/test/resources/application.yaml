@@ -15,4 +15,5 @@ mybatis:
     map-underscore-to-camel-case: true
 
 file:
+  dir: /uploads/
   app: /src/main/resources/static/images/trade/app/
