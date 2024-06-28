@@ -26,22 +26,22 @@
     <select id="findRange" parameterType="com.o2.site.half.dao.OrderSearchCond" resultType="com.o2.site.half.domain.Order">
         SELECT *
         FROM (
-        SELECT ORDER_NO, PRODUCT_NO, CREATE_AT, TITLE, CATEGORY_CODE, IMAGE, PRICE, HALF_PRICE,
+        SELECT ORDER_NO, PRODUCT_NO, CREATE_AT, TITLE, CATEGORY_CODE, PRICE, HALF_PRICE,
         SELLER_MEMBER_NO, SELLER_MEMBER_ID, SELLER_PHONE, STATE, INVOICE, BUYER_MEMBER_NO,
         BUYER_MEMBER_ID, BUYER_PHONE, RECIPIENT_NAME, RECIPIENT_PHONE, RECIPIENT_ADDRESS,
         DELIVERY_MEMO, ROW_NUMBER() OVER (ORDER BY ORDER_NO DESC) AS rnum
         FROM half_order
         <where>
-            <if test="buyerMemberId != null and buyerMemberId != ''">
+            <if test="orderSearchCond.buyerMemberId != null and orderSearchCond.buyerMemberId != ''">
                 AND BUYER_MEMBER_ID LIKE '%' || #{orderSearchCond.buyerMemberId} || '%'
             </if>
-            <if test="buyerPhone != null and buyerPhone != ''">
+            <if test="orderSearchCond.buyerPhone != null and orderSearchCond.buyerPhone != ''">
                 AND BUYER_PHONE LIKE '%' || #{orderSearchCond.buyerPhone} || '%'
             </if>
-            <if test="recipientName != null and recipientName != ''">
+            <if test="orderSearchCond.recipientName != null and orderSearchCond.recipientName != ''">
                 AND RECIPIENT_NAME LIKE '%' || #{orderSearchCond.recipientName} || '%'
             </if>
-            <if test="recipientPhone != null and recipientPhone != ''">
+            <if test="orderSearchCond.recipientPhone != null and orderSearchCond.recipientPhone != ''">
                 AND RECIPIENT_PHONE LIKE '%' || #{orderSearchCond.recipientPhone} || '%'
             </if>
         </where>
@@ -52,12 +52,11 @@
 
 
     <insert id="insertOrder" parameterType="com.o2.site.half.dto.InsertOrderDto">
-        insert into half_order (
+        insert into half_order(
             ORDER_NO,
             PRODUCT_NO,
-            title,
+            TITLE,
             CATEGORY_CODE,
-            IMAGE,
             PRICE,
             HALF_PRICE,
             SELLER_MEMBER_NO,
@@ -72,11 +71,13 @@
             DELIVERY_MEMO
         )
         values(
-            SEQ_HALF_ORDER_NO.nextval,
+            <choose>
+                <when test="orderNo != null">#{orderNo}</when>
+                <otherwise>SEQ_HALF_ORDER_NO.NEXTVAL</otherwise>
+            </choose>,
             #{productNo},
             #{title},
             #{categoryCode},
-            #{image},
             #{price},
             #{halfPrice},
             #{sellerMemberNo},

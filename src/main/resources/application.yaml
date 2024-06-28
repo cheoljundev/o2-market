@@ -16,4 +16,4 @@ mybatis:
 
 # 경로 설정
 file:
-  app: /src/main/resources/static/images/trade/app/
+  dir: /uploads/

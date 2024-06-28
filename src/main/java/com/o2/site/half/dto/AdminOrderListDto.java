@@ -1,5 +1,6 @@
 package com.o2.site.half.dto;
 
+import com.o2.site.upload.domain.UploadImage;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,7 +14,7 @@ public class AdminOrderListDto {
     private Long orderNo;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createAt;
-    private String image;
+    private UploadImage image;
     private String title;
     private String recipientName;
     @NumberFormat(pattern = "#,###")

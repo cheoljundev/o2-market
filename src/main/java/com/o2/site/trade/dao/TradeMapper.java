@@ -1,5 +1,6 @@
 package com.o2.site.trade.dao;
 
+import com.o2.site.trade.domain.AdvDomain;
 import com.o2.site.trade.domain.TradeDomain;
 import com.o2.site.trade.dto.*;
 import org.apache.ibatis.annotations.Mapper;
@@ -10,8 +11,7 @@ import java.util.ArrayList;
 @Mapper
 public interface TradeMapper {
 
-    void insertApp(ApplicationDto ad);
-    void insertImg(ImageDto imageDto);
+    int insertApp(ApplicationDto ad);
 
     ArrayList<TradeMainDto> selectMainList();
 
@@ -38,4 +38,12 @@ public interface TradeMapper {
     int approveBoard(String tradeNo);
 
     int rejectBoard(String tradeNo);
+
+    ArrayList<CategoryDto> getCategory();
+
+    CheckWishDto checkWish(WishListDto wishListDto);
+
+    int insertAdv(AdvDomain advDomain);
+
+    ArrayList<AdvListDto> getAdvList();
 }

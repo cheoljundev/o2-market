@@ -21,7 +21,6 @@ public class ClubDto {
     private String area;
     private String oneLineIntro;
     private String intro;
-    private String thumbnail;
     private Date createDate;
 
 }

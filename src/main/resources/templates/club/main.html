@@ -46,7 +46,7 @@
                                     console.log('실행');
                                     let template = `
                                          <div class="col">
-                                            <a class="page-link" href="#">
+                                            <a class="page-link" href="detail">
                                                 <div class="card h-100">
                                                     <img src="/images/club/imgAdd.jpg" class="card-img-top" alt="...">
                                                     <div class="card-body">
@@ -139,8 +139,6 @@
 <body>
 
 <main>
-    <p id="clubName"></p>
-    <p id="area"></p>
     <div class="container mt-5">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -162,7 +160,7 @@
         </div>
         <br>
         <div class="d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-primary" id="createGo">모임 생성</button>
+            <button type="button" class="btn btn-primary" id="/club/create">모임 생성</button>
         </div>
         <div class="pagination justify-content-center">
             <nav aria-label="Page navigation example">

@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public class TradeMainDto {
     private int tradeNo;
-    private String imageAddress;
+    private String storedImageName;
     private String title;
     private int price;
     private String category;
