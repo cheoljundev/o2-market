@@ -21,58 +21,13 @@
     </div>
     <div class="container text-center">
         <div class="row row-cols-3">
-            <div class="col">
-                <a href="/trade/trade_adv_detail">
-                    <img src="/images/trade/example.jpg" class="img-thumbnail">
+            <div class="col-md-4" th:each="adv : ${advList}">
+                <a th:href="@{/trade/trade_adv_detail(advNo=${adv.advNo})}">
+                    <img th:src="@{/images/{image}(image=${adv.storedImageName})}" class="img-thumbnail" style="width:400px; height:400px">
                     <br>
-                    상품명
+                    <span th:text="${adv.title}">제목</span>
                     <br>
-                    회사
-                </a>
-            </div>
-            <div class="col">
-                <a href="/trade/trade_adv_detail">
-                    <img src="/images/trade/example.jpg" class="img-fluid" alt="...">
-                    <br>
-                    상품명
-                    <br>
-                    회사
-                </a>
-            </div>
-            <div class="col">
-                <a href="/trade/trade_adv_detail">
-                    <img src="/images/trade/example.jpg" class="img-thumbnail">
-                    <br>
-                    상품명
-                    <br>
-                    회사
-                </a>
-            </div>
-            <div class="col">
-                <a href="/trade/trade_adv_detail">
-                    <img src="/images/trade/example.jpg" class="img-thumbnail">
-                    <br>
-                    상품명
-                    <br>
-                    회사
-                </a>
-            </div>
-            <div class="col">
-                <a href="/trade/trade_adv_detail">
-                    <img src="/images/trade/example.jpg" class="img-thumbnail">
-                    <br>
-                    상품명
-                    <br>
-                    회사
-                </a>
-            </div>
-            <div class="col">
-                <a href="/trade/trade_adv_detail">
-                    <img src="/images/trade/example.jpg" class="img-thumbnail">
-                    <br>
-                    상품명
-                    <br>
-                    회사
+                    <span th:text="${adv.companyName}">회사</span>
                 </a>
             </div>
         </div>
@@ -100,6 +55,7 @@
             </ul>
         </nav>
     </div>
+    <a class="btn btn-primary btn-lg" href="/trade/trade_admin" role="button">거래 관리자 이동</a>
 </main>
 </body>
 </html>

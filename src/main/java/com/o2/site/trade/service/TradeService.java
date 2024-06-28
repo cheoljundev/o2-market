@@ -2,6 +2,7 @@ package com.o2.site.trade.service;
 
 
 import com.o2.site.trade.dao.TradeMapper;
+import com.o2.site.trade.domain.AdvDomain;
 import com.o2.site.trade.domain.TradeDomain;
 import com.o2.site.trade.dto.*;
 import org.apache.ibatis.binding.BindingException;
@@ -83,5 +84,17 @@ public class TradeService {
 
     public ArrayList<CategoryDto> getCategory() {
         return tradeMapper.getCategory();
+    }
+
+    public CheckWishDto checkWish(WishListDto wishListDto) {
+        return tradeMapper.checkWish(wishListDto);
+    }
+
+    public int insertAdv(AdvDomain advListDto) {
+        return tradeMapper.insertAdv(advListDto);
+    }
+
+    public ArrayList<AdvListDto> getAdvList() {
+        return tradeMapper.getAdvList();
     }
 }

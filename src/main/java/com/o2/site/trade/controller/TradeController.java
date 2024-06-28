@@ -1,6 +1,7 @@
 package com.o2.site.trade.controller;
 
 
+import com.o2.site.trade.domain.AdvDomain;
 import com.o2.site.trade.domain.TradeDomain;
 import com.o2.site.trade.dto.*;
 import com.o2.site.trade.service.TradeService;
@@ -101,7 +102,16 @@ public class TradeController {
     @GetMapping("/trade_addWish")
     public String trade_addWish(WishListDto wishListDto){
         wishListDto.setMemberNo(1);
-        int result = tradeService.addWish(wishListDto);
+        CheckWishDto checkWishDto = tradeService.checkWish(wishListDto);
+        System.out.println("위시리스트"+wishListDto);
+        System.out.println("체크리스트"+checkWishDto);
+        if(checkWishDto==null){
+            int result = tradeService.addWish(wishListDto);
+        }else if(checkWishDto.getTradeNo()!=wishListDto.getTradeNo() || checkWishDto.getMemberNo()!=wishListDto.getMemberNo()){
+            int result = tradeService.addWish(wishListDto);
+        }else {
+            System.out.println("중복");
+        }
         return "redirect:/trade/trade_detail?tradeNo="+wishListDto.getTradeNo();
     }
     //내 찜목록 보기
@@ -155,8 +165,14 @@ public class TradeController {
     }
     @GetMapping("/trade_adv_detail")
     public void trade_adv_detail(){}
+    //관리자 광고 리스트
     @GetMapping("/trade_adv_list")
-    public void trade_adv_list(){}
+    public void trade_adv_list(Model model){
+        ArrayList<AdvListDto> advList = tradeService.getAdvList();
+        System.out.println(advList);
+        model.addAttribute("advList",advList);
+    }
+    //관리자 광고 등록
     @GetMapping("/trade_adv_regist")
     public void trade_adv_regist(){}
     //상품 등록 신청
@@ -177,5 +193,22 @@ public class TradeController {
             System.out.println("이미지 등록 실패");
         }
         return "redirect:/trade/trade_main";
+    }
+    //관리자 광고 등록
+    @PostMapping("/trade_adv_regist")
+    public String insertAdv(AdvDomain advDomain, @RequestParam("image") MultipartFile image){
+        System.out.println(advDomain);
+        int result = tradeService.insertAdv(advDomain);
+        try{
+            UploadImageDto uploadImageDto = UploadImageDto.builder()
+                    .image(image)
+                    .advNo(Long.valueOf(advDomain.getAdvNo()))
+                    .build();
+            uploadService.insertImage(uploadImageDto);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("이미지 등록 실패");
+        }
+        return "redirect:/trade/trade_adv_list";
     }
 }

@@ -186,4 +186,43 @@
         FROM
         CATEGORY
     </select>
+
+    <select id="checkWish" resultType="com.o2.site.trade.dto.CheckWishDto">
+        SELECT
+        *
+        FROM
+        WISH_LIST
+        WHERE TRADE_NO=#{tradeNo} AND MEMBER_NO=#{memberNo}
+    </select>
+
+    <insert id="insertAdv" useGeneratedKeys="true" keyProperty="advNo" keyColumn="ADV_NO">
+        INSERT INTO ADVBOARD
+        VALUES(
+        SEQ_ADV_NO.NEXTVAL,
+        #{title},
+        #{advName},
+        #{companyName},
+        #{companyLink},
+        #{content}
+        )
+    </insert>
+
+    <select id="getAdvList" resultType="com.o2.site.trade.dto.AdvListDto">
+        SELECT ADV_NO, TITLE, ADV_NAME, COMPANY_NAME, COMPANY_LINK, CONTENT, STORED_IMAGE_NAME
+        FROM (
+        SELECT
+        A.ADV_NO,
+        A.TITLE,
+        A.ADV_NAME,
+        A.COMPANY_NAME,
+        A.COMPANY_LINK,
+        A.CONTENT,
+        B.STORED_IMAGE_NAME
+        FROM
+        ADVBOARD A
+        JOIN
+        UPLOAD_IMAGE B ON A.ADV_NO = B.ADV_NO
+        )
+        ORDER BY ADV_NO
+    </select>
 </mapper>
