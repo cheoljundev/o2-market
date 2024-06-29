@@ -36,7 +36,8 @@ public class HalfAdminController {
                         @RequestParam(value = "searchValue", defaultValue =  "") String searchValue,
                         @RequestParam(value = "page", defaultValue = "1") int currentPage,
                         Model model) {
-        OrderSearchCond orderSearchCond = OrderSearchCond.builder().build();
+
+        OrderSearchCond orderSearchCond = new OrderSearchCond();
         switch (searchField) {
             case "buyerMemberId":
                 orderSearchCond.setBuyerMemberId(searchValue);
@@ -63,8 +64,6 @@ public class HalfAdminController {
                 pageLength,
                 pageSIze
         );
-
-        // 검색 조건에 따라 검색값을 설정
 
         List<AdminOrderListDto> orders = orderService.findRange(
                 pagination.getStartElement(),
