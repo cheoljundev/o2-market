@@ -25,3 +25,8 @@ const startEvent = () => {
         }
     )
 };
+
+const cancelEvent = () => {
+    // 다시 이벤트 콘솔 페이지로 이동
+    location.href = "/admin/half/event";
+}
