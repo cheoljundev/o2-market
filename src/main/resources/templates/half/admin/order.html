@@ -23,7 +23,7 @@
                         </select>
                     </div>
                     <div class="col-auto">
-                        <input class="form-control col-auto search-input" type="text" th:value="${searchValue}" placeholder="입력하세요.">
+                        <input class="form-control col-auto search-input" type="text" name="searchValue" th:value="${searchValue}" placeholder="입력하세요.">
                     </div>
                     <div class="col-auto">
                         <button type="submit" class="btn btn-primary col-auto">검색</button>
@@ -133,28 +133,6 @@
             </div>
         </div>
     </div>
-    <script th:inline="javascript">
-        const searchSelect = document.querySelector(".search-select");
-        const searchInput = document.querySelector(".search-input");
-
-        const searchConditions = {
-            /*[# th:each="searchCond : ${searchConds}"]*/
-            [[${searchCond.field}]] : [[${searchCond.name}]],
-            /*[/]*/
-        };
-
-        const selectedValue = searchSelect.value;
-        const placeholder = searchConditions[selectedValue] || "검색어를 입력하세요.";
-        searchInput.placeholder = placeholder;
-        searchInput.name = selectedValue;
-
-        searchSelect.addEventListener("change", function () {
-            const selectedValue = this.value;
-            const placeholder = searchConditions[selectedValue] || "검색어를 입력하세요.";
-            searchInput.placeholder = placeholder;
-            searchInput.name = selectedValue;
-        });
-    </script>
 </main>
 </body>
 </html>

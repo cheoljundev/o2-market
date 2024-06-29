@@ -31,10 +31,29 @@ public class HalfAdminController {
     }
 
     @GetMapping( "/order" )
-    public String order(@ModelAttribute OrderSearchCond orderSearchCond,
+    public String order(
                         @RequestParam(value = "searchField", defaultValue =  "") String searchField,
+                        @RequestParam(value = "searchValue", defaultValue =  "") String searchValue,
                         @RequestParam(value = "page", defaultValue = "1") int currentPage,
                         Model model) {
+        OrderSearchCond orderSearchCond = OrderSearchCond.builder().build();
+        switch (searchField) {
+            case "buyerMemberId":
+                orderSearchCond.setBuyerMemberId(searchValue);
+                break;
+            case "buyerPhone":
+                orderSearchCond.setBuyerPhone(searchValue);
+                break;
+            case "recipientName":
+                orderSearchCond.setRecipientName(searchValue);
+                break;
+            case "recipientPhone":
+                orderSearchCond.setRecipientPhone(searchValue);
+                break;
+            default:
+                searchField = "";
+                searchValue = "";
+        }
 
         int pageSIze = 10;
         int pageLength = orderService.findPages(orderSearchCond, pageSIze);
@@ -46,16 +65,6 @@ public class HalfAdminController {
         );
 
         // 검색 조건에 따라 검색값을 설정
-        String searchValue = null;
-        if (orderSearchCond.getBuyerMemberId() != null) {
-            searchValue = orderSearchCond.getBuyerMemberId();
-        } else if (orderSearchCond.getBuyerPhone() != null) {
-            searchValue = orderSearchCond.getBuyerPhone();
-        } else if (orderSearchCond.getRecipientName() != null) {
-            searchValue = orderSearchCond.getRecipientName();
-        } else if (orderSearchCond.getRecipientPhone() != null) {
-            searchValue = orderSearchCond.getRecipientPhone();
-        }
 
         List<AdminOrderListDto> orders = orderService.findRange(
                 pagination.getStartElement(),
