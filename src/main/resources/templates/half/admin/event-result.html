@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/halfAdminLayout :: layout(~{::title}, ~{::main}, ~{::insertHead})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>추첨 결과</title>
+    <th:block th:fragment="insertHead">
+        <script src="/js/admin/half/event.js"></script>
+    </th:block>
+
+</head>
+<body>
+<main class="flex-grow-1">
+    <div class="container">
+        <div class="row mb-5">
+            <h2 class="text-center my-5 m-2 mb-4">이벤트 진행하기</h2>
+        </div>
+        <div class="row text-center mb-4">
+            <h3>추첨  결과</h3>
+        </div>
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-12 col-md-auto">
+                    <img src="https://via.placeholder.com/200" class="img-fluid rounded-start w-100" alt="...">
+                </div>
+                <div class="col-8 col-sm-5">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">상품명</span></h5>
+                        <p class="card-text">판매자명</p>
+                        <p class="card-text mb-0"><del>10,000</del></small></p>
+                        <p class="card-text fw-bold"><span>5,000</span></small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center gx-2">
+            <div class="col-auto">
+                <button class="btn btn-lg btn-outline-danger col-auto" onclick="cancelEvent()">취소하기</button>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-lg btn-primary col-auto" onclick="doneEvent()">완료</button>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
