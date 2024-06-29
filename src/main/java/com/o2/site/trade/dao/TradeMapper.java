@@ -46,4 +46,8 @@ public interface TradeMapper {
     int insertAdv(AdvDomain advDomain);
 
     ArrayList<AdvListDto> getAdvList();
+
+    AdvDetailDto getAdvDetail(String advNo);
+
+    int deleteAdv(String advNo);
 }

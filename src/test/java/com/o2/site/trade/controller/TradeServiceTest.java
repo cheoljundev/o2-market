@@ -2,6 +2,7 @@ package com.o2.site.trade.controller;
 
 import com.o2.site.config.O2Application;
 import com.o2.site.trade.domain.AdvDomain;
+import com.o2.site.trade.dto.AdvDetailDto;
 import com.o2.site.trade.dto.AdvListDto;
 import com.o2.site.trade.dto.TradeMainDto;
 import com.o2.site.trade.service.TradeService;
@@ -52,17 +53,41 @@ class TradeServiceTest {
     //상품 등록 테스트
     @Test
     void insertAdv() {
+//        //given
+//        AdvDomain advDomain = AdvDomain.builder()
+//                .title("title")
+//                .advName("name")
+//                .companyName("naver")
+//                .companyLink("http://www.naver.com")
+//                .content("naver content")
+//                .build();
+//        //when
+//        tradeService.insertAdv(advDomain);
+//        //then
+//        assertThat(advDomain.getAdvNo()).isEqualTo(7);
+    }
+
+    //광고 디테일 테스트
+    @Test
+    void trade_adv_detail() {
         //given
-        AdvDomain advDomain = AdvDomain.builder()
-                .title("title")
-                .advName("name")
-                .companyName("naver")
-                .companyLink("http://www.naver.com")
-                .content("naver content")
+        AdvDetailDto advDetailDto= AdvDetailDto.builder()
+                .advNo(1)
                 .build();
         //when
-        tradeService.insertAdv(advDomain);
+        AdvDetailDto test = tradeService.getAdvDetail("1");
         //then
-        assertThat(advDomain.getAdvNo()).isEqualTo(7);
+        assertThat(advDetailDto.getAdvNo()).isEqualTo(test.getAdvNo());
+    }
+
+    @Test
+    void deleteAdv() {
+        //given
+        String advNo="1";
+        //when
+        tradeService.deleteAdv("1");
+        ArrayList<AdvListDto> list = tradeService.getAdvList();
+        //then
+        assertThat(list.get(0).getAdvNo()).isNotEqualTo(1);
     }
 }

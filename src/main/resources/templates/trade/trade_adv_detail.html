@@ -13,29 +13,26 @@
 <main>
     <h1 align="center">거래 광고 디테일 페이지</h1>
     <div>
-        <h1 align="center">제목</h1>
+        <h1 th:text="${advDetail.title}" align="center">제목</h1>
     </div>
     <hr class="border border-dark">
     <div align="center">
-        <img src="/images/trade/example.jpg" class="rounded-2">
+        <img th:src="@{/images/{image}(image=${advDetail.storedImageName})}" class="rounded-2">
     </div>
     <hr class="border border-dark">
     <div class="col" align="center">
-        <span>
-            <img src="..." class="rounded-circle">
-            광고주
-        </span>
-        <span>사이트명</span>
-        <a href="https://www.naver.com">사이트링크</a>
+        <span th:text="'광고주: '+${advDetail.advName}">광고주</span>
+        <span th:text="'사이트 명: '+${advDetail.companyName}">사이트 명</span>
+        <a th:href="${advDetail.companyLink}">사이트 링크</a>
     </div>
     <hr class="border border-dark">
     <div align="center">
-        <h1>광고 내용</h1>
+        <span th:text="'사이트 명: '+${advDetail.content}">사이트 명</span>
     </div>
     <div align="center">
 
         <div class="btn-group" aria-label="Small button group">
-            <a href="#" class="btn bg-body-secondary">삭제하기</a>
+            <a th:href="@{/trade/trade_adv_delete(advNo=${advDetail.advNo})}" class="btn bg-body-secondary">삭제</a>
             <a href="/trade/trade_adv_list" class="btn bg-body-secondary">목록으로</a>
         </div>
     </div>

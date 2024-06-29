@@ -97,4 +97,12 @@ public class TradeService {
     public ArrayList<AdvListDto> getAdvList() {
         return tradeMapper.getAdvList();
     }
+
+    public AdvDetailDto getAdvDetail(String advNo) {
+        return tradeMapper.getAdvDetail(advNo);
+    }
+
+    public int deleteAdv(String advNo) {
+        return tradeMapper.deleteAdv(advNo);
+    }
 }

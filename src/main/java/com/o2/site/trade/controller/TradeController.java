@@ -35,9 +35,10 @@ public class TradeController {
 
 //    전체 리스트 관리자 페이지 구성 후 approve 조건 추가 예정
     @GetMapping("/trade_main")
-    public void trade_main(Model model){
+    public void trade_main(Model model, @RequestParam(defaultValue = "0") int page){
         ArrayList<TradeMainDto> mainlist = tradeService.selectMainList();
         ArrayList<CategoryDto> category = tradeService.getCategory();
+        ArrayList<AdvListDto> advList = tradeService.getAdvList();
         System.out.println(mainlist);
         System.out.println("총 갯수: "+mainlist.size());
         model.addAttribute("mainlist", mainlist);
@@ -46,7 +47,7 @@ public class TradeController {
     }
     //페이징 테스트
     @GetMapping("/trade_main_test")
-    public void trade_main(Model model, @RequestParam(defaultValue = "0") int page){
+    public void trade_main_test(Model model, @RequestParam(defaultValue = "0") int page){
         ArrayList<TradeMainDto> mainlist = tradeService.selectMainList();
         ArrayList<AdvListDto> advList = tradeService.getAdvList();
 
@@ -118,7 +119,7 @@ public class TradeController {
     }
     //삭제
     @GetMapping("/trade_delete")
-    public String rade_delete(String tradeNo){
+    public String trade_delete(String tradeNo){
         int result = tradeService.deleteBoard(tradeNo);
         if(result!=0){
             System.out.println("삭제 성공");
@@ -194,8 +195,13 @@ public class TradeController {
         }
         return "redirect:/trade/trade_admin_application";
     }
+    //광고 디테일
     @GetMapping("/trade_adv_detail")
-    public void trade_adv_detail(){}
+    public void trade_adv_detail(Model model, String advNo){
+        System.out.println(advNo);
+        AdvDetailDto advDetailDto = tradeService.getAdvDetail(advNo);
+        model.addAttribute("advDetail", advDetailDto);
+    }
     //관리자 광고 리스트
     @GetMapping("/trade_adv_list")
     public void trade_adv_list(Model model){
@@ -240,6 +246,13 @@ public class TradeController {
             e.printStackTrace();
             System.out.println("이미지 등록 실패");
         }
+        return "redirect:/trade/trade_adv_list";
+    }
+    //관리자 광고 삭제
+    @GetMapping("/trade_adv_delete")
+    public String deleteAdv(String advNo){
+        System.out.println(advNo);
+        int result = tradeService.deleteAdv(advNo);
         return "redirect:/trade/trade_adv_list";
     }
 }
