@@ -3,6 +3,7 @@ package com.o2.site.half.controller;
 import com.o2.site.half.dao.OrderSearchCond;
 import com.o2.site.half.dto.AdminOrderDetailDto;
 import com.o2.site.half.dto.AdminOrderListDto;
+import com.o2.site.half.dto.Pagination;
 import com.o2.site.half.dto.UpdateOrderDto;
 import com.o2.site.half.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -35,11 +36,14 @@ public class HalfAdminController {
                         @RequestParam(value = "page", defaultValue = "1") int currentPage,
                         Model model) {
 
-        int pagesLength = orderService.findPages(orderSearchCond, 10);
-        List<Integer> pages = new ArrayList<>();
-        for (int i = 0; i < pagesLength; i++) {
-            pages.add(i + 1);
-        }
+        int pageSIze = 10;
+        int pageLength = orderService.findPages(orderSearchCond, pageSIze);
+
+        Pagination pagination = new Pagination(
+                currentPage,
+                pageLength,
+                pageSIze
+        );
 
         // 검색 조건에 따라 검색값을 설정
         String searchValue = null;
@@ -53,14 +57,16 @@ public class HalfAdminController {
             searchValue = orderSearchCond.getRecipientPhone();
         }
 
-        List<AdminOrderListDto> orders = orderService.findAll(orderSearchCond);
+        List<AdminOrderListDto> orders = orderService.findRange(
+                pagination.getStartElement(),
+                pagination.getEndElement(),
+                orderSearchCond);
 
         model.addAttribute("orders", orders);
         model.addAttribute("searchConds", orderService.getSearchCond());
         model.addAttribute("searchField", searchField);
         model.addAttribute("searchValue", searchValue);
-        model.addAttribute("pages", pages);
-        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("pagination", pagination);
         return "/half/admin/order";
     }
 

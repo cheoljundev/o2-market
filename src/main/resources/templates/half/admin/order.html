@@ -64,18 +64,24 @@
             <div class="row">
                 <nav aria-label="Page navigation example w-auto">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" aria-label="Previous">
+                        <li class="page-item"
+                            th:classappend="${!pagination.prev ? 'disabled' : ''}"
+                        >
+                            <a class="page-link" href="#"
+                               th:href="@{/admin/half/order(searchField=${searchField}, searchValue=${searchValue}  ,page=${pagination.prevPage})}"
+                               aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
                         <li class="page-item"
-                            th:each="page : ${pages}"
+                            th:each="page : ${pagination.pages}"
                         ><a class="page-link" href="/admin/half/order"
                             th:href="@{/admin/half/order(searchField=${searchField}, searchValue=${searchValue}  ,page=${page})}"
-                            th:text="${page}" th:classappend="${page == currentPage ? 'active' : ''}">1</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
+                            th:text="${page}" th:classappend="${page == pagination.currentPage ? 'active' : ''}">1</a></li>
+                        <li class="page-item"
+                            th:classappend="${!pagination.next ? 'disabled' : ''}"
+                        >
+                            <a class="page-link" href="#" th:href="@{/admin/half/order(searchField=${searchField}, searchValue=${searchValue}  ,page=${pagination.nextPage})}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
