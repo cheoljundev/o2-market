@@ -4,8 +4,8 @@
 <head>
     <title>이벤트 진행</title>
     <th:block th:fragment="insertHead">
+        <script src="/js/admin/half/event.js"></script>
     </th:block>
-
 </head>
 <body>
 <main class="flex-grow-1">
@@ -30,41 +30,12 @@
             <h3>추첨할 물품 수</h3>
         </div>
         <div class="row justify-content-center mb-4">
-            <input type="text" name="number" class="col-2 flex-shrink-0 number" placeholder="추첨할 물품 수" required>
+            <input type="text" name="number" class="col-auto number" placeholder="추첨할 물품 수" required>
         </div>
         <div class="row justify-content-center">
-            <button class="btn btn-primary col-4" onclick="startEvent()">추첨하기</button>
+            <button class="btn btn-lg btn-primary col-auto" onclick="startEvent()">추첨하기</button>
         </div>
     </div>
-    <script>
-        const startEvent = () => {
-            if (document.querySelector(".number").value === "") {
-                alert("추첨할 물품 수를 입력해주세요.");
-                return false;
-            }
-            // category name에 선택된 것들의 id를 배열로 만들어서 fetch로 보내기
-            const category = document.getElementsByName("category");
-            const categoryCodes = [];
-            category.forEach((c) => {
-                if (c.checked) {
-                    categoryCodes.push(c.id);
-                }
-            });
-            fetch(
-                "/admin/half/event/draw",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        categoryCodes: categoryCodes,
-                        number: document.querySelector(".number").value
-                    })
-                }
-            )
-        };
-    </script>
 </main>
 </body>
 </html>
