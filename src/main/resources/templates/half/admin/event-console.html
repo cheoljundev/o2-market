@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/halfAdminLayout :: layout(~{::title}, ~{::main}, ~{::insertHead})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>이벤트 진행</title>
+    <th:block th:fragment="insertHead">
+    </th:block>
+
+</head>
+<body>
+<main class="flex-grow-1">
+    <div class="container">
+        <div class="row mb-5">
+            <h2 class="text-center my-5 m-2 mb-4">이벤트 진행하기</h2>
+        </div>
+        <form th:action="@{/admin/half/event/draw}">
+            <div class="row text-center mb-4">
+                <h3>카테고리 선택</h3>
+            </div>
+            <div class="row justify-content-center mb-5">
+                <div class="col-8">
+                    <div class="row gy-2 justify-content-center">
+                        <div th:each="category : ${categories}" class="col-auto">
+                            <label th:for="${category.categoryCode}" th:text="${category.category}">카테고리명</label>
+                            <input type="checkbox" th:id="${category.categoryCode}" name="category">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row text-center mb-4">
+                <h3>추첨할 물품 수</h3>
+            </div>
+            <div class="row justify-content-center mb-4">
+                <input type="text" name="number" class="col-2 flex-shrink-0" placeholder="추첨할 물품 수">
+            </div>
+            <div class="row justify-content-center">
+                <button class="btn btn-primary col-4">추첨하기</button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

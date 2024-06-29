@@ -6,6 +6,7 @@ import com.o2.site.half.dto.AdminOrderListDto;
 import com.o2.site.half.dto.Pagination;
 import com.o2.site.half.dto.UpdateOrderDto;
 import com.o2.site.half.service.OrderService;
+import com.o2.site.trade.service.TradeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import java.util.List;
 public class HalfAdminController {
 
     private final OrderService orderService;
+    private final TradeService tradeService;
 
     @GetMapping
     private String index() {
@@ -99,5 +101,11 @@ public class HalfAdminController {
                 .invoice(invoice)
                 .state(1)
                 .build());
+    }
+
+    @GetMapping("/event")
+    public String event(Model model) {
+        model.addAttribute("categories", tradeService.getCategory());
+        return "/half/admin/event-console";
     }
 }
