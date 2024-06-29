@@ -70,6 +70,7 @@ public class UploadService {
         uploadImage.setMemberNo(createImage.getMemberNo());
         uploadImage.setAdvNo(createImage.getAdvNo());
         uploadImage.setClubBoardId(createImage.getClubBoardId());
+        uploadImage.setClubName(createImage.getClubName());
 
         uploadDao.updateImage(uploadImage);
 
@@ -89,6 +90,7 @@ public class UploadService {
                 .memberNo(uploadImageDto.getMemberNo())
                 .advNo(uploadImageDto.getAdvNo())
                 .clubBoardId(uploadImageDto.getClubBoardId())
+                .clubName(uploadImageDto.getClubName())
                 .build();
 
         List<UploadImage> images = findImages(uploadImageDto);
@@ -111,6 +113,7 @@ public class UploadService {
                 .memberNo(uploadImageDto.getMemberNo())
                 .advNo(uploadImageDto.getAdvNo())
                 .clubBoardId(uploadImageDto.getClubBoardId())
+                .clubName(uploadImageDto.getClubName())
                 .build()
                 );
     }
@@ -121,6 +124,7 @@ public class UploadService {
                 .memberNo(uploadImageDto.getMemberNo())
                 .advNo(uploadImageDto.getAdvNo())
                 .clubBoardId(uploadImageDto.getClubBoardId())
+                .clubName(uploadImageDto.getClubName())
                 .build());
     }
 
