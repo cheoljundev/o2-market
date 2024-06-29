@@ -1,10 +1,7 @@
 package com.o2.site.half.controller;
 
 import com.o2.site.half.dao.OrderSearchCond;
-import com.o2.site.half.dto.AdminOrderDetailDto;
-import com.o2.site.half.dto.AdminOrderListDto;
-import com.o2.site.half.dto.Pagination;
-import com.o2.site.half.dto.UpdateOrderDto;
+import com.o2.site.half.dto.*;
 import com.o2.site.half.service.OrderService;
 import com.o2.site.trade.service.TradeService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -107,5 +103,11 @@ public class HalfAdminController {
     public String event(Model model) {
         model.addAttribute("categories", tradeService.getCategory());
         return "/half/admin/event-console";
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/event/draw")
+    public void draw(@RequestBody EventResultDto eventResultDto) {
+        log.info("draw: {}", eventResultDto);
     }
 }
