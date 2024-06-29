@@ -61,4 +61,7 @@ public class ClubService {
         return clubMapper.clubCategoryList();
     }
 
+    public ClubDto getClubInfo(String clubName) {
+        return clubMapper.clubDeteil(clubName);
+    }
 }

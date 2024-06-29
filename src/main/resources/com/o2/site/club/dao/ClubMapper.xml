@@ -12,7 +12,9 @@
 
     <select id="clubList" resultType="com.o2.site.club.dto.ClubDto">
         SELECT * FROM (
-            SELECT ROWNUM AS RNUM, A.* FROM (
+            SELECT ROWNUM AS RNUM, A.*
+                , (SELECT STORED_IMAGE_NAME FROM UPLOAD_IMAGE WHERE CLUB_NAME IN(A.CLUB_NAME)) AS IMAGE_STR
+            FROM (
                 SELECT *
                 FROM CLUB
                 <where>
@@ -23,7 +25,7 @@
                         AND AREA LIKE '%' || #{data.area} || '%'
                     </if>
                 </where>
-                order by CLUB_NAME desc
+                order by CREATE_DATE desc
                 ) A WHERE ROWNUM <![CDATA[<=]]> #{pageable.pageNumber} * #{pageable.pageSize}
                 ) WHERE RNUM <![CDATA[>]]> (#{pageable.pageNumber}-1) * #{pageable.pageSize}
 
@@ -44,5 +46,9 @@
 
     <select id="clubCategoryList">
         SELECT * FROM CLUB_CATEGORY
+    </select>
+
+    <select id="clubDeteil">
+        SELECT * FROM CLUB WHERE CLUB_NAME = #{clubName}
     </select>
 </mapper>

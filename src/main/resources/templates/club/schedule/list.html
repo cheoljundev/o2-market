@@ -12,6 +12,7 @@
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
+        <script src="/js/club/getParam.js"></script>
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', function() {
               var calendarEl = document.getElementById('calendar');
@@ -25,7 +26,7 @@
                     createScheduleGoBtn : {
                         text : "일정 생성",
                         click : function() {
-                            location.href='/club/schedule/create';
+                            location.href='/club/schedule/create?clubName='+getClubName()+'';
                         }
                     }
                   },
@@ -48,7 +49,7 @@
                         title: '14시 30분까지',
                         start: '2024-06-24',
                         end: '2024-06-26',
-                        url : '/club/schedule/detail'
+                        url : '/club/schedule/detail?clubName='+getClubName()+''
                       },
                     ]
               });
@@ -75,9 +76,9 @@
         <h2 class="mb-2">일정 캘린더</h2>
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-bottom: 20px;">
             <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/detail'">메인</button>
-                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/board/list'">게시판</button>
-                <button type="button" onclick="location.href='/club/schedule/list'"  class="btn btn-outline-primary">일정</button>
+                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/detail?clubName='+getClubName();+''">메인</button>
+                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/board/list?clubName='+getClubName();+''">게시판</button>
+                <button type="button" onclick="location.href='/club/schedule/list?clubName='+getClubName();+''"  class="btn btn-outline-primary">일정</button>
             </div>
 
         </div>

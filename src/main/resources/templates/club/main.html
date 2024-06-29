@@ -49,12 +49,21 @@
                                     } else {
 
                                         for (var i = 0; i < result.size; i++) {
-                                        console.log('실행');
+
+                                        let imageStr = result.content[i].imageStr;
+                                        if (imageStr === null || imageStr == '' || imageStr === undefined) {
+                                            imageStr = '/images/club/imgAdd.jpg';
+                                            console.log("1실행");
+                                        } else {
+                                            console.log("2실행");
+                                            imageStr = '/images/' + result.content[i].imageStr;
+                                        }
+                                        console.log(imageStr);
                                         template += `
                                              <div class="col">
-                                                <a class="page-link" href="detail">
+                                                <a class="page-link" href="/club/detail?clubName=${result.content[i].clubName}">
                                                     <div class="card h-100">
-                                                        <img src="/images/club/imgAdd.jpg" class="card-img-top" alt="...">
+                                                        <img src="${imageStr}" class="card-img-top" onerror=this.src="/images/club/imgAdd.jpg" width="214px" height="300px">
                                                         <div class="card-body">
                                                             <h5 class="card-title">${result.content[i].clubName}</h5>
                                                             <p class="card-text">장소 : ${result.content[i].area}</p>
@@ -70,6 +79,7 @@
 
                                 }
                                 PAGE.paging(pageNo,result.totalPages,result.totalElements);
+
                             }
                         });
                     }

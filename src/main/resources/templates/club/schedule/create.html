@@ -10,6 +10,7 @@
                 crossorigin="anonymous"></script>
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8832affe7a6eee9eb46d2eddd8d6a7fc&libraries=services"></script>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script src="/js/club/getParam.js"></script>
         <script>
 
         </script>
@@ -33,9 +34,9 @@
         <h2 class="mb-2">일정 생성</h2>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-bottom: 20px;">
                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/detail'">메인</button>
-                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/board/list'">게시판</button>
-                    <button type="button" onclick="location.href='/club/schedule/list'"  class="btn btn-outline-primary">일정</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/detail?clubName='+getClubName();+''">메인</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/board/list?clubName='+getClubName();+''">게시판</button>
+                    <button type="button" onclick="location.href='/club/schedule/list?clubName='+getClubName();+''"  class="btn btn-outline-primary">일정</button>
                 </div>
 
             </div>

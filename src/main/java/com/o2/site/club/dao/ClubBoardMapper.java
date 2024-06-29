@@ -1,7 +1,6 @@
 package com.o2.site.club.dao;
 
 import com.o2.site.club.dto.ClubBoardDto;
-import com.o2.site.club.dto.ClubBoardImgDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
@@ -18,8 +17,6 @@ public interface ClubBoardMapper {
     // 모임 내 게시판 등록
     public int clubBoardInsert(ClubBoardDto clubBoardDto);
 
-    // 모임 내 게시판 이미지 등록
-    public int clubBoardImgInsert(ClubBoardImgDto clubBoardImgDto);
 
     // 모임내 게시판 수정
     public int clubBoardUpdate();

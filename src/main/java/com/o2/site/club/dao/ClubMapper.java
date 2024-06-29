@@ -30,7 +30,7 @@ public interface ClubMapper {
     public int clubUpdate();
 
     // 모임 상세보기
-    public ClubDto clubDeteil();
+    public ClubDto clubDeteil(String clubName);
 
     // 모임 참여
     public ClubUserDto clubUserInsert(ClubUserDto clubUserDto);
