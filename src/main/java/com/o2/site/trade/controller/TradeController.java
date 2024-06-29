@@ -33,34 +33,29 @@ public class TradeController {
         this.uploadService = uploadService;
     }
 
-//    전체 리스트 관리자 페이지 구성 후 approve 조건 추가 예정
+    //전체 리스트
     @GetMapping("/trade_main")
-    public void trade_main(Model model, @RequestParam(defaultValue = "0") int page){
+    public void trade_main(Model model, @RequestParam(defaultValue = "1") int page){
         ArrayList<TradeMainDto> mainlist = tradeService.selectMainList();
         ArrayList<CategoryDto> category = tradeService.getCategory();
         ArrayList<AdvListDto> advList = tradeService.getAdvList();
-        System.out.println(mainlist);
-        System.out.println("총 갯수: "+mainlist.size());
-        model.addAttribute("mainlist", mainlist);
-        model.addAttribute("cg","전체");
-        model.addAttribute("category",category);
-    }
-    //페이징 테스트
-    @GetMapping("/trade_main_test")
-    public void trade_main_test(Model model, @RequestParam(defaultValue = "0") int page){
-        ArrayList<TradeMainDto> mainlist = tradeService.selectMainList();
-        ArrayList<AdvListDto> advList = tradeService.getAdvList();
 
-        List<TradeMainDto> paginatedMainList = paginate(mainlist, page, PAGE_SIZE);
-
+        int adjustPage=page-1;
+        //페이지 나누기
+        List<TradeMainDto> paginatedMainList = paginate(mainlist, adjustPage, PAGE_SIZE);
+        //광고 랜덤 선택
         Random random = new Random();
         int rand=random.nextInt(advList.size());
-        AdvListDto firstAdv = advList.isEmpty() ? null : advList.get(rand);
+        AdvListDto randomAdv = advList.isEmpty() ? null : advList.get(rand);
 
         int totalPages = (int) Math.ceil((double) mainlist.size() / PAGE_SIZE);
 
-        model.addAttribute("mainList", paginatedMainList);
-        model.addAttribute("advItem", firstAdv);
+        System.out.println(mainlist);
+        System.out.println("총 갯수: "+mainlist.size());
+        model.addAttribute("mainlist", paginatedMainList);
+        model.addAttribute("cg","전체");
+        model.addAttribute("category",category);
+        model.addAttribute("advlist", randomAdv);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
     }
