@@ -145,6 +145,7 @@ public class UploadService {
                 .memberNo(uploadImageDto.getMemberNo())
                 .advNo(uploadImageDto.getAdvNo())
                 .clubBoardId(uploadImageDto.getClubBoardId())
+                .clubName(uploadImageDto.getClubName())
                 .build();
     }
 
