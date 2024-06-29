@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -31,7 +32,14 @@ public class HalfAdminController {
     @GetMapping( "/order" )
     public String order(@ModelAttribute OrderSearchCond orderSearchCond,
                         @RequestParam(value = "searchField", defaultValue =  "") String searchField,
+                        @RequestParam(value = "page", defaultValue = "1") int currentPage,
                         Model model) {
+
+        int pagesLength = orderService.findPages(orderSearchCond, 10);
+        List<Integer> pages = new ArrayList<>();
+        for (int i = 0; i < pagesLength; i++) {
+            pages.add(i + 1);
+        }
 
         // 검색 조건에 따라 검색값을 설정
         String searchValue = null;
@@ -51,6 +59,8 @@ public class HalfAdminController {
         model.addAttribute("searchConds", orderService.getSearchCond());
         model.addAttribute("searchField", searchField);
         model.addAttribute("searchValue", searchValue);
+        model.addAttribute("pages", pages);
+        model.addAttribute("currentPage", currentPage);
         return "/half/admin/order";
     }
 
