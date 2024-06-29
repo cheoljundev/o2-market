@@ -40,15 +40,15 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item" th:class="${currentPage == 1} ? 'disabled' : ''">
-                        <a class="page-link" th:href="@{/trade/trade_main(page=${currentPage - 1})}" aria-label="Previous">
+                        <a class="page-link" th:href="@{/trade/trade_admin_application(page=${currentPage - 1})}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <li class="page-item" th:each="pageNum : ${#numbers.sequence(1, totalPages)}" th:class="${currentPage == pageNum} ? 'active' : ''">
-                        <a class="page-link" th:href="@{/trade/trade_main(page=${pageNum})}" th:text="${pageNum}">현재페이지</a>
+                        <a class="page-link" th:href="@{/trade/trade_admin_application(page=${pageNum})}" th:text="${pageNum}">현재페이지</a>
                     </li>
                     <li class="page-item" th:class="${currentPage == totalPages} ? 'disabled' : ''">
-                        <a class="page-link" th:href="@{/trade/trade_main(page=${currentPage + 1})}" aria-label="Next">
+                        <a class="page-link" th:href="@{/trade/trade_admin_application(page=${currentPage + 1})}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>

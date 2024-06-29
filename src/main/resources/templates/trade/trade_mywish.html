@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/mainLayout :: layout(~{::title}, ~{::main}, ~{::insertHead})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>메인페이지</title>
+    <th:block th:fragment="insertHead">
+    </th:block>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+<main>
+    <div class="container mt-5">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand me-5" href="/trade/trade_main">전체 조회</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-3 mb-2 mb-lg-0">
+                        <form action="/trade/trade_mywish" id="wish" method="get">
+                            <li class="nav-item">
+                                <button type="submit" class="nav-link" style="background:none; border:none; color:inherit; cursor:pointer;">
+                                    찜 목록
+                                </button>
+                            </li>
+                        </form>
+                        <form class="d-flex" role="search" action="/trade/trade_search">
+                        <li class="nav-item">
+                            <a id="cg" class="nav-link" th:text="${cg}">카테고리</a>
+                        </li>
+                        <li class="nav-item">
+                            <select class="form-select" id="categorySelect" name="category">
+                                <option th:each="categories : ${category}"
+                                        th:value="${categories.categoryCode}"
+                                        th:text="${categories.category}">
+                                </option>
+                            </select>
+                        </li>
+
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 300px;" name="keyword">
+                            <button id="searchButton" class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                        <form action="/trade/trade_mylist" id="myList" method="get" class="px-4">
+                            <li class="nav-item">
+                                <button class="btn btn-outline-success" type="submit">작성글</button>
+                            </li>
+                        </form>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container text-center">
+            <div class="row row-cols-3">
+                <div class="col-md-4" th:each="trade : ${mainlist}">
+                    <a th:href="@{/trade/trade_detail(tradeNo=${trade.tradeNo})}" name="tradeNo">
+                        <img th:src="@{/images/{image}(image=${trade.storedImageName})}" class="img-thumbnail" style="width:400px; height:400px">
+                        <br>
+                        <span th:text="${trade.title}">Title</span>
+                        <br>
+                        <span th:text="${trade.price}">Price</span>
+                    </a>
+                </div>
+                <div class="col-md-4" th:each="adv : ${advlist}">
+                    <a th:href="${adv.companyLink}" style="position: relative; display: block;">
+                        <img th:src="@{/images/{image}(image=${adv.storedImageName})}" class="img-thumbnail" style="width: 400px; height: 400px;">
+                        <div style="position: absolute; top: 10px; left: 10px; background-color: rgba(255, 255, 255, 0.7); padding: 5px;">
+                            <span style="color: green; font-size: 18px;">광고</span>
+                        </div>
+                        <br>
+                        <span th:text="${adv.title}">제목</span>
+                        <br>
+                        <span th:text="${adv.companyName}">회사</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="text-end">
+            <a class="btn btn-secondary btn-sm" href="/trade/trade_application" role="button">거래 등록</a>
+        </div>
+
+        <div th:if="${totalPages > 1}" class="pagination justify-content-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item" th:class="${currentPage == 1} ? 'disabled' : ''">
+                        <a class="page-link" th:href="@{/trade/trade_mywish(page=${currentPage - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:each="pageNum : ${#numbers.sequence(1, totalPages)}" th:class="${currentPage == pageNum} ? 'active' : ''">
+                        <a class="page-link" th:href="@{/trade/trade_mywish(page=${pageNum})}" th:text="${pageNum}">현재페이지</a>
+                    </li>
+                    <li class="page-item" th:class="${currentPage == totalPages} ? 'disabled' : ''">
+                        <a class="page-link" th:href="@{/trade/trade_mywish(page=${currentPage + 1})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+        <a class="btn btn-primary btn-lg" href="/trade/trade_admin" role="button">거래 관리자 이동</a>
+    </div>
+</main>
+
+
+
+</body>
+</html>

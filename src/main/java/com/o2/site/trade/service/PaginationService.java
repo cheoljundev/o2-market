@@ -5,6 +5,7 @@ import com.o2.site.trade.dto.MyListDto;
 import com.o2.site.trade.dto.TradeMainDto;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -26,5 +27,11 @@ public class PaginationService {
         int rand=random.nextInt(advList.size());
         AdvListDto randomAdv = advList.isEmpty() ? null : advList.get(rand);
         return randomAdv;
+    }
+
+    public List<AdvListDto> advpaginate(ArrayList<AdvListDto> list, int page, int pageSize) {
+        int start = page * pageSize;
+        int end = Math.min(start + pageSize, list.size());
+        return list.subList(start, end);
     }
 }

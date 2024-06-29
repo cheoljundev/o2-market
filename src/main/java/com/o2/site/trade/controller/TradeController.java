@@ -150,25 +150,43 @@ public class TradeController {
     }
     //내 찜목록 보기
     @GetMapping("/trade_mywish")
-    public String trade_mywish(Model model){
+    public String trade_mywish(Model model, @RequestParam(defaultValue = "1") int page){
         int memberNo = 1;
+        int page_size = 5;
         ArrayList<TradeMainDto> wishList = tradeService.myWishList(memberNo);
+        ArrayList<AdvListDto> advList = tradeService.getAdvList();
         System.out.println(wishList);
+        int adjustPage=page-1;
         ArrayList<CategoryDto> category = tradeService.getCategory();
+        //페이지 나누기
+        List<TradeMainDto> paginatedMainList = pagination.paginate(wishList, adjustPage, page_size);
+
+        int totalPages = (int) Math.ceil((double) wishList.size() / page_size);
+
         model.addAttribute("category",category);
-        model.addAttribute("mainlist",wishList);
-        return "/trade/trade_main";
+        model.addAttribute("mainlist",paginatedMainList);
+        model.addAttribute("advlist", pagination.rndadv(advList));
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        return "/trade/trade_mywish";
     }
     @GetMapping("/trade_admin")
     public void trade_admin(){}
     //관리자 페이지 신청 리스트 조회
     @GetMapping("/trade_admin_application")
-    public void trade_admin_application(Model model){
+    public void trade_admin_application(Model model, @RequestParam(defaultValue = "1") int page){
+        int page_size = 6;
+        int adjustPage=page-1;
         ArrayList<TradeMainDto> mainlist = tradeService.selectAppList();
         System.out.println(mainlist);
+        //페이지 나누기
+        List<TradeMainDto> paginatedMainList = pagination.paginate(mainlist, adjustPage, page_size);
+        int totalPages = (int) Math.ceil((double) mainlist.size() / page_size);
         System.out.println("총 갯수: "+mainlist.size());
-        model.addAttribute("mainlist", mainlist);
+        model.addAttribute("mainlist", paginatedMainList);
         model.addAttribute("cg","전체");
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
     }
     //관리자 페이지 신청 상세 조회
     @GetMapping("/trade_admin_approve")
@@ -208,10 +226,18 @@ public class TradeController {
     }
     //관리자 광고 리스트
     @GetMapping("/trade_adv_list")
-    public void trade_adv_list(Model model){
+    public void trade_adv_list(Model model, @RequestParam(defaultValue = "1") int page){
+        int page_size = 6;
         ArrayList<AdvListDto> advList = tradeService.getAdvList();
         System.out.println(advList);
-        model.addAttribute("advList",advList);
+        int adjustPage=page-1;
+        //페이지 나누기
+        List<AdvListDto> paginatedMainList = pagination.advpaginate(advList, adjustPage, page_size);
+
+        int totalPages = (int) Math.ceil((double) advList.size() / page_size);
+        model.addAttribute("advList",paginatedMainList);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
     }
     //관리자 광고 등록
     @GetMapping("/trade_adv_regist")
