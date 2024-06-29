@@ -8,7 +8,7 @@
         INSERT INTO TRADE_BOARD
         VALUES (
             SEQ_TRADE_TRADE_NO.NEXTVAL,
-            1,
+            2,
             #{title},
             #{category},
             #{content},
@@ -40,7 +40,7 @@
         WHERE A.APPROVE='Y'
         )
         WHERE rn = 1
-        ORDER BY TRADE_NO
+        ORDER BY TRADE_NO DESC
     </select>
 
     <select id="selectSearchList" resultType="com.o2.site.trade.dto.TradeMainDto">
@@ -68,7 +68,7 @@
         A.TITLE LIKE '%' || #{keyword} || '%' AND A.CATEGORY_CODE LIKE '%' || #{category} || '%' AND A.APPROVE = 'Y'
         )
         WHERE rn = 1
-        ORDER BY TRADE_NO
+        ORDER BY TRADE_NO DESC
     </select>
 
     <select id="myWishList" resultType="com.o2.site.trade.dto.TradeMainDto">
@@ -96,7 +96,7 @@
         WL.MEMBER_NO = #{memberNo}
         AND X.rn = 1
         ORDER BY
-        X.TRADE_NO
+        X.TRADE_NO DESC
     </select>
 
     <select id="getCg">
@@ -250,4 +250,34 @@
         DELETE FROM ADVBOARD
         WHERE ADV_NO=#{advNo}
     </delete>
+
+    <select id="selectMyList" resultType="com.o2.site.trade.dto.MyListDto">
+        SELECT
+        TRADE_NO,
+        TITLE,
+        PRICE,
+        STORED_IMAGE_NAME,
+        CATEGORY,
+        APPROVE
+        FROM (
+        SELECT
+        A.TRADE_NO,
+        A.TITLE,
+        A.PRICE,
+        B.STORED_IMAGE_NAME,
+        C.CATEGORY,
+        A.APPROVE,
+        ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY B.IMAGE_NO) AS rn
+        FROM
+        TRADE_BOARD A
+        JOIN
+        UPLOAD_IMAGE B ON A.TRADE_NO = B.TRADE_NO
+        JOIN
+        CATEGORY C ON A.CATEGORY_CODE = C.CATEGORY_CODE
+        WHERE
+        A.MEMBER_NO=#{memberNo}
+        )
+        WHERE rn = 1
+        ORDER BY TRADE_NO DESC
+    </select>
 </mapper>

@@ -4,10 +4,12 @@ package com.o2.site.trade.controller;
 import com.o2.site.trade.domain.AdvDomain;
 import com.o2.site.trade.domain.TradeDomain;
 import com.o2.site.trade.dto.*;
+import com.o2.site.trade.service.PaginationService;
 import com.o2.site.trade.service.TradeService;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
 import org.apache.ibatis.binding.BindingException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Controller
 @RequestMapping("/trade")
 public class TradeController {
-    private static final int PAGE_SIZE = 5;
+    @Autowired
+    PaginationService pagination;
     private final TradeService tradeService;
 
     private final UploadService uploadService;
@@ -36,55 +38,62 @@ public class TradeController {
     //전체 리스트
     @GetMapping("/trade_main")
     public void trade_main(Model model, @RequestParam(defaultValue = "1") int page){
+        int page_size = 5;
+
         ArrayList<TradeMainDto> mainlist = tradeService.selectMainList();
         ArrayList<CategoryDto> category = tradeService.getCategory();
         ArrayList<AdvListDto> advList = tradeService.getAdvList();
 
         int adjustPage=page-1;
         //페이지 나누기
-        List<TradeMainDto> paginatedMainList = paginate(mainlist, adjustPage, PAGE_SIZE);
-        //광고 랜덤 선택
-        Random random = new Random();
-        int rand=random.nextInt(advList.size());
-        AdvListDto randomAdv = advList.isEmpty() ? null : advList.get(rand);
+        List<TradeMainDto> paginatedMainList = pagination.paginate(mainlist, adjustPage, page_size);
 
-        int totalPages = (int) Math.ceil((double) mainlist.size() / PAGE_SIZE);
+        int totalPages = (int) Math.ceil((double) mainlist.size() / page_size);
 
         System.out.println(mainlist);
         System.out.println("총 갯수: "+mainlist.size());
         model.addAttribute("mainlist", paginatedMainList);
         model.addAttribute("cg","전체");
         model.addAttribute("category",category);
-        model.addAttribute("advlist", randomAdv);
+        model.addAttribute("advlist", pagination.rndadv(advList));
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
     }
 
     // 리스트를 페이지 단위로 자르는 메서드
-    private List<TradeMainDto> paginate(List<TradeMainDto> list, int page, int pageSize) {
-        int start = page * pageSize;
-        int end = Math.min(start + pageSize, list.size());
-        return list.subList(start, end);
-    }
 
     //검색 리스트
     @GetMapping("/trade_search")
-    public String trade_sarch(Model model, SearchDto searchDto){
+    public String trade_sarch(Model model, SearchDto searchDto, @RequestParam(defaultValue = "1") int page){
+        int page_size = 5;
         if(searchDto.getCategory().equals("cg_all")){
             searchDto.setCategory("");
         }
         ArrayList<TradeMainDto> searchList = tradeService.selectSearchList(searchDto);
+        ArrayList<AdvListDto> advList = tradeService.getAdvList();
         System.out.println(searchList);
         System.out.println("총 갯수: "+searchList.size());
-        model.addAttribute("mainlist", searchList);
+
+        int adjustPage=page-1;
+        //페이지 나누기
+        List<TradeMainDto> paginatedMainList = pagination.paginate(searchList, adjustPage, page_size);
+
+        int totalPages = (int) Math.ceil((double) searchList.size() / page_size);
+
+        model.addAttribute("mainlist", paginatedMainList);
         if(tradeService.getCg(searchDto)==null){
             model.addAttribute("cg","전체");
         }else {
         model.addAttribute("cg",tradeService.getCg(searchDto));
         }
         ArrayList<CategoryDto> category = tradeService.getCategory();
+        model.addAttribute("page_category",searchDto.getCategory());
+        model.addAttribute("page_keyword",searchDto.getKeyword());
         model.addAttribute("category",category);
-        return "/trade/trade_main";
+        model.addAttribute("advlist", pagination.rndadv(advList));
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        return "/trade/trade_search";
     }
     @GetMapping("/trade_application")
     public void trade_application(Model model){
@@ -249,5 +258,26 @@ public class TradeController {
         System.out.println(advNo);
         int result = tradeService.deleteAdv(advNo);
         return "redirect:/trade/trade_adv_list";
+    }
+    //내 작성글 모두 보기
+    @GetMapping("/trade_mylist")
+    public String myList(Model model, String memberNo, @RequestParam(defaultValue = "1") int page){
+        int page_size = 5;
+        memberNo="1";
+        System.out.println(memberNo);
+        ArrayList<MyListDto> mylist = tradeService.selectMyList(memberNo);
+        ArrayList<CategoryDto> category = tradeService.getCategory();
+        ArrayList<AdvListDto> advList = tradeService.getAdvList();
+        int adjustPage=page-1;
+        List<MyListDto> paginatedMainList = pagination.mylistpaginate(mylist, adjustPage, page_size);
+
+        int totalPages = (int) Math.ceil((double) mylist.size() / page_size);
+
+        model.addAttribute("category",category);
+        model.addAttribute("mainlist", paginatedMainList);
+        model.addAttribute("advlist", pagination.rndadv(advList));
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        return "/trade/trade_mylist";
     }
 }

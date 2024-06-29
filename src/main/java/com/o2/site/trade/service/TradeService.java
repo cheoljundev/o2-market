@@ -105,4 +105,8 @@ public class TradeService {
     public int deleteAdv(String advNo) {
         return tradeMapper.deleteAdv(advNo);
     }
+
+    public ArrayList<MyListDto> selectMyList(String memberNo) {
+        return tradeMapper.selectMyList(memberNo);
+    }
 }

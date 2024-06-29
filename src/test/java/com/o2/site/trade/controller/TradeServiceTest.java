@@ -4,6 +4,7 @@ import com.o2.site.config.O2Application;
 import com.o2.site.trade.domain.AdvDomain;
 import com.o2.site.trade.dto.AdvDetailDto;
 import com.o2.site.trade.dto.AdvListDto;
+import com.o2.site.trade.dto.MyListDto;
 import com.o2.site.trade.dto.TradeMainDto;
 import com.o2.site.trade.service.TradeService;
 import org.junit.jupiter.api.Test;
@@ -79,7 +80,7 @@ class TradeServiceTest {
         //then
         assertThat(advDetailDto.getAdvNo()).isEqualTo(test.getAdvNo());
     }
-
+    //광고 삭제 테스트
     @Test
     void deleteAdv() {
         //given
@@ -89,5 +90,16 @@ class TradeServiceTest {
         ArrayList<AdvListDto> list = tradeService.getAdvList();
         //then
         assertThat(list.get(0).getAdvNo()).isNotEqualTo(1);
+    }
+    //내 작성글 테스트
+    @Test
+    void myList() {
+        //given
+        String memberNo="1";
+        //when
+        ArrayList<MyListDto> list = tradeService.selectMyList(memberNo);
+        ArrayList<TradeMainDto> list2 = tradeService.selectMainList();
+        //then
+        assertThat(list.size()).isEqualTo(list2.size());
     }
 }

@@ -50,4 +50,6 @@ public interface TradeMapper {
     AdvDetailDto getAdvDetail(String advNo);
 
     int deleteAdv(String advNo);
+
+    ArrayList<MyListDto> selectMyList(String memberNo);
 }

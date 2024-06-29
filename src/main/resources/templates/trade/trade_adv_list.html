@@ -36,19 +36,19 @@
         </div>
     </div>
 
-    <div class="pagination justify-content-center">
+    <div th:if="${totalPages > 1}" class="pagination justify-content-center">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
+                <li class="page-item" th:class="${currentPage == 1} ? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/trade/trade_main(page=${currentPage - 1})}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
+                <li class="page-item" th:each="pageNum : ${#numbers.sequence(1, totalPages)}" th:class="${currentPage == pageNum} ? 'active' : ''">
+                    <a class="page-link" th:href="@{/trade/trade_main(page=${pageNum})}" th:text="${pageNum}">현재페이지</a>
+                </li>
+                <li class="page-item" th:class="${currentPage == totalPages} ? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/trade/trade_main(page=${currentPage + 1})}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
