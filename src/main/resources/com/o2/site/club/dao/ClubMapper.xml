@@ -11,25 +11,22 @@
     </insert>
 
     <select id="clubList" resultType="com.o2.site.club.dto.ClubDto">
-        SELECT  ROWNUM
-                , CLUB_NAME
-                , CATEGORY_ID
-                , MEMBERS_LIMIT
-                , AGE_LIMIT_START
-                , AGE_LIMIT_END
-                , AREA
-        FROM (select ROW_NUMBER() over(order by CLUB_NAME desc) as "rownum", c.*
-        from club c
-        <where>
-            <if test="data.clubName != null and data.clubName != ''">
-                AND CLUB_NAME LIKE '%' || #{data.clubName} || '%'
-            </if>
-            <if test="data.area != null and data.area != ''">
-                AND AREA LIKE '%' || #{data.area} || '%'
-            </if>
-        </where>
-        ) club
-        where club."rownum" between (#{pageable.offset} - 9) and #{pageable.offset}
+        SELECT * FROM (
+            SELECT ROWNUM AS RNUM, A.* FROM (
+                SELECT *
+                FROM CLUB
+                <where>
+                    <if test="data.clubName != null and data.clubName != ''">
+                        AND CLUB_NAME LIKE '%' || #{data.clubName} || '%'
+                    </if>
+                    <if test="data.area != null and data.area != ''">
+                        AND AREA LIKE '%' || #{data.area} || '%'
+                    </if>
+                </where>
+                order by CLUB_NAME desc
+                ) A WHERE ROWNUM <![CDATA[<=]]> #{pageable.pageNumber} * #{pageable.pageSize}
+                ) WHERE RNUM <![CDATA[>]]> (#{pageable.pageNumber}-1) * #{pageable.pageSize}
+
     </select>
 
     <select id="clubListCount" resultType="int">

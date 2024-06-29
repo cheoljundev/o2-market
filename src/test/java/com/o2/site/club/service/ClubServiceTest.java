@@ -23,7 +23,7 @@ class ClubServiceTest {
     void createClub() {
 
         ClubDto clubDto = new ClubDto();
-        for (int i = 2 ; i <= 101; i++) {
+        for (int i = 103 ; i <= 200; i++) {
 
             clubDto.setClubName("모임"+i);
             clubDto.setReaderNo(1);
