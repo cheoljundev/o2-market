@@ -51,11 +51,11 @@ public class ClubContrlloer {
         System.out.println(clubName);
         ClubDto clubDto = clubService.getClubInfo(clubName);
         List<UploadImage> uploadImageDto = uploadService.findImages(UploadImageDto.builder().clubName(clubName).build());
-        List<ScheduleDto> scheduleDto = scheduleService.scheduleList(clubName);
+        List<ScheduleDto> scheduleDto = scheduleService.scheduleDetailList(clubName);
 
-        System.out.println(scheduleDto);
-        System.out.println(uploadImageDto);
-        System.out.println(clubDto);
+        model.addAttribute("clubDto",clubDto);
+        model.addAttribute("uploadImageDto",uploadImageDto);
+        model.addAttribute("scheduleDto",scheduleDto);
     }
 
     @GetMapping("/userList")

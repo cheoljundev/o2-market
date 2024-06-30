@@ -49,6 +49,9 @@
     </select>
 
     <select id="clubDeteil">
-        SELECT * FROM CLUB WHERE CLUB_NAME = #{clubName}
+        SELECT c.*,
+               cc.CATEGORY_NAME,
+               (SELECT COUNT(0) FROM CLUB_USER WHERE CLUB_NAME = #{clubName}) AS MEMBERS_COUNT
+        FROM CLUB c LEFT JOIN club_category cc ON c.CATEGORY_ID = cc.CLUB_CATEGORY_ID where c.CLUB_NAME  = #{clubName}
     </select>
 </mapper>

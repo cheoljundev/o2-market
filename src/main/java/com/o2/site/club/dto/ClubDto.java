@@ -23,5 +23,7 @@ public class ClubDto {
     private String intro;
     private Date createDate;
     private String imageStr;
+    private String categoryName;
+    private int membersCount;
 
 }

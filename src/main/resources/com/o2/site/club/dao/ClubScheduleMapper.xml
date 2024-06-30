@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.o2.site.club.dao.ClubScheduleMapper">
-    <select id="scheduleList">
-        SELECT * FROM SCHEDULE WHERE CLUB_NAME = #{clubName} ORDER BY SCHEDULE_ID DESC
+    <select id="scheduleDetailList">
+        SELECT * FROM (SELECT * FROM SCHEDULE ORDER BY SCHEDULE_ID DESC)  WHERE CLUB_NAME = #{clubName} and ROWNUM <![CDATA[<=]]> 10
     </select>
 </mapper>

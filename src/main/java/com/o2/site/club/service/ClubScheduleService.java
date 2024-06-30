@@ -19,9 +19,9 @@ public class ClubScheduleService {
         this.ScheduleMapper = ScheduleMapper;
     }
 
-    public List<ScheduleDto> scheduleList(String clubName) {
+    public List<ScheduleDto> scheduleDetailList(String clubName) {
         System.out.println(clubName);
-        return ScheduleMapper.scheduleList(clubName);
+        return ScheduleMapper.scheduleDetailList(clubName);
     }
 
 

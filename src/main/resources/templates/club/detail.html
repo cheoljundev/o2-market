@@ -44,67 +44,28 @@
                     <img src="/images/club/moonge.jpg" id="image" alt="이미지가 없습니다." width="300" height="300">
                 </div>
                 <div class="col-3">
-                    <h2>테니스를 위한 모임</h2>
-                    <p>스포츠</p>
-                    <p>부산 서면</p>
-                    <p>멤버 수 : 15 / 30 연령 제한 : 20 ~ 25</p>
+                    <h2 th:text="${clubDto.clubName}"></h2>
+                    <p th:text="${clubDto.categoryName}"></p>
+                    <p th:text="${clubDto.area}"></p>
+                    <p th:text="'멤버 수 : ' + ${clubDto.membersCount} + ' / ' + ${clubDto.membersLimit} + ' 연령 제한 : ' + ${clubDto.ageLimitStart} + ' ~ ' + ${clubDto.ageLimitEnd}"></p>
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="col-6">
                     <table class="table">
+                        <th:block th:each="schedule : ${scheduleDto}">
                         <tr>
-                            <td>2024-06-18 17:30</td>
-                            <td>부산 00동 00 고기</td>
+                            <td th:text="${#dates.format(schedule.dateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${schedule.address}"></td>
                         </tr>
-                        <tr>
-                            <td>2024-06-14 15:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-                        <tr>
-                            <td>2024-06-19 19:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-                        <tr>
-                            <td>2024-06-19 19:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-                        <tr>
-                            <td>2024-06-19 19:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-                        <tr>
-                            <td>2024-06-19 19:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-                        <tr>
-                            <td>2024-06-19 19:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-                        <tr>
-                            <td>2024-06-19 19:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-                        <tr>
-                            <td>2024-06-19 19:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-                        <tr>
-                            <td>2024-06-19 19:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-
-
+                        </th:block>
                     </table>
                 </div>
                 <div class="col-6" style="margin-bottom : 20px;">
-                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
-                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
-                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
-                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
-                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
-                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
+                    <th:block th:each="num : ${#numbers.sequence(0,5)}">
+                        <img th:src="@{/images/${uploadImageDto[num]}}" width="200" height="200" class="" alt="..." onerror=this.src="/images/club/imgAdd.jpg">
+                    </th:block>
                 </div>
 
                 <div class="d-md-flex justify-content-md-end">
