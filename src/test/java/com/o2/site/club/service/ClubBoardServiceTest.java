@@ -28,6 +28,6 @@ class ClubBoardServiceTest {
         clubBoardDto.setWriter(1);
         clubBoardDto.setContent("즐거운 하루를 보낸 내용이 가득한 내용1");
         String image = "igir.png,imgre.png,jfifq.jpg";
-        clubBoardService.createClubBoard(clubBoardDto, image);
+        clubBoardService.createClubBoard(clubBoardDto);
     }
 }

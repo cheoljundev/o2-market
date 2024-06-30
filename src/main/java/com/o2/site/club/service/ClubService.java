@@ -33,8 +33,6 @@ public class ClubService {
 
         int result = clubMapper.clubInsert(clubDto);
 
-//        clubMapper.clubUserInsert(clubUserDto);
-
         return result;
     }
 

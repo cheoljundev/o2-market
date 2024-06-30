@@ -51,6 +51,7 @@
     <select id="clubDeteil">
         SELECT c.*,
                cc.CATEGORY_NAME,
+               (SELECT STORED_IMAGE_NAME FROM UPLOAD_IMAGE WHERE CLUB_NAME IN(c.CLUB_NAME)) AS IMAGE_STR,
                (SELECT COUNT(0) FROM CLUB_USER WHERE CLUB_NAME = #{clubName}) AS MEMBERS_COUNT
         FROM CLUB c LEFT JOIN club_category cc ON c.CATEGORY_ID = cc.CLUB_CATEGORY_ID where c.CLUB_NAME  = #{clubName}
     </select>

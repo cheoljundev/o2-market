@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ClubBoardService {
@@ -16,11 +18,20 @@ public class ClubBoardService {
         this.clubBoardMapper = clubBoardMapper;
     }
 
-    public int createClubBoard(ClubBoardDto clubBoardDto, String img) {
-        
+    public int createClubBoard(ClubBoardDto clubBoardDto) {
+
         int result = clubBoardMapper.clubBoardInsert(clubBoardDto);
 
         return result;
     }
 
+    public int getClubBoardSeq() {
+        return clubBoardMapper.getClubBoardSeq();
+    }
+
+
+    public List<Integer> getClubBoardId(String clubName) {
+
+        return clubBoardMapper.getClubBoardId(clubName);
+    }
 }

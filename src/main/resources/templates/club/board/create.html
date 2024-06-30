@@ -15,6 +15,34 @@
             $(document).ready(function(){
                 // 이미지 로드
                 $('#fileDom').on('change', handleImgsFilesSelect);
+
+                $('#createGo').click(function(){
+
+                    let title = $('#title').val();
+                    let content = $('#content').val();
+
+                    let formData = new FormData();
+                    formData.append('title',title);
+                    formData.append('content',content);
+                    formData.append('clubName',getClubName());
+
+                    for (let i = 0; i < sel_files.length;i++) {
+                        formData.append('images',sel_files[i]);
+                    }
+
+
+                    $.ajax({
+                        url : "/club/board/create", // 요기에
+                        processData : false,
+                        contentType : false,
+                        type : 'POST',
+                        data : formData,
+                        success : function(data) {
+                            alert('글 작성이 완료 되었습니다.');
+                            location.href='/club/board/list?clubName='+getClubName()+'';
+                        }
+                    });
+                });
             });
 
             function handleImgsFilesSelect(e) {
@@ -61,7 +89,7 @@
             </div>
 
         </div>
-        <form action="createAction" method="post">
+        <form action="/club/board/create" name="clubBoardForm" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="form-label">제목</label>
                 <input type="text" class="form-control" id="title" name="title" placeholder="" >
@@ -84,7 +112,7 @@
                 </div>
             </div>
             <div class="d-md-flex justify-content-md-end">
-                <button type="submit" class="btn btn-primary" id="createGo">생성</button>
+                <button type="button" class="btn btn-primary" id="createGo">생성</button>
             </div>
         </form>
     </div>

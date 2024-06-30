@@ -10,7 +10,6 @@ import com.o2.site.upload.domain.UploadImage;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +31,9 @@ public class ClubContrlloer {
 
     @Autowired
     ClubService clubService;
+
+    @Autowired
+    ClubBoardService clubBoardService;
 
     @Autowired
     ClubScheduleService scheduleService;
@@ -48,27 +49,36 @@ public class ClubContrlloer {
 
     @GetMapping("/detail")
     public void detailGo (@RequestParam("clubName") String clubName, Model model){
-        System.out.println(clubName);
         ClubDto clubDto = clubService.getClubInfo(clubName);
-        List<UploadImage> uploadImageDto = uploadService.findImages(UploadImageDto.builder().clubName(clubName).build());
+        List<Integer> boardIds = clubBoardService.getClubBoardId(clubName);
+        List<String> uploadImageStrs = new ArrayList<>();
+        for (Integer num : boardIds) {
+            long numInt = num;
+            List<UploadImage> uploadTemp = uploadService.findImages(UploadImageDto.builder().clubBoardId(numInt).build());
+            for (UploadImage uploadImage : uploadTemp) {
+                uploadImageStrs.add(uploadImage.getStoredImageName());
+            }
+        }
+
         List<ScheduleDto> scheduleDto = scheduleService.scheduleDetailList(clubName);
 
         model.addAttribute("clubDto",clubDto);
-        model.addAttribute("uploadImageDto",uploadImageDto);
+        model.addAttribute("uploadImageStrs",uploadImageStrs);
         model.addAttribute("scheduleDto",scheduleDto);
+
+
     }
 
     @GetMapping("/userList")
     public void userListGo(){}
 
     @PostMapping("/createAction")
-    public String createAction(ClubDto clubDto, @RequestParam("image") MultipartFile image) throws IOException {
+    public String createAction(ClubDto clubDto, @RequestParam(value = "image", required = false) MultipartFile image) throws IOException {
         System.out.println(clubDto);
         System.out.println(image);
         // 추후 로그인 아이디로 수정 start
         clubDto.setReaderNo(1);
         // 추후 로그인 아이디로 수정 end
-
         clubService.createClub(clubDto);
 
         if (!image.isEmpty()) {

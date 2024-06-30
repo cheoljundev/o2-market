@@ -8,10 +8,11 @@
         INSERT INTO CLUB_BOARD (CLUB_BOARD_ID, CLUB_NAME, WRITER, TITLE, CONTENT) VALUES (SEQ_CLUB_BOARD.NEXTVAL, #{clubName}, #{writer}, #{title}, #{content})
     </insert>
 
-    <insert id="clubBoardImgInsert">
-        INSERT INTO CLUB_BOARD_IMG (BOARD_IMG_ID, BOARD_ID, IMAGE) VALUES(
-        SEQ_CLUB_CATEGORY_IMG.NEXTVAL
-            , SEQ_CLUB_BOARD.CURRVAL
-            , #{image})
-    </insert>
+    <select id="getClubBoardSeq">
+        SELECT SEQ_CLUB_BOARD.CURRVAL FROM DUAL
+    </select>
+
+    <select id="getClubBoardId">
+        SELECT CLUB_BOARD_ID FROM CLUB_BOARD WHERE CLUB_NAME = #{clubName} ORDER BY CLUB_BOARD_ID DESC
+    </select>
 </mapper>

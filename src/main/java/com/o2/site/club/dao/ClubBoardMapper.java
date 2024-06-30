@@ -4,6 +4,7 @@ import com.o2.site.club.dto.ClubBoardDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Mapper
 public interface ClubBoardMapper {
@@ -17,6 +18,8 @@ public interface ClubBoardMapper {
     // 모임 내 게시판 등록
     public int clubBoardInsert(ClubBoardDto clubBoardDto);
 
+    // 모임 내 게시판 현재 seq 가져오기
+    public int getClubBoardSeq();
 
     // 모임내 게시판 수정
     public int clubBoardUpdate();
@@ -25,5 +28,5 @@ public interface ClubBoardMapper {
     public int clubBoardImgDelete();
 
 
-    
+    List<Integer> getClubBoardId(String clubName);
 }

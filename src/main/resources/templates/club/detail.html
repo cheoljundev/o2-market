@@ -41,7 +41,7 @@
 
             <div class="row">
                 <div class="col-4">
-                    <img src="/images/club/moonge.jpg" id="image" alt="이미지가 없습니다." width="300" height="300">
+                    <img th:src="'/images/' + ${clubDto.imageStr}" id="image" alt="이미지가 없습니다." width="300" height="300" onerror=this.src="/images/club/imgAdd.jpg">
                 </div>
                 <div class="col-3">
                     <h2 th:text="${clubDto.clubName}"></h2>
@@ -63,11 +63,20 @@
                     </table>
                 </div>
                 <div class="col-6" style="margin-bottom : 20px;">
-                    <th:block th:each="num : ${#numbers.sequence(0,5)}">
-                        <img th:src="@{/images/${uploadImageDto[num]}}" width="200" height="200" class="" alt="..." onerror=this.src="/images/club/imgAdd.jpg">
+                    <th:block th:if="${uploadImageStrs.size() < 6}">
+                        <th:block th:each="item, num : ${uploadImageStrs}">
+                            <img th:src="@{'/images/' + ${item}}" width="200" height="200" class="" alt="...">
+                        </th:block>
+                        <th:block th:each="num : ${#numbers.sequence(uploadImageStrs.size(),5)}">
+                            <img src="/images/club/imgAdd.jpg" width="200" height="200" class="" alt="...">
+                        </th:block>
+                    </th:block>
+                    <th:block th:unless="${uploadImageStrs.size() < 6}">
+                        <th:block th:each="num : ${#numbers.sequence(0,5)}">
+                            <img th:src="@{'/images/' + ${uploadImageStrs[num]}}" width="200" height="200" class="" alt="...">
+                        </th:block>
                     </th:block>
                 </div>
-
                 <div class="d-md-flex justify-content-md-end">
                     <button type="submit" class="btn btn-primary">모임 가입</button>
                     <button type="submit" class="btn btn-primary">모임 탈퇴</button>
