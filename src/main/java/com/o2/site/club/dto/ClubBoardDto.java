@@ -14,4 +14,5 @@ public class ClubBoardDto {
     private String title;
     private String content;
     private Date createDate;
+    private String imageStr;
 }

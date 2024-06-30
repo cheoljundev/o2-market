@@ -60,4 +60,10 @@ public class ClubBoardContrlloer {
         }
 
     }
+
+    @GetMapping("/getList")
+    @RequestBody
+    public ResponseEntity<?> getListClub(ClubBoardDto clubBoardDto, @PageableDefault(size = 9) Pageable pageable) {
+        return ResponseEntity.ok(clubBoardService.getClubBoardList(clubBoardDto, pageable));
+    }
 }

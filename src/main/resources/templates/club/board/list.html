@@ -20,48 +20,52 @@
             });
 
             function getList(pageNo) {
-                        if (pageNo == 0 || pageNo == '' || pageNo == null) {
-                            pageNo = 1;
-                        }
-                        $('#clubTableDiv').html('');
-                        let clubName = '';
-                        let area = '';
+                if (pageNo == 0 || pageNo == '' || pageNo == null) {
+                    pageNo = 1;
+                }
+                $('#clubTableDiv').html('');
+                let title = $('#keyword').val();
 
-                        let searchSel = $('#searchSel').val();
-                        if (searchSel == 'clubName') {
-                            clubName = $('#keyword').val();
-                        } else if (searchSel == 'area') {
-                            area = $('#keyword').val();
-                        }
-                        console.log(clubName);
-                        console.log(area);
-                        console.log(searchSel);
-                        $.ajax({
-                                type : "GET",
-                                url : "/club/getList",
-                                dataType : "json",
-                                data : {'clubName' : clubName, 'area' : area, 'page' : pageNo},
-                                success : function(result) {
-                                    console.log(result);
-                                    for (var i = 0; i < result.size; i++) {
-                                    console.log('실행');
-                                    let template = `
-                                         <div class="col">
-                                            <a class="page-link" href="/club/board/detail">
-                                                <div class="card h-100">
-                                                    <img src="/images/club/imgAdd.jpg" class="card-img-top" alt="...">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">${result.content[i].clubName}</h5>
-                                                    </div>
+                $.ajax({
+                        type : "GET",
+                        url : "/club/board/getList",
+                        dataType : "json",
+                        data : {'title' : title, 'page' : pageNo},
+                        success : function(result) {
+                            let template = '';
+                            console.log(result);
+                            if (result.totalElements == 0) {
+                                template = '';
+                            } else {
+
+                                for (var i = 0; i < result.size; i++) {
+
+                                let imageStr = result.content[i].imageStr;
+                                if (imageStr === null || imageStr == '' || imageStr === undefined) {
+                                    imageStr = '/images/club/imgAdd.jpg';
+                                } else {
+                                    imageStr = '/images/' + result.content[i].imageStr;
+                                }
+                                console.log(imageStr);
+                                template += `
+                                     <div class="col">
+                                        <a class="page-link" href="/club/board/detail?clubName=${result.content[i].clubName}">
+                                            <div class="card h-100">
+                                                <img src="${imageStr}" class="card-img-top" onerror=this.src="/images/club/imgAdd.jpg" width="214px" height="300px">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${result.content[i].title}</h5>
                                                 </div>
-                                            </a>
-                                        </div>
-                                    `;
+                                            </div>
+                                        </a>
+                                    </div>
+                                `;
+                                }
 
                                 $('#clubTableDiv').append(template);
 
                                 }
                                 PAGE.paging(pageNo,result.totalPages,result.totalElements);
+
                             }
                         });
                     }

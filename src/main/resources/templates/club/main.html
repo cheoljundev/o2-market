@@ -53,9 +53,7 @@
                                         let imageStr = result.content[i].imageStr;
                                         if (imageStr === null || imageStr == '' || imageStr === undefined) {
                                             imageStr = '/images/club/imgAdd.jpg';
-                                            console.log("1실행");
                                         } else {
-                                            console.log("2실행");
                                             imageStr = '/images/' + result.content[i].imageStr;
                                         }
                                         console.log(imageStr);

@@ -37,11 +37,6 @@ public class ClubService {
     }
 
     public Page<Map<String, Object>> getClubList(ClubDto clubDto, Pageable pageable) {
-        System.out.println(pageable + "-------------------------");
-        System.out.println(pageable.getOffset());
-        System.out.println(pageable.getPageSize());
-        System.out.println(pageable.getPageNumber());
-
 
         RequestList<?> requestList = RequestList.builder()
                 .data(clubDto)
