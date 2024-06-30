@@ -225,4 +225,9 @@
         )
         ORDER BY ADV_NO
     </select>
+
+    <select id="findTradeByCategoryCode" resultType="com.o2.site.trade.domain.TradeDomain">
+        SELECT * FROM TRADE_BOARD
+        WHERE CATEGORY_CODE = #{categoryCode}
+    </select>
 </mapper>

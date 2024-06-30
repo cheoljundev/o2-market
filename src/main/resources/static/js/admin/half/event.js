@@ -23,7 +23,10 @@ const startEvent = () => {
                 number: document.querySelector(".number").value
             })
         }
-    )
+    ).then(()=>{
+        alert("추첨이 완료되었습니다.");
+        location.href = "/admin/half/event/result";
+    })
 };
 
 const cancelEvent = () => {
