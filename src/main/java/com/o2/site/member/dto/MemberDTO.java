@@ -1,5 +1,6 @@
 package com.o2.site.member.dto;
 
+import com.o2.site.member.domain.MemberRole;
 import lombok.*;
 
 import java.util.List;
@@ -16,5 +17,5 @@ public class MemberDTO {
         private String address;
         private String image;
         private int mileage;
-        private List<Authority> authorities;
+        List<MemberRole> memberRoles;
 }

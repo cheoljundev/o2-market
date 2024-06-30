@@ -1,6 +1,7 @@
 package com.o2.site.member.controller;
 
 import com.o2.site.member.domain.Member;
+import com.o2.site.member.domain.MemberRole;
 import com.o2.site.member.dto.MemberDTO;
 import com.o2.site.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,15 @@ public class MemberController {
         System.out.println(member);
         memberService.join(member);
 
+        // 번호 뽑아짐
+        Long memberNo = memberService.findMemberNo(memberDTO.getId());
+        System.out.println(memberNo);
+
+        if (memberNo != null) {
+            MemberRole memberRole = new MemberRole(memberNo, "ROLE_USER");
+            memberService.insertRole(memberRole);
+        }
+        
         return "member/login";
     }
 

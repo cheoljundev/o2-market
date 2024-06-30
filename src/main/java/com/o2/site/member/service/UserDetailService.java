@@ -1,6 +1,7 @@
 package com.o2.site.member.service;
 
 import com.o2.site.member.dao.MemberMapper;
+import com.o2.site.member.domain.Member;
 import com.o2.site.member.dto.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,13 +27,13 @@ public class UserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MemberDTO memberDTO = memberMapper.findByUsername(username);
-        if (memberDTO == null) {
+        Member UserId = memberMapper.findByUsername(username);
+        if (UserId == null) {
             throw new UsernameNotFoundException("유저 정보가 없습니다!");
         }
-        List<GrantedAuthority> authorities = memberDTO.getAuthorities().stream()
+        List<GrantedAuthority> authorities = UserId.getAuthorities().stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getAuthority()))
                 .collect(Collectors.toList());
-        return new User(memberDTO.getId(), memberDTO.getPassword(), authorities);
+        return new User(UserId.getId(), UserId.getPassword(), authorities);
     }
 }

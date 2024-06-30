@@ -29,7 +29,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/loginProc")
                         .usernameParameter("id")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/member/myPage", true)
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
