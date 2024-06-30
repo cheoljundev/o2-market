@@ -12,5 +12,6 @@ public class ScheduleDto {
     private String clubName;
     private Date dateTime;
     private String address;
+    private String addressDetail;
     private Date createDate;
 }

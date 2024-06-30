@@ -29,8 +29,6 @@ public class ClubService {
 
     public int createClub(ClubDto clubDto) {
 
-        ClubUserDto clubUserDto = new ClubUserDto();
-
         int result = clubMapper.clubInsert(clubDto);
 
         return result;

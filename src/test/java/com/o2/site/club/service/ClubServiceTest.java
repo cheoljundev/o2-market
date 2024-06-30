@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = O2Application.class)
-@Transactional
+//@Transactional
 class ClubServiceTest {
 
     @Autowired
@@ -23,7 +23,7 @@ class ClubServiceTest {
     void createClub() {
 
         ClubDto clubDto = new ClubDto();
-        for (int i = 300 ; i <= 400; i++) {
+        for (int i = 2 ; i <= 222; i++) {
 
             clubDto.setClubName("모임"+i);
             clubDto.setReaderNo(1);

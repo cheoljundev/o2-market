@@ -12,18 +12,24 @@ import java.util.List;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ClubScheduleService {
-    private final ClubScheduleMapper ScheduleMapper;
+    private final ClubScheduleMapper scheduleMapper;
 
     @Autowired
-    public ClubScheduleService(ClubScheduleMapper ScheduleMapper) {
-        this.ScheduleMapper = ScheduleMapper;
+    public ClubScheduleService(ClubScheduleMapper scheduleMapper) {
+        this.scheduleMapper = scheduleMapper;
     }
 
     public List<ScheduleDto> scheduleDetailList(String clubName) {
         System.out.println(clubName);
-        return ScheduleMapper.scheduleDetailList(clubName);
+        return scheduleMapper.scheduleDetailList(clubName);
     }
 
 
+    public int scheduleCreate(ScheduleDto scheduleDto) {
+        return scheduleMapper.scheduleCreate(scheduleDto);
+    }
 
+    public ScheduleDto clubScheduleDeteil(long scheduleId) {
+        return scheduleMapper.clubScheduleDeteil(scheduleId);
+    }
 }

@@ -11,9 +11,6 @@ public interface ClubScheduleMapper {
 
     // 일정 리스트
     public ArrayList<ScheduleDto> scheduleDetailList(String clubName);
-
-    // 일정 생성
-    public int scheduleInsert();
     
     // 일정 수정
     public int scheduleUpdate();
@@ -23,4 +20,9 @@ public interface ClubScheduleMapper {
 
     // 일정 상세보기
     public List<ScheduleDto> scheduleDetail();
+    
+    // 일정 생성
+    int scheduleCreate(ScheduleDto scheduleDto);
+
+    ScheduleDto clubScheduleDeteil(long scheduleId);
 }

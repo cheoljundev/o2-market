@@ -12,7 +12,34 @@
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <script src="/js/club/getParam.js"></script>
         <script>
+            $(document).ready(function(){
+                $('#createGo').click(function(){
+                    let dataDate = $('#date').val();
+                    let dataTime = $('#time').val();
+                    let address = $('#UserAdd1').val();
+                    let addressDetail = $('#UserAdd2').val();
+                    let dateFormat = new Date(dataDate+' '+dataTime);
 
+                    let formData = new FormData();
+
+                    formData.append('dateTime',dateFormat);
+                    formData.append('address',address);
+                    formData.append('addressDetail',addressDetail);
+                    formData.append('clubName',getClubName());
+
+                    $.ajax({
+                        url : "/club/schedule/create",
+                        processData : false,
+                        contentType : false,
+                        type : 'POST',
+                        data : formData,
+                        success : function(data) {
+                            alert('글 작성이 완료 되었습니다.');
+                            location.href='/club/schedule/list?clubName='+getClubName()+'';
+                        }
+                    });
+                });
+            });
         </script>
     </th:block>
 
@@ -43,7 +70,7 @@
 
         <div>
             <h2>날짜</h2>
-            <input type="date">&nbsp;<input type="time">
+            <input type="date" id="date">&nbsp;<input type="time" id="time">
             <br><br>
             <div class="row">
                 <div class="col-6">
@@ -62,7 +89,7 @@
             <div id="map" style="width:800px;height:500px;"></div>
         </div>
         <div class="d-md-flex justify-content-md-end">
-            <button type="submit" class="btn btn-primary" id="createGo">생성</button>
+            <button type="button" class="btn btn-primary" id="createGo">생성</button>
         </div>
     </div>
     <script type="text/javascript">

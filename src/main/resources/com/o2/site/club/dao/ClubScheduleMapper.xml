@@ -6,4 +6,12 @@
     <select id="scheduleDetailList">
         SELECT * FROM (SELECT * FROM SCHEDULE ORDER BY SCHEDULE_ID DESC)  WHERE CLUB_NAME = #{clubName} and ROWNUM <![CDATA[<=]]> 10
     </select>
+
+    <insert id="scheduleCreate">
+        INSERT INTO SCHEDULE (SCHEDULE_ID, CLUB_NAME, DATE_TIME, ADDRESS, ADDRESS_DETAIL) VALUES (SEQ_SCHEDULE.NEXTVAL,#{clubName},#{dateTime},#{address},#{addressDetail})
+    </insert>
+
+    <select id="clubScheduleDeteil">
+        SELECT * FROM SCHEDULE WHERE SCHEDULE_ID = #{scheduleId}
+    </select>
 </mapper>
