@@ -53,7 +53,6 @@ public class MemberController {
         System.out.println(member);
         memberService.join(member);
 
-        // 번호 뽑아짐
         Long memberNo = memberService.findMemberNo(memberDTO.getId());
         System.out.println(memberNo);
 
