@@ -49,7 +49,7 @@
                                 console.log(imageStr);
                                 template += `
                                      <div class="col">
-                                        <a class="page-link" href="/club/board/detail?clubName=${result.content[i].clubName}">
+                                        <a class="page-link" href="/club/board/detail?clubName=${result.content[i].clubName}&clubBoardId=${result.content[i].clubBoardId}">
                                             <div class="card h-100">
                                                 <img src="${imageStr}" class="card-img-top" onerror=this.src="/images/club/imgAdd.jpg" width="214px" height="300px">
                                                 <div class="card-body">

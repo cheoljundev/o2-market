@@ -43,4 +43,8 @@
             </if>
         </where>
     </select>
+
+    <select id="clubBoardDeteil">
+        SELECT * FROM CLUB_BOARD WHERE CLUB_BOARD_ID = #{clubBoardId}
+    </select>
 </mapper>

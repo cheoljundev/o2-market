@@ -52,4 +52,9 @@ public class ClubBoardService {
 
         return clubBoardMapper.getClubBoardId(clubName);
     }
+
+    public ClubBoardDto clubBoardDeteil(long clubBoardId) {
+
+        return clubBoardMapper.clubBoardDeteil(clubBoardId);
+    }
 }

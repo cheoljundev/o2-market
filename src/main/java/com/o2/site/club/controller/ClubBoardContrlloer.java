@@ -5,6 +5,7 @@ import com.o2.site.club.dto.ClubCategoryDto;
 import com.o2.site.club.dto.ClubDto;
 import com.o2.site.club.service.ClubBoardService;
 import com.o2.site.club.service.ClubService;
+import com.o2.site.upload.domain.UploadImage;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,7 +36,13 @@ public class ClubBoardContrlloer {
     public void listGo() {}
 
     @GetMapping("/detail")
-    public void detailGo() {}
+    public void detailGo(@RequestParam("clubBoardId") long clubBoardId, Model model) {
+        ClubBoardDto clubBoardDto = clubBoardService.clubBoardDeteil(clubBoardId);
+        List<UploadImage> uploadImageList = uploadService.findImages(UploadImageDto.builder().clubBoardId(clubBoardId).build());
+
+        model.addAttribute("uploadImageList",uploadImageList);
+        model.addAttribute("clubBoardDto",clubBoardDto);
+    }
 
     @GetMapping("/create")
     public void createGo() {}
