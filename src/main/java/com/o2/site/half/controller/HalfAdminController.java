@@ -129,6 +129,10 @@ public class HalfAdminController {
             tradeDomains.addAll(tradeService.findTradeByCategoryCode(categoryCode));
         });
 
+        if (tradeDomains.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "추첨 대상 상품이 부족합니다.");
+        }
+
         Collections.shuffle(tradeDomains);
         List<TradeDomain> resultList = tradeDomains.subList(0, eventResultDto.getNumber());
 

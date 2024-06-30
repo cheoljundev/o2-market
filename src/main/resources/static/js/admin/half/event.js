@@ -23,10 +23,17 @@ const startEvent = () => {
                 number: document.querySelector(".number").value
             })
         }
-    ).then(()=>{
+    ).then(response => {
+        if (!response.ok) { // 응답 상태가 200-299가 아닌 경우
+            throw new Error('응답 오류 : ' + response.statusText);
+        }
+    }).then(data => {
         alert("추첨이 완료되었습니다.");
         location.href = "/admin/half/event/result";
-    })
+    }).catch((error) => {
+        alert("추첨 중 오류가 발생했습니다.");
+        console.log(error);
+    });
 };
 
 const cancelEvent = () => {
