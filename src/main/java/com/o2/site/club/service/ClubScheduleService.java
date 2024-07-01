@@ -1,6 +1,5 @@
 package com.o2.site.club.service;
 
-import com.o2.site.club.dao.ClubMapper;
 import com.o2.site.club.dao.ClubScheduleMapper;
 import com.o2.site.club.dto.ScheduleDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +34,9 @@ public class ClubScheduleService {
 
     public List<ScheduleDto> scheduleList(String clubName) {
         return scheduleMapper.scheduleList(clubName);
+    }
+
+    public List<String> scheduleInUserList(long scheduleId) {
+        return scheduleMapper.scheduleInUserList(scheduleId);
     }
 }

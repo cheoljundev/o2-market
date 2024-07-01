@@ -55,4 +55,26 @@
                (SELECT COUNT(0) FROM CLUB_USER WHERE CLUB_NAME = #{clubName}) AS MEMBERS_COUNT
         FROM CLUB c LEFT JOIN club_category cc ON c.CATEGORY_ID = cc.CLUB_CATEGORY_ID where c.CLUB_NAME  = #{clubName}
     </select>
+
+    <delete id="clubUserDelete">
+        DELETE FROM CLUB_USER WHERE USER_NO = #{userNo} AND CLUB_NAME = #{clubName}
+    </delete>
+
+    <insert id="clubUserInsert">
+        INSERT INTO CLUB_USER (USER_NO, CLUB_NAME, IN_CK) VALUES (#{userNo}, #{clubName}, 'N')
+    </insert>
+    
+    <update id="clubUserIn">
+        UPDATE CLUB_USER SET
+            IN_CK = 'Y'
+        WHERE USER_NO = #{userNo} AND CLUB_NAME = #{clubName}
+    </update>
+
+    <select id="clubAppUserList">
+        SELECT * FROM CLUB_USER WHERE CLUB_NAME = #{clubName} AND IN_CK = 'N'
+    </select>
+
+    <select id="clubUserList">
+        SELECT * FROM CLUB_USER WHERE CLUB_NAME = #{clubName} AND IN_CK = 'Y'
+    </select>
 </mapper>

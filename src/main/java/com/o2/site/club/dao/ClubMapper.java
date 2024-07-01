@@ -26,32 +26,30 @@ public interface ClubMapper {
     // 모임 카테고리 리스트
     public ArrayList<ClubCategoryDto> clubCategoryList();
 
-    // 모임 수정
-    public int clubUpdate();
-
     // 모임 상세보기
     public ClubDto clubDeteil(String clubName);
 
     // 모임 참여
-    public ClubUserDto clubUserInsert(ClubUserDto clubUserDto);
+    public int clubUserInsert(ClubUserDto clubUserDto);
 
 // 관리자
     // 모임원 리스트
     public ArrayList<ClubUserDto> clubUserList();
 
     // 모임원 탈퇴
-    public int clubUserDelete();
+    public int clubUserDelete(ClubUserDto clubUserDto);
 
     // 신청원 리스트
     public ArrayList<ClubUserDto> clubRequestUserList();
 
     // 신청원 수락
-    public int clubUserIn();
+    public int clubUserIn(ClubUserDto clubUserDto);
 
-    // 신청원 취소
-    public int clubUserCancle();
+    // 모임원 관리 요청 리스트
+    public List<ClubUserDto> clubAppUserList(String clubName);
 
-
+    // 모임원 관리 모임원 리스트
+    public List<ClubUserDto> clubUserList(String clubName);
 // 관리자 end
 
     

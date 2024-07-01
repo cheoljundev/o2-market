@@ -55,4 +55,25 @@ public class ClubService {
     public ClubDto getClubInfo(String clubName) {
         return clubMapper.clubDeteil(clubName);
     }
+
+    public int clubUserInsert(ClubUserDto clubUserDto) {
+        return clubMapper.clubUserInsert(clubUserDto);
+    }
+
+    public int clubUserDelete(ClubUserDto clubUserDto) {
+        return clubMapper.clubUserDelete(clubUserDto);
+    }
+
+    public int clubUserIn(ClubUserDto clubUserDto) {
+        return clubMapper.clubUserIn(clubUserDto);
+    }
+
+    public List<ClubUserDto> clubAppUserList(String clubName) {
+        return clubMapper.clubAppUserList(clubName);
+    }
+
+    public List<ClubUserDto> clubUserList(String clubName) {
+        return clubMapper.clubUserList(clubName);
+    }
+
 }

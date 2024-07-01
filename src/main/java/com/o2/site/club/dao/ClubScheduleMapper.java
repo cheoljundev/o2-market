@@ -1,5 +1,6 @@
 package com.o2.site.club.dao;
 
+import com.o2.site.club.dto.ClubUserDto;
 import com.o2.site.club.dto.ScheduleDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -27,4 +28,7 @@ public interface ClubScheduleMapper {
     ScheduleDto clubScheduleDeteil(long scheduleId);
 
     List<ScheduleDto> scheduleList(String clubName);
+    
+    // 일정 참여 유저 리스트
+    List<String> scheduleInUserList(long scheduleId);
 }
