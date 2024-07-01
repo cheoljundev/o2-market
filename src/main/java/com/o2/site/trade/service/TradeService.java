@@ -122,4 +122,8 @@ public class TradeService {
     public List<TradeDomain> findTradeByCategoryCode(String categoryCode) {
         return tradeMapper.findTradeByCategoryCode(categoryCode);
     }
+
+    public void doneTrade(Long tradeNo) {
+        tradeMapper.doneTrade(tradeNo);
+    }
 }

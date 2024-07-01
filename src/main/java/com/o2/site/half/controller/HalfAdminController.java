@@ -141,7 +141,9 @@ public class HalfAdminController {
                     .build()).get(0);
 
             resultTrades.add(EventResultTradeDto.builder()
+                    .tradeNo(Integer.valueOf(tradeDomain.getTradeNo()))
                     .title(tradeDomain.getTitle())
+                    .memberNo(tradeDomain.getMemberNo())
                     .thumbnail(thumbnail)
                     .price(tradeDomain.getPrice())
                     .halfPrice(tradeDomain.getPrice() / 2)
@@ -161,6 +163,25 @@ public class HalfAdminController {
         model.addAttribute("trades", resultTrades);
 
         return "/half/admin/event-result";
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/event/done")
+    public void eventDone(HttpSession session) {
+        List<EventResultTradeDto> resultTrades;
+        resultTrades = (List<EventResultTradeDto>) session.getAttribute("trades");
+        resultTrades.forEach(eventResultTradeDto -> {
+            productService.insertProduct(InsertProductDto.builder()
+                    .tradeNo((long) eventResultTradeDto.getTradeNo())
+                    .sellerMemberNo((long) eventResultTradeDto.getMemberNo())
+                    .sellerMemberId("admin")
+                    .sellerPhone("01012345678")
+                    .halfPrice((long) eventResultTradeDto.getHalfPrice())
+                    .build());
+        });
+
+        // 세션에서 resultTrades를 제거합니다.
+        session.removeAttribute("trades");
     }
 
     @GetMapping("/list")

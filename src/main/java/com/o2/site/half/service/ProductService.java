@@ -25,6 +25,7 @@ public class ProductService {
     private final TradeService tradeService;
 
     public void insertProduct(InsertProductDto insertProductDto) {
+        tradeService.doneTrade(insertProductDto.getTradeNo());
         productDao.insertProduct(insertProductDto);
     }
 
