@@ -19,16 +19,16 @@
         </ol>
     </nav>
     <h1 align="center">상품 등록</h1>
-    <form action="/trade/trade_app" method="post" enctype="multipart/form-data">
+    <form action="/trade/trade_update" method="post" enctype="multipart/form-data">
         <div class="input-group">
             <span class="input-group-text" id="inputGroup-sizing-lg" >제목</span>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" style="width: 70%;" name="title">
-
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" style="width: 70%;" name="title" th:value="${tradeDomain.title}">
             <label class="input-group-text" for="inputGroupSelect01" >카테고리</label>
             <select class="form-select" id="inputGroupSelect01" name="category">
                 <option th:each="categories : ${category}"
                         th:value="${categories.categoryCode}"
-                        th:text="${categories.category}">
+                        th:text="${categories.category}"
+                        th:attr="selected=${categories.categoryCode == tradeDomain.categoryCode} ? 'selected' : null">
                 </option>
             </select>
         </div>
@@ -38,24 +38,26 @@
                 <label for="inputtext" class="col-form-label">지역: </label>
             </div>
             <div class="col-sm-4">
-                <input type="text" id="inputtext" class="form-control" name="address">
+                <input type="text" id="inputtext" class="form-control" name="address" th:value="${tradeDomain.address}">
             </div>
             <div class="col-auto">
                 <label for="inputtext2" class="col-form-label">가격: </label>
             </div>
             <div class="col-auto">
-                <input type="text" id="inputtext2" class="form-control" name="price">
+                <input type="text" id="inputtext2" class="form-control" name="price" th:value="${tradeDomain.price}">
             </div>
         </div>
         <hr>
         <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label">상세 내용</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="content"></textarea>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="content" th:text="${tradeDomain.content}"></textarea>
         </div>
         <div class="mb-3">
             <label for="formFileMultiple" class="form-label">파일 업로드</label>
             <input class="form-control" type="file" name="files" id="formFileMultiple" multiple>
         </div>
+        <input type="hidden" id="tradeNo" name="tradeNo" th:value="${tradeDomain.tradeNo}">
+        <input type="hidden" id="memberNo" name="memberNo" th:value="${tradeDomain.memberNo}">
         <div class="text-end">
             <button type="submit">글쓰기</button>
         </div>

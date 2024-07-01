@@ -1,16 +1,13 @@
 package com.o2.site.trade.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @ToString
-@Builder
+@Data
 public class AdvDomain {
-    private int advNo;
+    private int advNo=1;
     private String title;
     private String advName;
     private String companyName;

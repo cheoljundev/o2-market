@@ -14,9 +14,16 @@
 </head>
 <body>
 <main>
-    <div class="container mt-5 text-center">
-        <h1>관리자 페이지</h1>
-    </div>
+    <div class="container mt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">거래</li>
+            <li class="breadcrumb-item active" aria-current="page">관리자</li>
+            <li class="breadcrumb-item active" aria-current="page">신청 목록</li>
+            <li class="breadcrumb-item active" aria-current="page">상세보기</li>
+        </ol>
+    </nav>
+    <h1 class="mb-2">상품 등록 심사</h1>
     <div class="container mt-5">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
@@ -90,20 +97,22 @@
     <hr class="border border-dark">
     <div class="col" align="center">
         <!--            <img src="..." class="rounded-circle">-->
-        <span th:text="'판매자: '+${tradeDomain.memberNo}">판매자</span>
-        <span th:text="'주소: '+${tradeDomain.address}">주소</span>
-        <span th:text="'가격: '+${tradeDomain.price}">가격</span>
+        <span th:text="'판매자: '+${tradeDomain.memberNo}+' |'">판매자</span>
+        <span th:text="'주소: '+${tradeDomain.address}+' |'">주소</span>
+        <span th:text="'가격: '+₩+${#numbers.formatInteger(tradeDomain.price, 3, 'COMMA')}">가격</span>
     </div>
     <hr class="border border-dark">
     <div align="center">
         <span th:text="${tradeDomain.content}">상세내용</span>
     </div>
     <div align="center">
+        <hr class="border border-dark">
         <div class="btn-group" aria-label="Small button group">
             <a th:href="@{/trade/approve(tradeNo=${tradeDomain.tradeNo})}" class="btn bg-body-secondary">승인하기</a>
             <a th:href="@{/trade/reject(tradeNo=${tradeDomain.tradeNo})}" class="btn bg-body-secondary">거절하기</a>
             <a href="/trade/trade_admin_application" class="btn bg-body-secondary">목록으로</a>
         </div>
+    </div>
     </div>
 </main>
 </body>

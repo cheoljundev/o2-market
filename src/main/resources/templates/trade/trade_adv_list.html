@@ -13,17 +13,19 @@
 <body>
 <main>
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <h1>거래 광고 목록 페이지</h1>
-            </div>
-        </div>
-    </div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">거래</li>
+            <li class="breadcrumb-item active" aria-current="page">관리자</li>
+            <li class="breadcrumb-item active" aria-current="page">광고 목록</li>
+        </ol>
+    </nav>
+        <h1 class="mb-2">광고 목록</h1>
     <div class="container text-center">
-        <div class="row row-cols-3">
-            <div class="col-md-4" th:each="adv : ${advList}">
+        <div class="row row-cols-3 mt-5">
+            <div class="col-md-4 mb-5" th:each="adv : ${advList}">
                 <a th:href="@{/trade/trade_adv_detail(advNo=${adv.advNo})}">
-                    <img th:src="@{/images/{image}(image=${adv.storedImageName})}" class="img-thumbnail" style="width:400px; height:400px">
+                    <img th:src="@{/images/{image}(image=${adv.storedImageName})}" class="img-thumbnail" style="width:300px; height:300px">
                     <br>
                     <span th:text="${adv.title}">제목</span>
                     <br>
@@ -36,19 +38,19 @@
         </div>
     </div>
 
-    <div class="pagination justify-content-center">
+    <div th:if="${totalPages > 1}" class="pagination justify-content-center">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
+                <li class="page-item" th:class="${currentPage == 1} ? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/trade/trade_adv_list(page=${currentPage - 1})}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
+                <li class="page-item" th:each="pageNum : ${#numbers.sequence(1, totalPages)}" th:class="${currentPage == pageNum} ? 'active' : ''">
+                    <a class="page-link" th:href="@{/trade/trade_adv_list(page=${pageNum})}" th:text="${pageNum}">현재페이지</a>
+                </li>
+                <li class="page-item" th:class="${currentPage == totalPages} ? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/trade/trade_adv_list(page=${currentPage + 1})}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
@@ -56,6 +58,7 @@
         </nav>
     </div>
     <a class="btn btn-primary btn-lg" href="/trade/trade_admin" role="button">거래 관리자 이동</a>
+    </div>
 </main>
 </body>
 </html>
