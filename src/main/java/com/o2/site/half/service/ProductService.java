@@ -59,4 +59,8 @@ public class ProductService {
                 .adminMemo(product.getAdminMemo())
                 .build();
     }
+
+    public int findPages(int pageSize) {
+        return productDao.findPages(pageSize);
+    }
 }

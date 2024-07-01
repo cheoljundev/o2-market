@@ -11,4 +11,5 @@ public interface ProductDao {
     List<Product> findRange(int start, int end);
     Product findByProductNo(Long productNo);
     void updateProduct(UpdateProductDto updateProductDto);
+    int findPages(int pageSize);
 }

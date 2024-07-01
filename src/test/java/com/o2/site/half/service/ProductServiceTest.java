@@ -97,4 +97,10 @@ class ProductServiceTest {
 
         Assertions.assertThat(product.getProductNo()).isEqualTo(99L);
     }
+
+    @Test
+    void findPages() {
+        int pages = productService.findPages(10);
+        Assertions.assertThat(pages).isEqualTo(1);
+    }
 }

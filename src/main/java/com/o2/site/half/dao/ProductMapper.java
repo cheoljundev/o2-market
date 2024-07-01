@@ -14,4 +14,6 @@ public interface ProductMapper {
     List<Product> findRange(@Param("start") int start, @Param("end") int end);
     Product findByProductNo(Long productNo);
     void updateProduct(UpdateProductDto updateProductDto);
+    int count();
+
 }

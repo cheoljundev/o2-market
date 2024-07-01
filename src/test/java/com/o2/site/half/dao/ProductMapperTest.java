@@ -83,4 +83,10 @@ class ProductMapperTest {
         Assertions.assertThat(product.getIsDone()).isEqualTo(1);
         Assertions.assertThat(product.getAdminMemo()).isEqualTo("test");
     }
+
+    @Test
+    void count() {
+        int count = productMapper.count();
+        Assertions.assertThat(count).isEqualTo(2);
+    }
 }

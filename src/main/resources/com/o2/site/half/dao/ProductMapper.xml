@@ -44,4 +44,7 @@
     </set>
     where PRODUCT_NO = #{productNo}
     </update>
+    <select id="count">
+        SELECT COUNT(*) FROM half_product
+    </select>
 </mapper>

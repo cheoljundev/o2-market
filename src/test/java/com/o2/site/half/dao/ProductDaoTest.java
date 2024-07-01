@@ -82,4 +82,9 @@ class ProductDaoTest {
         Assertions.assertThat(product.getAdminMemo()).isEqualTo("test");
     }
 
+    @Test
+    void findPages() {
+        int pages = productDao.findPages(10);
+        Assertions.assertThat(pages).isEqualTo(1);
+    }
 }

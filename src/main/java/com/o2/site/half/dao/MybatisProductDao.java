@@ -33,4 +33,13 @@ public class MybatisProductDao implements ProductDao{
     public void updateProduct(UpdateProductDto updateProductDto) {
         productMapper.updateProduct(updateProductDto);
     }
+
+    @Override
+    public int findPages(int pageSize) {
+        int count = productMapper.count();
+        if (count == 0) {
+            return 0;
+        }
+        return (int) Math.ceil((double) count / pageSize);
+    }
 }

@@ -3,6 +3,7 @@ package com.o2.site.half.controller;
 import com.o2.site.half.dao.OrderSearchCond;
 import com.o2.site.half.dto.*;
 import com.o2.site.half.service.OrderService;
+import com.o2.site.half.service.ProductService;
 import com.o2.site.trade.domain.TradeDomain;
 import com.o2.site.trade.service.TradeService;
 import com.o2.site.upload.domain.UploadImage;
@@ -29,6 +30,7 @@ public class HalfAdminController {
 
     private final OrderService orderService;
     private final TradeService tradeService;
+    private final ProductService productService;
     private final UploadService uploadService;
 
     @GetMapping
@@ -162,7 +164,17 @@ public class HalfAdminController {
     }
 
     @GetMapping("/list")
-    public String list() {
+    public String list(@RequestParam(value = "page", defaultValue = "1") int currentPage, Model model) {
+        int pageSize = 10;
+        int pageLength = productService.findPages(pageSize);
+        Pagination pagination = new Pagination(
+                currentPage,
+                pageLength,
+                pageSize
+        );
+        List<AdminProductListDto> products = productService.findRange(pagination.getStartElement(), pagination.getEndElement());
+        model.addAttribute("pagination", pagination);
+        model.addAttribute("products", products);
         return "/half/admin/list";
     }
 
