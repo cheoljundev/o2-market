@@ -30,7 +30,7 @@
                         type : "GET",
                         url : "/club/board/getList",
                         dataType : "json",
-                        data : {'title' : title, 'page' : pageNo},
+                        data : {'title' : title, 'clubName' : getClubName() ,'page' : pageNo},
                         success : function(result) {
                             let template = '';
                             console.log(result);

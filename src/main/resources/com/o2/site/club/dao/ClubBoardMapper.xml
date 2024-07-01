@@ -24,6 +24,9 @@
         SELECT *
         FROM CLUB_BOARD
         <where>
+            <if test="data.clubName != null and data.clubName != ''">
+                AND CLUB_NAME LIKE '%' || #{data.clubName} || '%'
+            </if>
             <if test="data.title != null and data.title != ''">
                 AND TITLE LIKE '%' || #{data.title} || '%'
             </if>
@@ -38,8 +41,11 @@
         SELECT COUNT(*) AS CNT
         FROM CLUB_BOARD
         <where>
+            <if test="clubName != null and clubName != ''">
+                AND CLUB_NAME LIKE '%' || #{clubName} || '%'
+            </if>
             <if test="title != null and title != ''">
-                AND TITLE LIKE '%' || #{data.title} || '%'
+                AND TITLE LIKE '%' || #{title} || '%'
             </if>
         </where>
     </select>
