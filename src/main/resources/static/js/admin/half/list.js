@@ -56,13 +56,13 @@ const done = () => {
     }).then(
         response => {
             if (!response.ok) {
-                alert("처리에 실패했습니다.");
                 return response.text().then(text => { throw new Error(text) });
             }
-            alert("처리되었습니다.");
-            window.location.href = "/admin/half/list";
         }
-    ).catch(
+    ).then(()=>{
+        alert("처리되었습니다.");
+        window.location.href = "/admin/half/list";
+    }).catch(
         error => {
             alert("처리에 실패했습니다.");
             console.error(error);
