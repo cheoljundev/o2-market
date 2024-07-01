@@ -184,4 +184,13 @@ public class HalfAdminController {
         return productService.findByProductNo(productNo);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/list/done")
+    public void updateDone(@RequestBody AdminProductUpdateDto adminProductUpdateDto){
+        productService.updateProduct(UpdateProductDto.builder()
+                .productNo(adminProductUpdateDto.getProductNo())
+                .isDone(ProductState.DONE)
+                .adminMemo(adminProductUpdateDto.getAdminMemo())
+                .build());
+    }
 }

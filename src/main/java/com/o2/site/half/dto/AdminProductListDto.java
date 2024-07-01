@@ -28,7 +28,7 @@ public class AdminProductListDto {
                 case 0:
                     this.stateName = "매입 대기";
                     break;
-                case 2:
+                case 1:
                     this.stateName = "매입 완료";
                     break;
                 default:
