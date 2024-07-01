@@ -4,9 +4,7 @@ import com.o2.site.half.dao.OrderSearchCond;
 import com.o2.site.half.dto.*;
 import com.o2.site.half.service.OrderService;
 import com.o2.site.trade.domain.TradeDomain;
-import com.o2.site.trade.dto.TradeMainDto;
 import com.o2.site.trade.service.TradeService;
-import com.o2.site.trade.dto.SearchDto;
 import com.o2.site.upload.domain.UploadImage;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -162,6 +159,11 @@ public class HalfAdminController {
         model.addAttribute("trades", resultTrades);
 
         return "/half/admin/event-result";
+    }
+
+    @GetMapping("/list")
+    public String list() {
+        return "/half/admin/list";
     }
 
 }
