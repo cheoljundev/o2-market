@@ -107,7 +107,7 @@ public class TradeController {
     }
     //게시글 한개 조회
     @GetMapping("/trade_detail")
-    public void trade_detail(Model model, String tradeNo){
+    public void trade_detail(Model model, int tradeNo){
         TradeDomain tradeDomain = tradeService.getBoard(tradeNo);
         System.out.println(tradeDomain);
         tradeService.upVisitCount(tradeNo);
@@ -196,7 +196,7 @@ public class TradeController {
     }
     //관리자 페이지 신청 상세 조회
     @GetMapping("/trade_admin_approve")
-    public void trade_admin_approve(Model model, String tradeNo){
+    public void trade_admin_approve(Model model, int tradeNo){
         TradeDomain tradeDomain = tradeService.getBoard(tradeNo);
         System.out.println(tradeDomain);
         ArrayList<String> imageList = tradeService.getImages(tradeNo);
@@ -311,5 +311,39 @@ public class TradeController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
         return "/trade/trade_mylist";
+    }
+
+    @GetMapping("/trade_update")
+    public void trade_update(Model model, int tradeNo){
+        System.out.println(tradeNo);
+        TradeDomain tradeDomain = tradeService.getBoard(tradeNo);
+        model.addAttribute("tradeDomain",tradeDomain);
+        System.out.println(tradeDomain);
+        ArrayList<CategoryDto> category = tradeService.getCategory();
+        model.addAttribute("category",category);
+    }
+    @PostMapping("/trade_update")
+    public String trade_update(ApplicationDto ad, @RequestParam("files") MultipartFile[] files){
+        System.out.println(ad);
+        int reslut = tradeService.updateBoard(ad);
+        try{
+            for (MultipartFile file : files) {
+                if (file.isEmpty()) {
+                    System.out.println("empty");
+                    return "redirect:/trade/trade_main";
+                }
+            }
+                tradeService.deleteImpages(ad.getTradeNo());
+            for (MultipartFile image : files) {
+                UploadImageDto uploadImageDto = UploadImageDto.builder()
+                        .image(image)
+                        .tradeNo(Long.valueOf(ad.getTradeNo()))
+                        .build();
+                uploadService.insertImage(uploadImageDto);
+            }
+        }catch (Exception e){
+            System.out.println("이미지 등록 실패");
+        }
+        return "redirect:/trade/trade_main";
     }
 }

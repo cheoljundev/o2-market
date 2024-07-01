@@ -284,4 +284,21 @@
         WHERE rn = 1
         ORDER BY TRADE_NO DESC
     </select>
+
+    <update id="updateBoard">
+        UPDATE TRADE_BOARD
+        SET
+        TITLE =#{title},
+        CATEGORY_CODE=#{category},
+        CONTENT=#{content},
+        PRICE=#{price},
+        ADDRESS=#{address}
+        WHERE
+        TRADE_NO=#{tradeNo}
+    </update>
+
+    <delete id="deleteImages">
+        DELETE FROM UPLOAD_IMAGE
+        WHERE TRADE_NO=#{tradeNo}
+    </delete>
 </mapper>

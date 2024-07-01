@@ -1,10 +1,7 @@
 package com.o2.site.trade.controller;
 
 import com.o2.site.config.O2Application;
-import com.o2.site.trade.dto.AdvDetailDto;
-import com.o2.site.trade.dto.AdvListDto;
-import com.o2.site.trade.dto.MyListDto;
-import com.o2.site.trade.dto.TradeMainDto;
+import com.o2.site.trade.dto.*;
 import com.o2.site.trade.service.TradeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,5 +97,22 @@ class TradeControllerTest {
         ArrayList<TradeMainDto> list2 = tradeService.selectMainList();
         //then
         assertThat(list.size()).isEqualTo(list2.size());
+    }
+    //수정 테스트
+    @Test
+    void trade_update() {
+        //given
+        int tradeNo = 2;
+        ApplicationDto ad= new ApplicationDto();
+        ad.setTradeNo(2);
+        ad.setContent("content");
+        ad.setTitle("title");
+        ad.setCategory("cg_all");
+        ad.setPrice(1000);
+        ad.setAddress("rr");
+        //when
+        tradeService.updateBoard(ad);
+        //then
+        assertThat(ad.getTitle()).isEqualTo(tradeService.getBoard(tradeNo).getTitle());
     }
 }

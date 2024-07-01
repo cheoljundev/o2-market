@@ -19,13 +19,13 @@ public interface TradeMapper {
 
     String getCg(SearchDto searchDto);
 
-    TradeDomain getBoard(String tradeNo);
+    TradeDomain getBoard(int tradeNo);
 
-    ArrayList<String> getImages(String tradeNo);
+    ArrayList<String> getImages(int tradeNo);
 
-    int getWishCount(String tradeNo) throws BindingException;
+    int getWishCount(int tradeNo) throws BindingException;
 
-    void upVisitCount(String tradeNo);
+    void upVisitCount(int tradeNo);
 
     int deleteBoard(String tradeNo);
 
@@ -52,4 +52,8 @@ public interface TradeMapper {
     int deleteAdv(String advNo);
 
     ArrayList<MyListDto> selectMyList(String memberNo);
+
+    int updateBoard(ApplicationDto ad);
+
+    void deleteImages(int tradeNo);
 }

@@ -42,19 +42,19 @@ public class TradeService {
         return tradeMapper.getCg(searchDto);
     }
 
-    public TradeDomain getBoard(String tradeNo) {
+    public TradeDomain getBoard(int tradeNo) {
         return tradeMapper.getBoard(tradeNo);
     }
 
-    public ArrayList<String> getImages(String tradeNo) {
+    public ArrayList<String> getImages(int tradeNo) {
         return tradeMapper.getImages(tradeNo);
     }
 
-    public int getWishCount(String tradeNo) throws BindingException {
+    public int getWishCount(int tradeNo) throws BindingException {
         return tradeMapper.getWishCount(tradeNo);
     }
 
-    public void upVisitCount(String tradeNo) {
+    public void upVisitCount(int tradeNo) {
         tradeMapper.upVisitCount(tradeNo);
     }
 
@@ -108,5 +108,13 @@ public class TradeService {
 
     public ArrayList<MyListDto> selectMyList(String memberNo) {
         return tradeMapper.selectMyList(memberNo);
+    }
+
+    public int updateBoard(ApplicationDto ad) {
+        return tradeMapper.updateBoard(ad);
+    }
+
+    public void deleteImpages(int tradeNo) {
+        tradeMapper.deleteImages(tradeNo);
     }
 }
