@@ -9,12 +9,11 @@ import java.util.Date;
 @Data
 public class AdminProductDetailDto {
     private Long productNo;
-    private Date createdAt;
     private String title;
     private Long tradeNo;
-    private String thumbnail;
     private Long sellerMemberNo;
     private String sellerMemberId;
     private Long halfPrice;
     private String adminMemo;
+    private Integer isDone;
 }

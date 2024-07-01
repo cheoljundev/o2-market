@@ -67,6 +67,7 @@ public class ProductService {
                 .sellerMemberId(product.getSellerMemberId())
                 .halfPrice(product.getHalfPrice())
                 .adminMemo(product.getAdminMemo())
+                .isDone(product.getIsDone())
                 .build();
     }
 

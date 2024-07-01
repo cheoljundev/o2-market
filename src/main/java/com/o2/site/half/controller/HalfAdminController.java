@@ -88,7 +88,7 @@ public class HalfAdminController {
 
     @ResponseBody
     @PostMapping("/order")
-    public AdminOrderDetailDto detail(@RequestBody Long orderNo) {
+    public AdminOrderDetailDto orderDetail(@RequestBody Long orderNo) {
         return orderService.findByOrderNo(orderNo);
     }
 
@@ -176,6 +176,12 @@ public class HalfAdminController {
         model.addAttribute("pagination", pagination);
         model.addAttribute("products", products);
         return "/half/admin/list";
+    }
+
+    @ResponseBody
+    @PostMapping("/list")
+    public AdminProductDetailDto listDetail(@RequestBody Long productNo) {
+        return productService.findByProductNo(productNo);
     }
 
 }
