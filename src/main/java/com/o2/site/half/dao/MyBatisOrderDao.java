@@ -43,4 +43,10 @@ public class MyBatisOrderDao implements OrderDao{
     public void deleteOrder(Long orderNo) {
         orderMapper.deleteOrder(orderNo);
     }
+
+    @Override
+    public int findPages(OrderSearchCond orderSearchCond, int pageSIze) {
+        int count = orderMapper.count(orderSearchCond);
+        return (int) Math.ceil((double) count / pageSIze); // 페이지 수 계산, Math.ceil()은 올림 함수, Math.floor()는 내림 함수, Math.round()는 반올림 함수
+    }
 }

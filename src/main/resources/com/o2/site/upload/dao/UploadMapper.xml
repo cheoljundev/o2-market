@@ -139,6 +139,7 @@
                 AND club_name = #{clubName}
             </if>
         </where>
+        ORDER BY IMAGE_NO DESC
     </select>
     <delete id="deleteImage" parameterType="com.o2.site.upload.domain.UploadImage">
         DELETE FROM upload_image

@@ -8,10 +8,9 @@
                 src="https://code.jquery.com/jquery-3.7.1.js"
                 integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
                 crossorigin="anonymous"></script>
+        <script src="/js/club/getParam.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
-
-
 
             });
         </script>
@@ -33,72 +32,56 @@
         <h2 class="mb-2">모임 상세보기</h2>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-bottom: 20px;">
                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/detail'">메인</button>
-                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/board/list'">게시판</button>
-                    <button type="button" onclick="location.href='/club/schedule/list'"  class="btn btn-outline-primary">일정</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/detail?clubName='+getClubName();+''">메인</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/board/list?clubName='+getClubName();+''">게시판</button>
+                    <button type="button" onclick="location.href='/club/schedule/list?clubName='+getClubName();+''"  class="btn btn-outline-primary">일정</button>
                 </div>
 
             </div>
 
             <div class="row">
                 <div class="col-4">
-                    <img src="/images/club/moonge.jpg" id="image" alt="이미지가 없습니다." width="300" height="300">
+                    <img th:src="'/images/' + ${clubDto.imageStr}" id="image" alt="이미지가 없습니다." width="300" height="300" onerror=this.src="/images/club/imgAdd.jpg">
                 </div>
                 <div class="col-3">
-                    <h2>테니스를 위한 모임</h2>
-                    <p>스포츠</p>
-                    <p>부산 서면</p>
-                    <p>멤버 수 : 15 / 30 연령 제한 : 20 ~ 25</p>
+                    <h2 th:text="${clubDto.clubName}"></h2>
+                    <p th:text="${clubDto.categoryName}"></p>
+                    <p th:text="${clubDto.area}"></p>
+                    <p th:text="'멤버 수 : ' + ${clubDto.membersCount} + ' / ' + ${clubDto.membersLimit} + ' 연령 제한 : ' + ${clubDto.ageLimitStart} + ' ~ ' + ${clubDto.ageLimitEnd}"></p>
                 </div>
             </div>
             <br>
             <div class="row">
                 <div class="col-6">
                     <table class="table">
+                        <th:block th:each="schedule : ${scheduleDto}">
                         <tr>
-                            <td>2024-06-18 17:30</td>
-                            <td>부산 00동 00 고기</td>
+                            <td th:text="${#dates.format(schedule.dateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${schedule.address}"></td>
                         </tr>
-                        <tr>
-                            <td>2024-06-14 15:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-                        <tr>
-                            <td>2024-06-19 19:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-                        <tr>
-                            <td>2024-06-19 19:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-                        <tr>
-                            <td>2024-06-19 19:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-                        <tr>
-                            <td>2024-06-19 19:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-                        <tr>
-                            <td>2024-06-19 19:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-                        <tr>
-                            <td>2024-06-19 19:30</td>
-                            <td>부산 00동 00 고기</td>
-                        </tr>
-
+                        </th:block>
                     </table>
                 </div>
-                <div class="col-6">
-                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
-                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
-                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
-                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
-                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
-                    <img src="/images/club/moonge.jpg" width="200" height="200" class="" alt="...">
+                <div class="col-6" style="margin-bottom : 20px;">
+                    <th:block th:if="${uploadImageStrs.size() < 6}">
+                        <th:block th:each="item, num : ${uploadImageStrs}">
+                            <img th:src="@{'/images/' + ${item}}" width="200" height="200" class="" alt="...">
+                        </th:block>
+                        <th:block th:each="num : ${#numbers.sequence(uploadImageStrs.size(),5)}">
+                            <img src="/images/club/imgAdd.jpg" width="200" height="200" class="" alt="...">
+                        </th:block>
+                    </th:block>
+                    <th:block th:unless="${uploadImageStrs.size() < 6}">
+                        <th:block th:each="num : ${#numbers.sequence(0,5)}">
+                            <img th:src="@{'/images/' + ${uploadImageStrs[num]}}" width="200" height="200" class="" alt="...">
+                        </th:block>
+                    </th:block>
                 </div>
-
+                <div class="d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-primary">모임 가입</button>
+                    <button type="submit" class="btn btn-primary">모임 탈퇴</button>
+                    <button type="submit" class="btn btn-primary" onclick="location.href='/club/userList?clubName='+getClubName()+''">모임 관리</button>
+                </div>
             </div>
         </form>
     </div>

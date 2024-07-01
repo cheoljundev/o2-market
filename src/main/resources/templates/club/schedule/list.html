@@ -8,48 +8,75 @@
                 src="https://code.jquery.com/jquery-3.7.1.js"
                 integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
                 crossorigin="anonymous"></script>
-
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
-
+        <script src="/js/club/getParam.js"></script>
         <script type="text/javascript">
+
+
             document.addEventListener('DOMContentLoaded', function() {
-              var calendarEl = document.getElementById('calendar');
+              let calendarEl = document.getElementById('calendar');
+
               var calendar = new FullCalendar.Calendar(calendarEl, {
                   initialView : 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
                   headerToolbar : { // 헤더에 표시할 툴 바
                       start : 'prev next today',
                       center : 'title',
-                      end : ''
+                      end : 'createScheduleGoBtn'
+                  }, customButtons : {
+                    createScheduleGoBtn : {
+                        text : "일정 생성",
+                        click : function() {
+                            location.href='/club/schedule/create?clubName='+getClubName()+'';
+                        }
+                    }
                   },
                   titleFormat : function(date) {
+
                       return date.date.year + '년 ' + (parseInt(date.date.month) + 1) + '월';
                   },
-                  //initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
-                  selectable : true, // 달력 일자 드래그 설정가능
-                  droppable : true,
-                  editable : true,
+
+                  droppable : false,
+                  editable : false,
                   nowIndicator: true, // 현재 시간 마크
-                  locale: 'ko', // 한국어 설정
-                  events: [
-                      {
-                        title: 'ㅇㅇ 체육관 17:50',
-                        url : '/club/schedule/detail',
-                        start: '2024-06-20'
-                      },
-                      {
-                        title: '00 고기집 14:30',
-                        start: '2024-06-24',
-                        end: '2024-06-26',
-                        url : '/club/schedule/detail'
-                      },
-                    ]
+                  events: function(fetchInfo, successCallback, failureCallback) {
+                    let events = [];
+                    $.ajax({
+                        type : "GET",
+                        url : "/club/schedule/getList",
+                        dataType : "json",
+                        data : {'clubName': getClubName()},
+                        success : function(result) {
+                            for(var i = 0; i < result.length; i++) {
+                                const dateTime = new Date(result[i].dateTime);
+                                let dateTimeFormat = getFormatDate(dateTime);
+                                console.log(dateTimeFormat);
+                                events.push({"start":dateTimeFormat, "url" : "/club/schedule/detail?clubName="+getClubName()+"&scheduleId="+result[i].scheduleId});
+                            }
+                            successCallback(events);
+                        }
+                    });
+                  },
+                  locale: 'ko' // 한국어 설정
               });
+              console.log('되어야할것');
               calendar.render();
           });
 
+        function getFormatDate(date){
+            let year = date.getFullYear();              //yyyy
+            let month = (1 + date.getMonth());          //M
+            month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+            let day = date.getDate();                   //d
+            day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+            let hours = date.getHours(); // 시
+            hours = hours >= 10 ? hours : '0' + hours;
+            let minutes = date.getMinutes();  // 분
+            minutes = minutes >= 10 ? hours : '0' + minutes;
+            return  year + '-' + month + '-' + day + 'T'+ hours + ':' + minutes;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
+        }
         </script>
     </th:block>
 
@@ -70,15 +97,17 @@
         <h2 class="mb-2">일정 캘린더</h2>
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-bottom: 20px;">
             <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/detail'">메인</button>
-                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/board/list'">게시판</button>
-                <button type="button" onclick="location.href='/club/schedule/list'"  class="btn btn-outline-primary">일정</button>
+                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/detail?clubName='+getClubName();+''">메인</button>
+                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/board/list?clubName='+getClubName();+''">게시판</button>
+                <button type="button" onclick="location.href='/club/schedule/list?clubName='+getClubName();+''"  class="btn btn-outline-primary">일정</button>
             </div>
 
         </div>
 
         <div id='calendar'></div>
+
     </div>
+
 </main>
 </body>
 </html>

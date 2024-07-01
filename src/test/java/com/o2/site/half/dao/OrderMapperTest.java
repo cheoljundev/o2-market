@@ -4,6 +4,7 @@ import com.o2.site.config.O2Application;
 import com.o2.site.half.domain.Order;
 import com.o2.site.half.dto.InsertOrderDto;
 import com.o2.site.half.dto.UpdateOrderDto;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -309,5 +310,34 @@ class OrderMapperTest {
         // then
         Order order = orderMapper.findByOrderNo(1L);
         assertThat(order).isNull();
+    }
+
+    @Test
+    void count() {
+        // given
+        orderMapper.insertOrder(InsertOrderDto.builder()
+                .orderNo(1L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+
+        // when
+        int count = orderMapper.count(OrderSearchCond.builder().build());
+
+        // then
+        Assertions.assertThat(count).isEqualTo(1);
     }
 }

@@ -8,12 +8,41 @@
                 src="https://code.jquery.com/jquery-3.7.1.js"
                 integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
                 crossorigin="anonymous"></script>
+        <script src="/js/club/getParam.js"></script>
         <script type="text/javascript">
             let sel_files = [];
 
             $(document).ready(function(){
                 // 이미지 로드
                 $('#fileDom').on('change', handleImgsFilesSelect);
+
+                $('#createGo').click(function(){
+
+                    let title = $('#title').val();
+                    let content = $('#content').val();
+
+                    let formData = new FormData();
+                    formData.append('title',title);
+                    formData.append('content',content);
+                    formData.append('clubName',getClubName());
+
+                    for (let i = 0; i < sel_files.length;i++) {
+                        formData.append('images',sel_files[i]);
+                    }
+
+
+                    $.ajax({
+                        url : "/club/board/create", // 요기에
+                        processData : false,
+                        contentType : false,
+                        type : 'POST',
+                        data : formData,
+                        success : function(data) {
+                            alert('글 작성이 완료 되었습니다.');
+                            location.href='/club/board/list?clubName='+getClubName()+'';
+                        }
+                    });
+                });
             });
 
             function handleImgsFilesSelect(e) {
@@ -54,16 +83,16 @@
         <h2 class="mb-2">모임 내 게시판 작성</h2>
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-bottom: 20px;">
             <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/detail'">메인</button>
-                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/board/list'">게시판</button>
-                <button type="button" onclick="location.href='/club/schedule/list'"  class="btn btn-outline-primary">일정</button>
+                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/detail?clubName='+getClubName();+''">메인</button>
+                <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/board/list?clubName='+getClubName();+''">게시판</button>
+                <button type="button" onclick="location.href='/club/schedule/list?clubName='+getClubName();+''"  class="btn btn-outline-primary">일정</button>
             </div>
 
         </div>
-        <form action="createAction" method="post">
+        <form action="/club/board/create" name="clubBoardForm" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="form-label">제목</label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="">
+                <input type="text" class="form-control" id="title" name="title" placeholder="" >
             </div>
             <div class="mb-3">
                 <label for="content" class="form-label">소개</label>
@@ -83,7 +112,7 @@
                 </div>
             </div>
             <div class="d-md-flex justify-content-md-end">
-                <button type="submit" class="btn btn-primary" id="createGo">생성</button>
+                <button type="button" class="btn btn-primary" id="createGo">생성</button>
             </div>
         </form>
     </div>

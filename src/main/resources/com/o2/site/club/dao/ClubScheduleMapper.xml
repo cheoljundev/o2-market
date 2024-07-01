@@ -3,5 +3,23 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.o2.site.club.dao.ClubScheduleMapper">
+    <select id="scheduleDetailList">
+        SELECT * FROM (SELECT * FROM SCHEDULE ORDER BY SCHEDULE_ID DESC)  WHERE CLUB_NAME = #{clubName} and ROWNUM <![CDATA[<=]]> 10
+    </select>
 
+    <insert id="scheduleCreate">
+        INSERT INTO SCHEDULE (SCHEDULE_ID, CLUB_NAME, DATE_TIME, ADDRESS, ADDRESS_DETAIL) VALUES (SEQ_SCHEDULE.NEXTVAL,#{clubName},#{dateTime},#{address},#{addressDetail})
+    </insert>
+
+    <select id="clubScheduleDeteil">
+        SELECT * FROM SCHEDULE WHERE SCHEDULE_ID = #{scheduleId}
+    </select>
+
+    <select id="scheduleList">
+        SELECT * FROM SCHEDULE WHERE CLUB_NAME = #{clubName}
+    </select>
+
+    <select id="scheduleInUserList">
+        SELECT USER_NO FROM SCHEDULE_USER WHERE SCHEDULE_ID = #{scheduleId}
+    </select>
 </mapper>

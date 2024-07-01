@@ -348,4 +348,71 @@ class OrderServiceTest {
         AdminOrderDetailDto order = orderService.findByOrderNo(1L);
         assertThat(order).isNull();
     }
+
+    @Test
+    void findPages() {
+        // given
+        orderService.insertOrder(InsertOrderDto.builder()
+                .orderNo(1L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+        orderService.insertOrder(InsertOrderDto.builder()
+                .orderNo(2L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+        orderService.insertOrder(InsertOrderDto.builder()
+                .orderNo(3L)
+                .productNo(1L)
+                .title("한번 사용한 아이패드")
+                .categoryCode("cg_life")
+                .price(100000L)
+                .halfPrice(50000L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .buyerMemberNo(2L)
+                .buyerMemberId("user02")
+                .buyerPhone("01056781234")
+                .recipientName("김첨지")
+                .recipientPhone("01056781234")
+                .recipientAddress("서울시 강남구")
+                .deliveryMemo("부재시 경비실에 맡겨주세요")
+                .build());
+        OrderSearchCond orderSearchCond = OrderSearchCond.builder()
+                .build();
+
+        // when
+        int pages = orderService.findPages(orderSearchCond, 10);
+
+        // then
+        assertThat(pages).isEqualTo(1);
+    }
 }

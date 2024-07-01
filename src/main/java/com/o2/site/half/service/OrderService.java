@@ -87,6 +87,10 @@ public class OrderService {
         orderDao.deleteOrder(orderNo);
     }
 
+    public int findPages(OrderSearchCond orderSearchCond, int pageSize){
+        return orderDao.findPages(orderSearchCond, pageSize);
+    }
+
     public List<SearchCond> getSearchCond(){
         List<SearchCond> searchConds = new ArrayList<>();
         searchConds.add(SearchCond.builder().field("buyerMemberId").name("구매자 아이디").build());

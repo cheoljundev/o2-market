@@ -1,8 +1,6 @@
 package com.o2.site.club.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 
@@ -16,4 +14,5 @@ public class ClubBoardDto {
     private String title;
     private String content;
     private Date createDate;
+    private String imageStr;
 }

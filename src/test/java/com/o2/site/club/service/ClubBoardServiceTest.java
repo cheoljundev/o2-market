@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = O2Application.class)
-@Transactional // 테스트케이스에선 테스트만하고 사라짐
+//@Transactional // 테스트케이스에선 테스트만하고 사라짐
 class ClubBoardServiceTest {
 
     @Autowired
@@ -21,13 +21,13 @@ class ClubBoardServiceTest {
 
     @Test
     void createClubBoard() {
-
-        ClubBoardDto clubBoardDto = new ClubBoardDto();
-        clubBoardDto.setClubName("모임2");
-        clubBoardDto.setTitle("즐거운 여행1");
-        clubBoardDto.setWriter(1);
-        clubBoardDto.setContent("즐거운 하루를 보낸 내용이 가득한 내용1");
-        String image = "igir.png,imgre.png,jfifq.jpg";
-        clubBoardService.createClubBoard(clubBoardDto, image);
+        for (int i = 2 ; i <= 222; i++) {
+            ClubBoardDto clubBoardDto = new ClubBoardDto();
+            clubBoardDto.setClubName("모임2");
+            clubBoardDto.setTitle("즐거운 여행");
+            clubBoardDto.setWriter(1);
+            clubBoardDto.setContent("즐거운 하루를 보낸 내용이 가득한 내용1");
+            clubBoardService.createClubBoard(clubBoardDto);
+        }
     }
 }

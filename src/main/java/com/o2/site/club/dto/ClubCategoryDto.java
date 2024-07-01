@@ -1,8 +1,6 @@
 package com.o2.site.club.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter

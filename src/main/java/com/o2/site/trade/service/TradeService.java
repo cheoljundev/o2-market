@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -116,5 +117,8 @@ public class TradeService {
 
     public void deleteImpages(int tradeNo) {
         tradeMapper.deleteImages(tradeNo);
+
+    public List<TradeDomain> findTradeByCategoryCode(String categoryCode) {
+        return tradeMapper.findTradeByCategoryCode(categoryCode);
     }
 }

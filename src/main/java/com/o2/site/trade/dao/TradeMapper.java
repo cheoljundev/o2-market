@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.binding.BindingException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Mapper
 public interface TradeMapper {
@@ -56,4 +57,7 @@ public interface TradeMapper {
     int updateBoard(ApplicationDto ad);
 
     void deleteImages(int tradeNo);
+
+    List<TradeDomain> findTradeByCategoryCode(String categoryCode);
+
 }

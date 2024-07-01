@@ -49,8 +49,6 @@
         WHERE rnum BETWEEN #{start} AND #{end}
     </select>
 
-
-
     <insert id="insertOrder" parameterType="com.o2.site.half.dto.InsertOrderDto">
         insert into half_order(
             ORDER_NO,
@@ -109,4 +107,22 @@
     <delete id="deleteOrder">
         delete from half_order where ORDER_NO = #{orderNo}
     </delete>
+
+    <select id="count" parameterType="com.o2.site.half.dao.OrderSearchCond">
+        select count(*) from half_order
+        <where>
+            <if test="buyerMemberId != null and buyerMemberId != ''">
+                AND BUYER_MEMBER_ID LIKE '%' || #{buyerMemberId} || '%'
+            </if>
+            <if test="buyerPhone != null and buyerPhone != ''">
+                AND BUYER_PHONE LIKE '%' || #{buyerPhone} || '%'
+            </if>
+            <if test="recipientName != null and recipientName != ''">
+                AND RECIPIENT_NAME LIKE '%' || #{recipientName} || '%'
+            </if>
+            <if test="recipientPhone != null and recipientPhone != ''">
+                AND RECIPIENT_PHONE LIKE '%' || #{recipientPhone} || '%'
+            </if>
+        </where>
+    </select>
 </mapper>
