@@ -32,4 +32,8 @@ public class ClubScheduleService {
     public ScheduleDto clubScheduleDeteil(long scheduleId) {
         return scheduleMapper.clubScheduleDeteil(scheduleId);
     }
+
+    public List<ScheduleDto> scheduleList(String clubName) {
+        return scheduleMapper.scheduleList(clubName);
+    }
 }

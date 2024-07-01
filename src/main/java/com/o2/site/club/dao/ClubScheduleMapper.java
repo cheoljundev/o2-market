@@ -25,4 +25,6 @@ public interface ClubScheduleMapper {
     int scheduleCreate(ScheduleDto scheduleDto);
 
     ScheduleDto clubScheduleDeteil(long scheduleId);
+
+    List<ScheduleDto> scheduleList(String clubName);
 }

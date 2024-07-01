@@ -14,4 +14,8 @@
     <select id="clubScheduleDeteil">
         SELECT * FROM SCHEDULE WHERE SCHEDULE_ID = #{scheduleId}
     </select>
+
+    <select id="scheduleList">
+        SELECT * FROM SCHEDULE WHERE CLUB_NAME = #{clubName}
+    </select>
 </mapper>
