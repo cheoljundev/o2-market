@@ -10,6 +10,7 @@ import java.util.Date;
 public class AdminProductDetailDto {
     private Long productNo;
     private Date createdAt;
+    private String title;
     private Long tradeNo;
     private String thumbnail;
     private Long sellerMemberNo;

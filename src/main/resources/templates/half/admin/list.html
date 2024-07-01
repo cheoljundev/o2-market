@@ -29,19 +29,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                    <tr th:each="product : ${products}">
                         <td>
                             <button type="button"
                                     class="link-primary border-0 bg-transparent text-decoration-underline btn-order-no"
-                                    onclick="showDetail(this)">1</button>
+                                    onclick="showDetail(this)"
+                                    th:text="${product.productNo}"
+                            >1</button>
                         </td>
-                        <td>2024-07-01</td>
-                        <td><img src="https://via.placeholder.com/100" class="img-thumb"></td>
-                        <td>한번 쓴 ㅇㅇㅇ</td>
+                        <td th:text="${{product.createdAt}}">2024-07-01</td>
+                        <td><img src="https://via.placeholder.com/100" th:src="@{/images/{src} (src=${product.thumbnail})}" class="img-thumb"></td>
+                        <td th:text="${product.title}">한번 쓴 ㅇㅇㅇ</td>
                         <td>홍길동</td>
-                        <td>10,000</td>
-                        <td>5,000</td>
-                        <td>매입 완료</td>
+                        <td th:text="${{product.price}}">10,000</td>
+                        <td th:text="${{product.halfPrice}}">5,000</td>
+                        <td th:text="${product.stateName}">매입 완료</td>
                     </tr>
                     </tbody>
                 </table>
@@ -49,15 +51,23 @@
             <div class="row">
                 <nav aria-label="Page navigation example w-auto">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item">
+                        <li class="page-item"
+                            th:classappend="${!pagination.prev ? 'disabled' : ''}"
+                        >
                             <a class="page-link" href="#"
+                               th:href="@{/admin/half/order(searchField=${searchField}, searchValue=${searchValue}  ,page=${pagination.prevPage})}"
                                aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-                        <li class="page-item"><a class="page-link" href="/admin/half/order">1</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#"aria-label="Next">
+                        <li class="page-item"
+                            th:each="page : ${pagination.pages}"
+                            th:classappend="${page == pagination.currentPage} ? 'active' : ''"
+                        ><a class="page-link" href="/admin/half/list" th:src="@{/admin/half/list (page=${page})}" th:text="${page}">1</a></li>
+                        <li class="page-item"
+                            th:classappend="${!pagination.next ? 'disabled' : ''}"
+                        >
+                            <a class="page-link" href="#" th:href="@{/admin/half/order(searchField=${searchField}, searchValue=${searchValue}  ,page=${pagination.nextPage})}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
