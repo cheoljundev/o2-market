@@ -1,20 +1,20 @@
-package com.o2.site.half.domain;
+package com.o2.site.half.dto;
 
 import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
 
-@Data
 @Builder
-public class Product {
+@Data
+public class AdminProductListDto {
     private Long productNo;
+    private Date createdAt;
     private Long tradeNo;
+    private String thumbnail;
     private Long sellerMemberNo;
     private String sellerMemberId;
     private String sellerPhone;
     private Long halfPrice;
-    private Integer isDone;
-    private Date createdAt;
-    private String adminMemo;
+    private Integer stateName;
 }

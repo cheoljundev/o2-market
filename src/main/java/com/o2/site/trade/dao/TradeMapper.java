@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.binding.BindingException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Mapper
 public interface TradeMapper {
@@ -46,4 +47,6 @@ public interface TradeMapper {
     int insertAdv(AdvDomain advDomain);
 
     ArrayList<AdvListDto> getAdvList();
+
+    List<TradeDomain> findTradeByCategoryCode(String categoryCode);
 }

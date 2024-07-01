@@ -16,4 +16,5 @@ public interface OrderMapper {
     void insertOrder(InsertOrderDto insertOrderDto);
     void updateOrder(UpdateOrderDto updateOrderDto);
     void deleteOrder(Long orderNo);
+    int count(OrderSearchCond orderSearchCond);
 }
