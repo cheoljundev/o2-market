@@ -15,6 +15,5 @@ public class AdminProductDetailDto {
     private Long sellerMemberNo;
     private String sellerMemberId;
     private Long halfPrice;
-    private Integer stateName;
     private String adminMemo;
 }
