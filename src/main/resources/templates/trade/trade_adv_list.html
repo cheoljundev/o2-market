@@ -25,7 +25,7 @@
         <div class="row row-cols-3 mt-5">
             <div class="col-md-4 mb-5" th:each="adv : ${advList}">
                 <a th:href="@{/trade/trade_adv_detail(advNo=${adv.advNo})}">
-                    <img th:src="@{/images/{image}(image=${adv.storedImageName})}" class="img-thumbnail" style="width:400px; height:400px">
+                    <img th:src="@{/images/{image}(image=${adv.storedImageName})}" class="img-thumbnail" style="width:300px; height:300px">
                     <br>
                     <span th:text="${adv.title}">제목</span>
                     <br>

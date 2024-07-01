@@ -64,8 +64,8 @@
             <div class="row row-cols-3 mt-5">
                 <div class="col-md-4 mb-5" th:each="trade : ${mainlist}">
                     <a th:href="@{/trade/trade_detail(tradeNo=${trade.tradeNo})}" style="position: relative; display: block;">
-                        <img th:src="@{/images/{image}(image=${trade.storedImageName})}" class="img-thumbnail" style="width: 400px; height: 400px;">
-                        <div style="position: absolute; top: 10px; left: 10px; background-color: rgba(255, 255, 255, 0.7); padding: 5px;">
+                        <img th:src="@{/images/{image}(image=${trade.storedImageName})}" class="img-thumbnail" style="width: 300px; height: 300px;">
+                        <div style="position: absolute; top: 5px; left: 55px; background-color: rgba(255, 255, 255, 0.7); padding: 5px;">
                             <span th:if="${trade.approve == 'Y'}" style="color: green; font-size: 18px;">승인</span>
                             <span th:if="${trade.approve == 'R'}" style="color: red; font-size: 18px;">거절</span>
                         </div>
@@ -77,8 +77,8 @@
                 </div>
                 <div class="col-md-4" th:each="adv : ${advlist}">
                     <a th:href="${adv.companyLink}" style="position: relative; display: block;">
-                        <img th:src="@{/images/{image}(image=${adv.storedImageName})}" class="img-thumbnail" style="width: 400px; height: 400px;">
-                        <div style="position: absolute; top: 10px; left: 10px; background-color: rgba(255, 255, 255, 0.7); padding: 5px;">
+                        <img th:src="@{/images/{image}(image=${adv.storedImageName})}" class="img-thumbnail" style="width: 300px; height: 300px;">
+                        <div style="position: absolute; top: 5px; left: 55px; background-color: rgba(255, 255, 255, 0.7); padding: 5px;">
                             <span style="color: green; font-size: 18px;">광고</span>
                         </div>
                         <br>

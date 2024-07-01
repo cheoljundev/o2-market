@@ -119,7 +119,7 @@ public class TradeController {
         } catch (BindingException e) {
             wishList=0;
         }
-        System.out.println(wishList);
+        System.out.println("찜"+wishList);
         ArrayList<CategoryDto> category = tradeService.getCategory();
         model.addAttribute("isWished","찜 하기");
         model.addAttribute("category",category);
@@ -140,7 +140,7 @@ public class TradeController {
     }
     //찜하기
     @GetMapping("/trade_addWish")
-    public String trade_addWish(Model model,WishListDto wishListDto){
+    public String trade_addWish(Model model, WishListDto wishListDto){
         wishListDto.setMemberNo(1);
         CheckWishDto checkWishDto = tradeService.checkWish(wishListDto);
         System.out.println("위시리스트"+wishListDto);
