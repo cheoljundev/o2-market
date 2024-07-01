@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/mainLayout :: layout(~{::title}, ~{::main}, ~{::insertHead})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>모임</title>
+    <th:block th:fragment="insertHead">
+        <script
+                src="https://code.jquery.com/jquery-3.7.1.js"
+                integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+                crossorigin="anonymous"></script>
+        <script src="/js/club/getParam.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+
+
+
+            });
+        </script>
+    </th:block>
+
+
+</head>
+
+<body>
+
+<main>
+    <div class="container mt-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">모임</li>
+                <li class="breadcrumb-item active" aria-current="page">모임 상세보기</li>
+                <li class="breadcrumb-item active" aria-current="page">모임원 관리</li>
+            </ol>
+        </nav>
+        <h2 class="mb-2">모임원 관리</h2>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-bottom: 20px;">
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/detail?clubName='+getClubName();+''">메인</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="location.href='/club/board/list?clubName='+getClubName();+''">게시판</button>
+                    <button type="button" onclick="location.href='/club/schedule/list?clubName='+getClubName();+''"  class="btn btn-outline-primary">일정</button>
+                </div>
+            </div>
+            <br>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-bottom: 20px;">
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-primary">모임원</button>
+                    <button type="button" class="btn btn-outline-primary">요청</button>
+                </div>
+            </div>
+            <div class="d-md-flex justify-content-md-end">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 300px;" id="keyword">
+                <button class="btn btn-outline-success" type="submit" onclick="getList(1);">검색</button>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">가입 일</th>
+                            <th scope="col">아이디</th>
+                            <th scope="col">탈퇴 버튼</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2024-06-18 17:30</td>
+                                <td>부산 00동 00 고기</td>
+                                <td><button class="btn btn-outline-primary">추방</button></td>
+                            </tr>
+                            <tr>
+                                <td>2024-06-14 15:30</td>
+                                <td>부산 00동 00 고기</td>
+                                <td><button class="btn btn-outline-primary">추방</button></td>
+                            </tr>
+                            <tr>
+                                <td>2024-06-19 19:30</td>
+                                <td>부산 00동 00 고기</td>
+                                <td><button class="btn btn-outline-primary">추방</button></td>
+                            </tr>
+                            <tr>
+                                <td>2024-06-19 19:30</td>
+                                <td>부산 00동 00 고기</td>
+                                <td><button class="btn btn-outline-primary">추방</button></td>
+                            </tr>
+                            <tr>
+                                <td>2024-06-19 19:30</td>
+                                <td>부산 00동 00 고기</td>
+                                <td><button class="btn btn-outline-primary">추방</button></td>
+                            </tr>
+                            <tr>
+                                <td>2024-06-19 19:30</td>
+                                <td>부산 00동 00 고기</td>
+                                <td><button class="btn btn-outline-primary">추방</button></td>
+                            </tr>
+                            <tr>
+                                <td>2024-06-19 19:30</td>
+                                <td>부산 00동 00 고기</td>
+                                <td><button class="btn btn-outline-primary">추방</button></td>
+                            </tr>
+                            <tr>
+                                <td>2024-06-19 19:30</td>
+                                <td>부산 00동 00 고기</td>
+                                <td><button class="btn btn-outline-primary">추방</button></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                페이징
+
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

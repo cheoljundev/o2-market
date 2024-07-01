@@ -8,10 +8,49 @@
         INSERT INTO CLUB_BOARD (CLUB_BOARD_ID, CLUB_NAME, WRITER, TITLE, CONTENT) VALUES (SEQ_CLUB_BOARD.NEXTVAL, #{clubName}, #{writer}, #{title}, #{content})
     </insert>
 
-    <insert id="clubBoardImgInsert">
-        INSERT INTO CLUB_BOARD_IMG (BOARD_IMG_ID, BOARD_ID, IMAGE) VALUES(
-        SEQ_CLUB_CATEGORY_IMG.NEXTVAL
-            , SEQ_CLUB_BOARD.CURRVAL
-            , #{image})
-    </insert>
+    <select id="getClubBoardSeq">
+        SELECT SEQ_CLUB_BOARD.CURRVAL FROM DUAL
+    </select>
+
+    <select id="getClubBoardId">
+        SELECT CLUB_BOARD_ID FROM CLUB_BOARD WHERE CLUB_NAME = #{clubName} ORDER BY CLUB_BOARD_ID DESC
+    </select>
+
+    <select id="clubBoardList" resultType="com.o2.site.club.dto.ClubBoardDto">
+        SELECT * FROM (
+        SELECT ROWNUM AS RNUM, A.*
+        , (SELECT STORED_IMAGE_NAME FROM (SELECT * FROM UPLOAD_IMAGE ORDER BY IMAGE_NO) WHERE CLUB_BOARD_ID IN(A.CLUB_BOARD_ID) AND ROWNUM <![CDATA[<=]]> 1) AS IMAGE_STR
+        FROM (
+        SELECT *
+        FROM CLUB_BOARD
+        <where>
+            <if test="data.clubName != null and data.clubName != ''">
+                AND CLUB_NAME LIKE '%' || #{data.clubName} || '%'
+            </if>
+            <if test="data.title != null and data.title != ''">
+                AND TITLE LIKE '%' || #{data.title} || '%'
+            </if>
+        </where>
+        order by CREATE_DATE desc
+        ) A WHERE ROWNUM <![CDATA[<=]]> #{pageable.pageNumber} * #{pageable.pageSize}
+        ) WHERE RNUM <![CDATA[>]]> (#{pageable.pageNumber}-1) * #{pageable.pageSize}
+
+    </select>
+
+    <select id="clubBoardListCount" resultType="int">
+        SELECT COUNT(*) AS CNT
+        FROM CLUB_BOARD
+        <where>
+            <if test="clubName != null and clubName != ''">
+                AND CLUB_NAME LIKE '%' || #{clubName} || '%'
+            </if>
+            <if test="title != null and title != ''">
+                AND TITLE LIKE '%' || #{title} || '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="clubBoardDeteil">
+        SELECT * FROM CLUB_BOARD WHERE CLUB_BOARD_ID = #{clubBoardId}
+    </select>
 </mapper>

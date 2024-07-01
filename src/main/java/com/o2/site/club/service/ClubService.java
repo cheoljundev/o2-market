@@ -29,21 +29,12 @@ public class ClubService {
 
     public int createClub(ClubDto clubDto) {
 
-        ClubUserDto clubUserDto = new ClubUserDto();
-
         int result = clubMapper.clubInsert(clubDto);
-
-//        clubMapper.clubUserInsert(clubUserDto);
 
         return result;
     }
 
     public Page<Map<String, Object>> getClubList(ClubDto clubDto, Pageable pageable) {
-        System.out.println(pageable + "-------------------------");
-        System.out.println(pageable.getOffset());
-        System.out.println(pageable.getPageSize());
-        System.out.println(pageable.getPageNumber());
-
 
         RequestList<?> requestList = RequestList.builder()
                 .data(clubDto)
@@ -59,6 +50,30 @@ public class ClubService {
     public ArrayList<ClubCategoryDto> clubCategoryList() {
         System.out.println(clubMapper.clubCategoryList());
         return clubMapper.clubCategoryList();
+    }
+
+    public ClubDto getClubInfo(String clubName) {
+        return clubMapper.clubDeteil(clubName);
+    }
+
+    public int clubUserInsert(ClubUserDto clubUserDto) {
+        return clubMapper.clubUserInsert(clubUserDto);
+    }
+
+    public int clubUserDelete(ClubUserDto clubUserDto) {
+        return clubMapper.clubUserDelete(clubUserDto);
+    }
+
+    public int clubUserIn(ClubUserDto clubUserDto) {
+        return clubMapper.clubUserIn(clubUserDto);
+    }
+
+    public List<ClubUserDto> clubAppUserList(String clubName) {
+        return clubMapper.clubAppUserList(clubName);
+    }
+
+    public List<ClubUserDto> clubUserList(String clubName) {
+        return clubMapper.clubUserList(clubName);
     }
 
 }

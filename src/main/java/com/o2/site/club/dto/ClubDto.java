@@ -1,10 +1,10 @@
 package com.o2.site.club.dto;
 
 import com.o2.site.club.domain.RequestList;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.Date;
 
 @Getter
@@ -22,5 +22,8 @@ public class ClubDto {
     private String oneLineIntro;
     private String intro;
     private Date createDate;
+    private String imageStr;
+    private String categoryName;
+    private int membersCount;
 
 }

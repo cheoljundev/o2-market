@@ -8,6 +8,7 @@
                 src="https://code.jquery.com/jquery-3.7.1.js"
                 integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
                 crossorigin="anonymous"></script>
+        <script src="/js/club/key.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
 
@@ -63,7 +64,7 @@
             </ol>
         </nav>
         <h2 class="mb-2">모임 생성</h2>
-        <form action="createAction" method="post">
+        <form action="createAction" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="clubName" class="form-label">모임명</label>
                 <input type="text" class="form-control" id="clubName" name="clubName" placeholder="">
@@ -88,11 +89,11 @@
                 </div>
                 <div class="col-3">
                     <label for="ageLimitEnd" class="form-label">최대 나이</label>
-                    <input type="number" class="form-control" id="ageLimitEnd" name="ageLimitEnd" placeholder="">
+                    <input type="number" class="form-control numInput" id="ageLimitEnd" name="ageLimitEnd" placeholder="">
                 </div>
                 <div class="col-3" id="imgAddDiv">
                     <img src="/images/club/imgAdd.jpg" id="image" alt="이미지가 없습니다." width="300" height="300">
-                    <input type="file" id="thumbnail" style="visibility: hidden;" name="thumbnail" accept="image/*" onchange="loadFile(this)">
+                    <input type="file" id="thumbnail" style="visibility: hidden;" name="image" accept="image/*" onchange="loadFile(this)">
                 </div>
             </div>
 
@@ -108,7 +109,7 @@
             </div>
             <div class="mb-3">
                 <label for="intro" class="form-label">소개</label>
-                <textarea class="form-control" id="intro" rows="4"></textarea>
+                <textarea class="form-control" id="intro" name="intro" rows="4"></textarea>
             </div>
             <div class="d-md-flex justify-content-md-end">
                 <button type="submit" class="btn btn-primary" id="createGo">생성</button>
