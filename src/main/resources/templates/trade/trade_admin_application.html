@@ -13,24 +13,30 @@
 </head>
 <body>
 <main>
-    <div class="container mt-5 text-center">
-        <h1>관리자 페이지</h1>
-    </div>
     <div class="container mt-5">
+        <h1 class="mb-2">상품등록 신청 목록</h1>
+    <div class="container mt-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">거래</li>
+                <li class="breadcrumb-item active" aria-current="page">관리자</li>
+                <li class="breadcrumb-item active" aria-current="page">신청 목록</li>
+            </ol>
+        </nav>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <a class="navbar-brand me-5" href="/trade/trade_admin_application">상품 등록 신청 목록</a>
             </div>
         </nav>
         <div class="container text-center">
-            <div class="row row-cols-3">
-                <div class="col-md-4" th:each="trade : ${mainlist}">
+            <div class="row row-cols-3 mt-5">
+                <div class="col-md-4 mb-5" th:each="trade : ${mainlist}">
                     <a th:href="@{/trade/trade_admin_approve(tradeNo=${trade.tradeNo})}" name="tradeNo">
                         <img th:src="@{/images/{image}(image=${trade.storedImageName})}" class="img-thumbnail" style="width:400px; height:400px">
                         <br>
                         <span th:text="${trade.title}">Title</span>
                         <br>
-                        <span th:text="${trade.price}">Price</span>
+                        <span th:text="₩+${#numbers.formatInteger(trade.price, 3, 'COMMA')}">Price</span>
                     </a>
                 </div>
             </div>
@@ -57,6 +63,7 @@
         </div>
 
         <a class="btn btn-primary btn-lg" href="/trade/trade_main" role="button">메인으로 이동</a>
+    </div>
     </div>
 </main>
 

@@ -1,7 +1,6 @@
 package com.o2.site.trade.controller;
 
 import com.o2.site.config.O2Application;
-import com.o2.site.trade.domain.AdvDomain;
 import com.o2.site.trade.dto.AdvDetailDto;
 import com.o2.site.trade.dto.AdvListDto;
 import com.o2.site.trade.dto.MyListDto;
@@ -20,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = O2Application.class)
 @Transactional
-class TradeServiceTest {
+class TradeControllerTest {
     @Autowired
     TradeService tradeService;
     //페이징 테스트

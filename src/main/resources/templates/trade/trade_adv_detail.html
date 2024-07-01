@@ -11,7 +11,16 @@
 </head>
 <body>
 <main>
-    <h1 align="center">거래 광고 디테일 페이지</h1>
+    <div class="container mt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">거래</li>
+            <li class="breadcrumb-item active" aria-current="page">관리자</li>
+            <li class="breadcrumb-item active" aria-current="page">광고 목록</li>
+            <li class="breadcrumb-item active" aria-current="page">상세보기</li>
+        </ol>
+    </nav>
+    <h1 class="mb-2">광고 상세보기</h1>
     <div>
         <h1 th:text="${advDetail.title}" align="center">제목</h1>
     </div>
@@ -21,8 +30,8 @@
     </div>
     <hr class="border border-dark">
     <div class="col" align="center">
-        <span th:text="'광고주: '+${advDetail.advName}">광고주</span>
-        <span th:text="'사이트 명: '+${advDetail.companyName}">사이트 명</span>
+        <span th:text="'광고주: '+${advDetail.advName}+' |'">광고주</span>
+        <span th:text="'사이트 명: '+${advDetail.companyName}+' |'">사이트 명</span>
         <a th:href="${advDetail.companyLink}">사이트 링크</a>
     </div>
     <hr class="border border-dark">
@@ -30,11 +39,12 @@
         <span th:text="'사이트 명: '+${advDetail.content}">사이트 명</span>
     </div>
     <div align="center">
-
+        <hr class="border border-dark">
         <div class="btn-group" aria-label="Small button group">
             <a th:href="@{/trade/trade_adv_delete(advNo=${advDetail.advNo})}" class="btn bg-body-secondary">삭제</a>
             <a href="/trade/trade_adv_list" class="btn bg-body-secondary">목록으로</a>
         </div>
+    </div>
     </div>
 </main>
 </body>

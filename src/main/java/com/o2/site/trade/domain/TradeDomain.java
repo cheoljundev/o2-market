@@ -20,5 +20,6 @@ public class TradeDomain {
     private String approve;
     private String isTrade;
     private Date postDate;
+    private String id;
 
 }

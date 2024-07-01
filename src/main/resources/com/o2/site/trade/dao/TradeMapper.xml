@@ -110,7 +110,11 @@
     </select>
 
     <select id="getBoard" resultType="com.o2.site.trade.domain.TradeDomain">
-        SELECT * FROM TRADE_BOARD
+        SELECT A.*, B.ID
+        FROM
+        TRADE_BOARD A
+        JOIN
+        MEMBER B ON A.MEMBER_NO = B.MEMBER_NO
         WHERE TRADE_NO = #{tradeNo}
     </select>
 

@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/trade")
@@ -43,6 +45,9 @@ public class TradeController {
         ArrayList<TradeMainDto> mainlist = tradeService.selectMainList();
         ArrayList<CategoryDto> category = tradeService.getCategory();
         ArrayList<AdvListDto> advList = tradeService.getAdvList();
+
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
+
 
         int adjustPage=page-1;
         //페이지 나누기
@@ -108,7 +113,7 @@ public class TradeController {
         tradeService.upVisitCount(tradeNo);
         ArrayList<String> imageList = tradeService.getImages(tradeNo);
         System.out.println(imageList);
-        int wishList = 0;
+        int wishList;
         try {
             wishList = tradeService.getWishCount(tradeNo);
         } catch (BindingException e) {
@@ -116,6 +121,7 @@ public class TradeController {
         }
         System.out.println(wishList);
         ArrayList<CategoryDto> category = tradeService.getCategory();
+        model.addAttribute("isWished","찜 하기");
         model.addAttribute("category",category);
         model.addAttribute("wishCount",wishList);
         model.addAttribute("tradeDomain",tradeDomain);
@@ -134,7 +140,7 @@ public class TradeController {
     }
     //찜하기
     @GetMapping("/trade_addWish")
-    public String trade_addWish(WishListDto wishListDto){
+    public String trade_addWish(Model model,WishListDto wishListDto){
         wishListDto.setMemberNo(1);
         CheckWishDto checkWishDto = tradeService.checkWish(wishListDto);
         System.out.println("위시리스트"+wishListDto);
