@@ -10,7 +10,7 @@ import java.util.Date;
 public class Product {
     private Long productNo;
     private Long tradeNo;
-    private Long sellerMember;
+    private Long sellerMemberNo;
     private String sellerMemberId;
     private String sellerPhone;
     private Long halfPrice;
