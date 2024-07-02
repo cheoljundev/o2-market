@@ -6,8 +6,8 @@
 <mapper namespace="com.o2.site.member.dao.MemberMapper">
 
     <insert id="insertMember" useGeneratedKeys="true" parameterType="com.o2.site.member.domain.Member">
-        INSERT INTO member (member_no, id, password, name, phone_number, address)
-        VALUES (SEQ_MEMBER_NO.NEXTVAL, #{id}, #{password}, #{name}, #{phoneNumber}, #{address})
+        INSERT INTO member (member_no, id, password, name, phone_number, address, mileage)
+        VALUES (SEQ_MEMBER_NO.NEXTVAL, #{id}, #{password}, #{name}, #{phoneNumber}, #{address}, #{mileage})
     </insert>
 
     <insert id="insertMemberRole" parameterType="com.o2.site.member.domain.MemberRole">

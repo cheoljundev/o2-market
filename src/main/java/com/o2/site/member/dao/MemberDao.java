@@ -22,7 +22,7 @@ public class MemberDao {
                 .name(memberMapper.findByUsername(id).getName())
                 .phoneNumber(memberMapper.findByUsername(id).getPhoneNumber())
                 .address(memberMapper.findByUsername(id).getAddress())
-                .mileage(0)
+                .mileage(memberMapper.findByUsername(id).getMileage())
                 .memberRoles(memberRoles)
                 .build();
     }
