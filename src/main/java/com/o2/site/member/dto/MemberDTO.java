@@ -5,9 +5,10 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
-@ToString
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberDTO {
         private String id;
         private String password;

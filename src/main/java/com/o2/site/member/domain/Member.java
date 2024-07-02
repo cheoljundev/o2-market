@@ -12,13 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member {
-
     private Long memberNo;
     private String id;
     private String password;
     private String name;
     private String phoneNumber;
     private String address;
-    private String mileage;
-    private List<Authority> authorities;
+    private Integer mileage;
 }

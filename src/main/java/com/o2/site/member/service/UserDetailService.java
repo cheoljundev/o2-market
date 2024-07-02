@@ -1,8 +1,11 @@
 package com.o2.site.member.service;
 
+import com.o2.site.member.dao.MemberDao;
 import com.o2.site.member.dao.MemberMapper;
 import com.o2.site.member.domain.Member;
+import com.o2.site.member.dto.CustomUserDetails;
 import com.o2.site.member.dto.MemberDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,24 +19,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailService implements UserDetailsService {
 
-    private final MemberMapper memberMapper;
+    private final MemberDao memberDao;
 
-    @Autowired
-    public UserDetailService(MemberMapper memberMapper) {
-        this.memberMapper = memberMapper;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member UserId = memberMapper.findByUsername(username);
+        MemberDTO UserId = memberDao.findById(username);
         if (UserId == null) {
             throw new UsernameNotFoundException("유저 정보가 없습니다!");
         }
-        List<GrantedAuthority> authorities = UserId.getAuthorities().stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getAuthority()))
-                .collect(Collectors.toList());
-        return new User(UserId.getId(), UserId.getPassword(), authorities);
+
+        return new CustomUserDetails(UserId);
     }
 }
