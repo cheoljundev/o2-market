@@ -102,7 +102,9 @@ public class ClubContrlloer {
     @GetMapping("/getList")
     @RequestBody
     public ResponseEntity<?> getListClub(ClubDto clubDto, @PageableDefault(size = 9) Pageable pageable) {
+        System.out.println(pageable);
         return ResponseEntity.ok(clubService.getClubList(clubDto, pageable));
+
     }
 
 }
