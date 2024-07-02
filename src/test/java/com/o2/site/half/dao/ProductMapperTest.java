@@ -5,6 +5,7 @@ import com.o2.site.half.domain.Product;
 import com.o2.site.half.dto.InsertProductDto;
 import com.o2.site.half.dto.ProductState;
 import com.o2.site.half.dto.UpdateProductDto;
+import com.o2.site.half.dto.UserListProductDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,25 @@ class ProductMapperTest {
     void findRange() {
         List<Product> products = productMapper.findRange(1, 2);
         Assertions.assertThat(products.size()).isEqualTo(2);
+    }
+
+    @Test
+    void findRangeWithConditions() {
+        productMapper.insertProduct(InsertProductDto.builder()
+                .productNo(99L)
+                .tradeNo(1L)
+                .sellerMemberNo(1L)
+                .sellerMemberId("user01")
+                .sellerPhone("01012345678")
+                .halfPrice(5000L)
+                .isDone(ProductState.DONE)
+                .build()
+        );
+
+        List<UserListProductDto> products = productMapper.findRangeWithConditions(1, 1, ProductSearchCond.builder()
+                .categoryCode("cg_life")
+                .build());
+        Assertions.assertThat(products.size()).isEqualTo(1);
     }
 
     @Test

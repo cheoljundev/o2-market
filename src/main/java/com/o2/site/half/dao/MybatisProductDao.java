@@ -3,6 +3,7 @@ package com.o2.site.half.dao;
 import com.o2.site.half.domain.Product;
 import com.o2.site.half.dto.InsertProductDto;
 import com.o2.site.half.dto.UpdateProductDto;
+import com.o2.site.half.dto.UserListProductDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,11 @@ public class MybatisProductDao implements ProductDao{
     @Override
     public List<Product> findRange(int start, int end) {
         return productMapper.findRange(start, end);
+    }
+
+    @Override
+    public List<UserListProductDto> findRange(int start, int end, ProductSearchCond productSearchCond) {
+        return productMapper.findRangeWithConditions(start, end, productSearchCond);
     }
 
     @Override

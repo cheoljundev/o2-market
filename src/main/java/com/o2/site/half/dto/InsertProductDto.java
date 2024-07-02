@@ -16,4 +16,20 @@ public class InsertProductDto {
     private String sellerMemberId;
     private String sellerPhone;
     private Long halfPrice;
+    private Integer isDone;
+
+    public static class InsertProductDtoBuilder{
+        public InsertProductDtoBuilder isDone(ProductState state) {
+            switch (state) {
+                case WAITING:
+                    this.isDone = 0;
+                    break;
+                case DONE:
+                    this.isDone = 1;
+                    break;
+            }
+            return this;
+        }
+
+    }
 }

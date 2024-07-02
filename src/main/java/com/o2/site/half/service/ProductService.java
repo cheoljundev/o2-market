@@ -1,11 +1,9 @@
 package com.o2.site.half.service;
 
 import com.o2.site.half.dao.ProductDao;
+import com.o2.site.half.dao.ProductSearchCond;
 import com.o2.site.half.domain.Product;
-import com.o2.site.half.dto.AdminProductDetailDto;
-import com.o2.site.half.dto.AdminProductListDto;
-import com.o2.site.half.dto.InsertProductDto;
-import com.o2.site.half.dto.UpdateProductDto;
+import com.o2.site.half.dto.*;
 import com.o2.site.trade.service.TradeService;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
@@ -55,6 +53,10 @@ public class ProductService {
                     .build());
         });
         return products;
+    }
+
+    public List<UserListProductDto> findRange(int start, int end, ProductSearchCond productSearchCond) {
+        return productDao.findRange(start, end, productSearchCond);
     }
 
     public AdminProductDetailDto findByProductNo(Long productNo) {

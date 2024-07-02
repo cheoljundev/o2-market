@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductSearchCond {
     private String title;
-    private String sellerMemberId;
+    private String categoryCode;
 }

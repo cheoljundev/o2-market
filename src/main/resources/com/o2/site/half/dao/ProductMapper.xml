@@ -7,7 +7,8 @@
             SELLER_MEMBER_NO,
             SELLER_MEMBER_ID,
             SELLER_PHONE,
-            HALF_PRICE
+            HALF_PRICE,
+            IS_DONE
         ) values (
         <choose>
             <when test="productNo != null">#{productNo}</when>
@@ -17,7 +18,11 @@
             #{sellerMemberNo},
             #{sellerMemberId},
             #{sellerPhone},
-            #{halfPrice}
+            #{halfPrice},
+        <choose>
+            <when test="isDone != null">#{isDone}</when>
+            <otherwise>0</otherwise>
+        </choose>
         )
     </insert>
 
@@ -26,6 +31,26 @@
         FROM (
         SELECT PRODUCT_NO, TRADE_NO, SELLER_MEMBER_NO, SELLER_MEMBER_ID, SELLER_PHONE, HALF_PRICE, IS_DONE, CREATE_AT, ADMIN_MEMO, ROW_NUMBER() OVER (ORDER BY PRODUCT_NO DESC) AS rnum
         FROM half_product
+        ) subquery
+        WHERE rnum BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="findRangeWithConditions" parameterType="com.o2.site.half.dao.ProductSearchCond" resultType="com.o2.site.half.dto.UserListProductDto">
+        SELECT *
+        FROM (
+        SELECT p.PRODUCT_NO, p.TRADE_NO, p.SELLER_MEMBER_NO, p.SELLER_MEMBER_ID, p.SELLER_PHONE, p.HALF_PRICE, p.IS_DONE, p.CREATE_AT, p.ADMIN_MEMO,
+               t.category_code, t.title ,ROW_NUMBER() OVER (ORDER BY p.PRODUCT_NO DESC) AS rnum
+        FROM half_product p
+        inner join trade_board t on p.TRADE_NO = t.TRADE_NO
+        <where>
+            <if test="productSearchCond.categoryCode != null">
+                AND t.CATEGORY_CODE = #{productSearchCond.categoryCode}
+            </if>
+            <if test="productSearchCond.title != null">
+                AND t.title = #{productSearchCond.title}
+            </if>
+            and p.is_done = 1
+        </where>
         ) subquery
         WHERE rnum BETWEEN #{start} AND #{end}
     </select>
