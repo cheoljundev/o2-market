@@ -27,7 +27,7 @@
     <div class="container mt-5">
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand me-5" href="/trade/trade_admin_application">상품 등록 신청 목록</a>
+                <a class="navbar-brand me-5" href="/admin/trade_admin_application">상품 등록 신청 목록</a>
             </div>
         </nav>
     </div>
@@ -108,9 +108,9 @@
     <div align="center">
         <hr class="border border-dark">
         <div class="btn-group" aria-label="Small button group">
-            <a th:href="@{/trade/approve(tradeNo=${tradeDomain.tradeNo})}" class="btn bg-body-secondary">승인하기</a>
-            <a th:href="@{/trade/reject(tradeNo=${tradeDomain.tradeNo})}" class="btn bg-body-secondary">거절하기</a>
-            <a href="/trade/trade_admin_application" class="btn bg-body-secondary">목록으로</a>
+            <a th:href="@{/admin/approve(tradeNo=${tradeDomain.tradeNo})}" class="btn bg-body-secondary">승인하기</a>
+            <a th:href="@{/admin/reject(tradeNo=${tradeDomain.tradeNo})}" class="btn bg-body-secondary">거절하기</a>
+            <a href="/admin/trade_admin_application" class="btn bg-body-secondary">목록으로</a>
         </div>
     </div>
     </div>

@@ -24,7 +24,7 @@
     <div class="container text-center">
         <div class="row row-cols-3 mt-5">
             <div class="col-md-4 mb-5" th:each="adv : ${advList}">
-                <a th:href="@{/trade/trade_adv_detail(advNo=${adv.advNo})}">
+                <a th:href="@{/admin/trade_adv_detail(advNo=${adv.advNo})}">
                     <img th:src="@{/images/{image}(image=${adv.storedImageName})}" class="img-thumbnail" style="width:300px; height:300px">
                     <br>
                     <span th:text="${adv.title}">제목</span>
@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="text-end">
-            <a class="btn btn-secondary btn-sm" href="/trade/trade_adv_regist" role="button">광고 등록</a>
+            <a class="btn btn-secondary btn-sm" href="/admin/trade_adv_regist" role="button">광고 등록</a>
         </div>
     </div>
 
@@ -57,7 +57,7 @@
             </ul>
         </nav>
     </div>
-    <a class="btn btn-primary btn-lg" href="/trade/trade_admin" role="button">거래 관리자 이동</a>
+    <a class="btn btn-primary btn-lg" href="/admin/trade_admin" role="button">거래 관리자 이동</a>
     </div>
 </main>
 </body>

@@ -3,7 +3,6 @@ package com.o2.site.trade.controller;
 
 import com.o2.site.member.dto.CustomUserDetails;
 import com.o2.site.member.service.MemberService;
-import com.o2.site.trade.domain.AdvDomain;
 import com.o2.site.trade.domain.TradeDomain;
 import com.o2.site.trade.dto.*;
 import com.o2.site.trade.service.PaginationService;
@@ -191,78 +190,8 @@ public class TradeController {
         model.addAttribute("totalPages", totalPages);
         return "/trade/trade_mywish";
     }
-    @GetMapping("/trade_admin")
-    public void trade_admin(){}
-    //관리자 페이지 신청 리스트 조회
-    @GetMapping("/trade_admin_application")
-    public void trade_admin_application(Model model, @RequestParam(value = "page",defaultValue = "1") int page){
-        int page_size = 6;
-        int adjustPage=page-1;
-        ArrayList<TradeMainDto> mainlist = tradeService.selectAppList();
-        System.out.println(mainlist);
-        //페이지 나누기
-        List<TradeMainDto> paginatedMainList = pagination.paginate(mainlist, adjustPage, page_size);
-        int totalPages = (int) Math.ceil((double) mainlist.size() / page_size);
-        System.out.println("총 갯수: "+mainlist.size());
-        model.addAttribute("mainlist", paginatedMainList);
-        model.addAttribute("cg","전체");
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
-    }
-    //관리자 페이지 신청 상세 조회
-    @GetMapping("/trade_admin_approve")
-    public void trade_admin_approve(Model model, int tradeNo){
-        TradeDomain tradeDomain = tradeService.getBoard(tradeNo);
-        System.out.println(tradeDomain);
-        ArrayList<String> imageList = tradeService.getImages(tradeNo);
-        System.out.println(imageList);
-        model.addAttribute("tradeDomain",tradeDomain);
-        model.addAttribute("imageList",imageList);
-    }
-    //관리자-신청 승인
-    @GetMapping("/approve")
-    public String admin_approve(String tradeNo){
-        int result = tradeService.approveBoard(tradeNo);
-        if(result>0){
-            System.out.println("승인");
-        }
-        return "redirect:/trade/trade_admin_application";
-    }
-    //관리자-신청 거절
-    @GetMapping("/reject")
-    public String admin_reject(String tradeNo){
-        System.out.println(tradeNo);
-        int result = tradeService.rejectBoard(tradeNo);
-        if(result>0){
-            System.out.println("거절");
-        }
-        return "redirect:/trade/trade_admin_application";
-    }
-    //광고 디테일
-    @GetMapping("/trade_adv_detail")
-    public void trade_adv_detail(Model model, String advNo){
-        System.out.println(advNo);
-        AdvDetailDto advDetailDto = tradeService.getAdvDetail(advNo);
-        model.addAttribute("advDetail", advDetailDto);
-    }
-    //관리자 광고 리스트
-    @GetMapping("/trade_adv_list")
-    public void trade_adv_list(Model model, @RequestParam(value = "page",defaultValue = "1") int page){
-        int page_size = 6;
-        ArrayList<AdvListDto> advList = tradeService.getAdvList();
-        System.out.println(advList);
-        int adjustPage=page-1;
-        //페이지 나누기
-        List<AdvListDto> paginatedMainList = pagination.advpaginate(advList, adjustPage, page_size);
 
-        int totalPages = (int) Math.ceil((double) advList.size() / page_size);
-        model.addAttribute("advList",paginatedMainList);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
-    }
-    //관리자 광고 등록
-    @GetMapping("/trade_adv_regist")
-    public void trade_adv_regist(){}
+
     //상품 등록 신청
     @PostMapping("/trade_app")
     public String insertApp(ApplicationDto ad, @RequestParam("files") MultipartFile[] files, @AuthenticationPrincipal CustomUserDetails user){
@@ -283,30 +212,7 @@ public class TradeController {
         }
         return "redirect:/trade/trade_main";
     }
-    //관리자 광고 등록
-    @PostMapping("/trade_adv_regist")
-    public String insertAdv(AdvDomain advDomain, @RequestParam("image") MultipartFile image){
-        System.out.println(advDomain);
-        int result = tradeService.insertAdv(advDomain);
-        try{
-            UploadImageDto uploadImageDto = UploadImageDto.builder()
-                    .image(image)
-                    .advNo(Long.valueOf(advDomain.getAdvNo()))
-                    .build();
-            uploadService.insertImage(uploadImageDto);
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("이미지 등록 실패");
-        }
-        return "redirect:/trade/trade_adv_list";
-    }
-    //관리자 광고 삭제
-    @GetMapping("/trade_adv_delete")
-    public String deleteAdv(String advNo){
-        System.out.println(advNo);
-        int result = tradeService.deleteAdv(advNo);
-        return "redirect:/trade/trade_adv_list";
-    }
+
     //내 작성글 모두 보기
     @GetMapping("/trade_mylist")
     public String myList(Model model, @RequestParam(value = "page",defaultValue = "1") int page,  @AuthenticationPrincipal CustomUserDetails user){
