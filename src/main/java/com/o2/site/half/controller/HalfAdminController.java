@@ -3,6 +3,7 @@ package com.o2.site.half.controller;
 import com.o2.site.half.dao.OrderSearchCond;
 import com.o2.site.half.dto.*;
 import com.o2.site.half.service.OrderService;
+import com.o2.site.half.service.ProductService;
 import com.o2.site.trade.domain.TradeDomain;
 import com.o2.site.trade.service.TradeService;
 import com.o2.site.upload.domain.UploadImage;
@@ -29,6 +30,7 @@ public class HalfAdminController {
 
     private final OrderService orderService;
     private final TradeService tradeService;
+    private final ProductService productService;
     private final UploadService uploadService;
 
     @GetMapping
@@ -86,7 +88,7 @@ public class HalfAdminController {
 
     @ResponseBody
     @PostMapping("/order")
-    public AdminOrderDetailDto detail(@RequestBody Long orderNo) {
+    public AdminOrderDetailDto orderDetail(@RequestBody Long orderNo) {
         return orderService.findByOrderNo(orderNo);
     }
 
@@ -139,7 +141,9 @@ public class HalfAdminController {
                     .build()).get(0);
 
             resultTrades.add(EventResultTradeDto.builder()
+                    .tradeNo(Integer.valueOf(tradeDomain.getTradeNo()))
                     .title(tradeDomain.getTitle())
+                    .memberNo(tradeDomain.getMemberNo())
                     .thumbnail(thumbnail)
                     .price(tradeDomain.getPrice())
                     .halfPrice(tradeDomain.getPrice() / 2)
@@ -161,9 +165,53 @@ public class HalfAdminController {
         return "/half/admin/event-result";
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/event/done")
+    public void eventDone(HttpSession session) {
+        List<EventResultTradeDto> resultTrades;
+        resultTrades = (List<EventResultTradeDto>) session.getAttribute("trades");
+        resultTrades.forEach(eventResultTradeDto -> {
+            productService.insertProduct(InsertProductDto.builder()
+                    .tradeNo((long) eventResultTradeDto.getTradeNo())
+                    .sellerMemberNo((long) eventResultTradeDto.getMemberNo())
+                    .sellerMemberId("admin")
+                    .sellerPhone("01012345678")
+                    .halfPrice((long) eventResultTradeDto.getHalfPrice())
+                    .build());
+        });
+
+        // 세션에서 resultTrades를 제거합니다.
+        session.removeAttribute("trades");
+    }
+
     @GetMapping("/list")
-    public String list() {
+    public String list(@RequestParam(value = "page", defaultValue = "1") int currentPage, Model model) {
+        int pageSize = 10;
+        int pageLength = productService.findPages(pageSize);
+        Pagination pagination = new Pagination(
+                currentPage,
+                pageLength,
+                pageSize
+        );
+        List<AdminProductListDto> products = productService.findRange(pagination.getStartElement(), pagination.getEndElement());
+        model.addAttribute("pagination", pagination);
+        model.addAttribute("products", products);
         return "/half/admin/list";
     }
 
+    @ResponseBody
+    @PostMapping("/list")
+    public AdminProductDetailDto listDetail(@RequestBody Long productNo) {
+        return productService.findByProductNo(productNo);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/list/done")
+    public void updateDone(@RequestBody AdminProductUpdateDto adminProductUpdateDto){
+        productService.updateProduct(UpdateProductDto.builder()
+                .productNo(adminProductUpdateDto.getProductNo())
+                .isDone(ProductState.DONE)
+                .adminMemo(adminProductUpdateDto.getAdminMemo())
+                .build());
+    }
 }

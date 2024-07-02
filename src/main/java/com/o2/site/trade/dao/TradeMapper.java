@@ -60,7 +60,10 @@ public interface TradeMapper {
 
     List<TradeDomain> findTradeByCategoryCode(String categoryCode);
 
+    void doneTrade(Long tradeNo);
+
     CheckWishDto checkWish(int tradeNo, int memberNo);
 
     void deleteWish(WishListDto wishListDto);
+
 }

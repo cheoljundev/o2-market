@@ -1,19 +1,19 @@
 package com.o2.site.half.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
-@Builder
 @Data
-public class AdminProductDetailDto {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class InsertProductDto {
     private Long productNo;
-    private String title;
     private Long tradeNo;
     private Long sellerMemberNo;
     private String sellerMemberId;
+    private String sellerPhone;
     private Long halfPrice;
-    private String adminMemo;
-    private Integer isDone;
 }

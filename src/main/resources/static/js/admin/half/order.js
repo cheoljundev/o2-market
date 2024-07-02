@@ -51,13 +51,14 @@ const sendInvoice = () => {
             if (!response.ok) {
                 return response.text().then(text => { throw new Error(text) });
             }
-            const orderDetail = document.querySelector(".order-detail");
-            orderDetail.classList.toggle("d-none");
-            orderDetail.querySelector(".invoice").readOnly = true;
-            orderDetail.querySelector(".btn-send-invoice").disabled = true;
-            window.location.href = "/admin/half/order";
         }
-    ).catch(
+    ).then(()=>{
+        const orderDetail = document.querySelector(".order-detail");
+        orderDetail.classList.toggle("d-none");
+        orderDetail.querySelector(".invoice").readOnly = true;
+        orderDetail.querySelector(".btn-send-invoice").disabled = true;
+        window.location.href = "/admin/half/order";
+    }).catch(
         error => console.error(error)
     );
 };

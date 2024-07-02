@@ -123,6 +123,10 @@ public class TradeService {
         return tradeMapper.findTradeByCategoryCode(categoryCode);
     }
 
+    public void doneTrade(Long tradeNo) {
+        tradeMapper.doneTrade(tradeNo);
+    }
+  
     public CheckWishDto checkWish(int tradeNo, int memberNo) {
         return tradeMapper.checkWish(tradeNo,memberNo);
     }

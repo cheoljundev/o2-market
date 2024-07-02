@@ -5,7 +5,7 @@
     <title>매입 리스트</title>
     <th:block th:fragment="insertHead">
         <link rel="stylesheet" href="/css/admin/half/order.css">
-        <script th:inline="javascript" src="/js/admin/half/order.js" defer></script>
+        <script th:inline="javascript" src="/js/admin/half/list.js" defer></script>
     </th:block>
 
 </head>
@@ -14,24 +14,6 @@
     <div class="container">
         <div class="row mb-5">
             <h2 class="text-center my-5 m-2 mb-4">매입 건 상태</h2>
-            <form action="" method="get" class="px-0">
-                <div class="row gx-2 mx-2 mb-4">
-                    <div class="col-auto">
-                        <select class="form-select col-auto search-select" name="searchField">
-                            <option selected value="searchCond">검색 조건</option>
-                            <option>상품명</option>
-                            <option>판매자 아이디</option>
-                            <option>판매자 이름</option>
-                        </select>
-                    </div>
-                    <div class="col-auto">
-                        <input class="form-control col-auto search-input" type="text" name="searchValue" placeholder="입력하세요.">
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary col-auto">검색</button>
-                    </div>
-                </div>
-            </form>
             <div class="table-responsive">
                 <table class="table table-striped table-hover align-middle text-nowrap" style="min-width: 1000px;">
                     <thead>
@@ -47,19 +29,21 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                    <tr th:each="product : ${products}">
                         <td>
                             <button type="button"
                                     class="link-primary border-0 bg-transparent text-decoration-underline btn-order-no"
-                                    onclick="showDetail(this)">1</button>
+                                    onclick="showDetail(this)"
+                                    th:text="${product.productNo}"
+                            >1</button>
                         </td>
-                        <td>2024-07-01</td>
-                        <td><img src="https://via.placeholder.com/100" class="img-thumb"></td>
-                        <td>한번 쓴 ㅇㅇㅇ</td>
+                        <td th:text="${{product.createdAt}}">2024-07-01</td>
+                        <td><img src="https://via.placeholder.com/100" th:src="@{/images/{src} (src=${product.thumbnail})}" class="img-thumb"></td>
+                        <td th:text="${product.title}">한번 쓴 ㅇㅇㅇ</td>
                         <td>홍길동</td>
-                        <td>10,000</td>
-                        <td>5,000</td>
-                        <td>매입 완료</td>
+                        <td th:text="${{product.price}}">10,000</td>
+                        <td th:text="${{product.halfPrice}}">5,000</td>
+                        <td th:text="${product.stateName}">매입 완료</td>
                     </tr>
                     </tbody>
                 </table>
@@ -67,15 +51,23 @@
             <div class="row">
                 <nav aria-label="Page navigation example w-auto">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item">
+                        <li class="page-item"
+                            th:classappend="${!pagination.prev ? 'disabled' : ''}"
+                        >
                             <a class="page-link" href="#"
+                               th:href="@{/admin/half/order(searchField=${searchField}, searchValue=${searchValue}  ,page=${pagination.prevPage})}"
                                aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
-                        <li class="page-item"><a class="page-link" href="/admin/half/order">1</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#"aria-label="Next">
+                        <li class="page-item"
+                            th:each="page : ${pagination.pages}"
+                            th:classappend="${page == pagination.currentPage} ? 'active' : ''"
+                        ><a class="page-link" href="/admin/half/list" th:src="@{/admin/half/list (page=${page})}" th:text="${page}">1</a></li>
+                        <li class="page-item"
+                            th:classappend="${!pagination.next ? 'disabled' : ''}"
+                        >
+                            <a class="page-link" href="#" th:href="@{/admin/half/order(searchField=${searchField}, searchValue=${searchValue}  ,page=${pagination.nextPage})}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
@@ -83,8 +75,12 @@
                 </nav>
             </div>
         </div>
-        <div class="row px-2 pb-5 order-detail">
+        <div class="row px-2 pb-5 product-detail d-none">
             <h2 class="text-center my-5">매입건 상세정보</h2>
+            <div class="row">
+                <p><strong>상품 번호</strong></p>
+                <p class="product-no">1</p>
+            </div>
             <div class="row">
                 <p><strong>상품명</strong></p>
                 <p class="title">한 번쓴 ㅇㅇㅇ</p>
@@ -103,14 +99,14 @@
             </div>
             <div class="row mb-4">
                 <p class="col-12"><strong>CS 메모</strong></p>
-                <textarea class="mx-2 form-control col-12" rows="3"></textarea>
+                <textarea class="mx-2 form-control col-12 admin-memo" rows="3"></textarea>
             </div>
             <div class="row gx-0">
                 <div class="col-auto mx-2">
-                    <button type="button" class="btn btn-primary btn-send-invoice" onclick="sendInvoice()">처리하기</button>
+                    <button type="button" class="btn btn-primary btn-done" onclick="done()">처리하기</button>
                 </div>
                 <div class="col-auto mx-2">
-                    <button type="button" class="btn btn-outline-danger btn-order-detail-close" onclick="closeDetail()">닫기</button>
+                    <button type="button" class="btn btn-outline-danger btn-list-detail-close" onclick="closeDetail()">닫기</button>
                 </div>
             </div>
         </div>
