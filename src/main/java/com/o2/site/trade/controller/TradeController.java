@@ -301,7 +301,7 @@ public class TradeController {
     @GetMapping("/trade_mylist")
     public String myList(Model model, String memberNo, @RequestParam(defaultValue = "1") int page){
         int page_size = 5;
-        memberNo="1";
+        memberNo="2";
         System.out.println(memberNo);
         ArrayList<MyListDto> mylist = tradeService.selectMyList(memberNo);
         ArrayList<CategoryDto> category = tradeService.getCategory();
