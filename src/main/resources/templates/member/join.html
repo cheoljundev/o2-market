@@ -15,47 +15,52 @@
 </head>
 <body>
 <main>
-    <div class="main">
-        <div class="in">
-            <form th:action="@{/join}" method="post">
-                <h1>회원가입.</h1>
-                <div class="form__group field">
-                    <label for="userId" class="form__label">아이디</label>
-                    <input type="text" id="userId" name="id" class="form__field" required>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-2">
+                <div class="login-box">
+                    <form action="/join" method="post"  enctype="multipart/form-data">
+                        <h2>회원가입.</h2>
+                        <div class="form__group field">
+                            <label for="userId" class="form__label">아이디</label>
+                            <input type="text" id="userId" name="id" class="form__field" required>
+                        </div>
+                        <div class="form__group field">
+                            <label for="userPw" class="form__label">비밀번호</label>
+                            <input type="password" id="userPw" name="password" class="form__field" required>
+                        </div>
+                        <div class="form__group field">
+                            <label for="userPwCheck" class="form__label">비밀번호 확인</label>
+                            <input type="password" id="userPwCheck" name="passwordCheck" class="form__field" required>
+                        </div>
+                        <div class="form__group field">
+                            <label for="userName" class="form__label">이름</label>
+                            <input type="text" id="userName" name="name" class="form__field" required>
+                        </div>
+                        <div class="form__group field">
+                            <label for="userPhone" class="form__label">전화번호</label>
+                            <input type="text" id="userPhone" name="phoneNumber" class="form__field" required>
+                        </div>
+                        <div class="form__group field">
+                            <label for="userAddress" class="form__label">주소</label>
+                            <input type="text" id="userAddress" name="address" class="form__field" required>
+                        </div>
+                        <div class="form__group field">
+                            <label class="form__label">프로필 사진</label>
+                            <input type="file" name="image" class="form__field" required >
+                        </div>
+                        <button type="submit" class="btn btn-light">회원가입</button>
+                    </form>
                 </div>
-                <div class="form__group field">
-                    <!-- id로 css, 자바스크립트 연결 가능-->
-                    <!-- name 속성은 이후 자바 객체와 매핑될 이름 -->
-                    <label for="userPw" class="form__label">비밀번호</label>
-                    <input type="password" id="userPw" name="password" class="form__field" required>
+            </div>
+            <div class="col-md-3">
+                <div class="profile-box">
+                    <div class="image-box">
+                        <img src="/images/profile/maindd.jpg" class="" width="400" height="400">
+                    </div>
                 </div>
-                <div class="form__group field">
-                    <!-- id로 css, 자바스크립트 연결 가능-->
-                    <label for="userPwCheck" class="form__label">비밀번호 확인</label>
-                    <input type="password" id="userPwCheck" name="passwordCheck" class="form__field" required>
-                </div>
-                <div class="form__group field">
-                    <label for="userName" class="form__label">이름</label>
-                    <input type="text" id="userName" name="name" class="form__field" required>
-                </div>
-                <div class="form__group field">
-                    <label for="userPhone" class="form__label">전화번호</label>
-                    <input type="text" id="userPhone" name="phoneNumber" class="form__field" required>
-                </div>
-                <div class="form__group field">
-                    <label for="userAddress" class="form__label">주소</label>
-                    <input type="text" id="userAddress" name="address" class="form__field" required>
-                </div>
-                <div class="form__group field">
-                    <label class="form__label">프로필 사진</label>
-                    <img src="" alt="image" class="input-image">
-                </div>
-                <button type="submit" class="btn btn-light">회원가입</button>
-            </form>
-        </div>
-        <div class="in">
-            <div class="image-box">
-                <img src="/images/profile/maindd.jpg" class="" width="300" height="350">
             </div>
         </div>
     </div>

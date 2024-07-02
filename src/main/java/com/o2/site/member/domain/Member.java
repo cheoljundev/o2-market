@@ -1,19 +1,22 @@
 package com.o2.site.member.domain;
 
+import com.o2.site.member.dto.Authority;
 import lombok.*;
 
-// db, 비즈니스 로직에 이용하기 위한 객체 (엔티티)
+import java.util.List;
 
 @Getter
 @Setter
 @ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member {
-    private Long memberNo; // 데이터베이스에서 자동 생성되는 PK 필드
+    private Long memberNo;
     private String id;
     private String password;
     private String name;
     private String phoneNumber;
     private String address;
-    private String image;
-    private int mileage;
+    private Integer mileage;
 }

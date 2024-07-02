@@ -18,17 +18,26 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth ->
-                auth.anyRequest().permitAll()
+        http.authorizeHttpRequests(auth -> auth
+                // /admin은 관리자만
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().permitAll()
         );
         http.csrf(AbstractHttpConfigurer::disable);
 
-        http.formLogin(formLogin ->
-                        formLogin
-                                .loginPage("/login").defaultSuccessUrl("/").permitAll()
+        http
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .loginProcessingUrl("/loginProc")
+                        .usernameParameter("id")
+                        .passwordParameter("password")
+                        .defaultSuccessUrl("/", true)
+                        .permitAll()
                 )
-                .logout(logout ->
-                        logout.logoutUrl("/logout").logoutSuccessUrl("/login").permitAll()
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
+                        .permitAll()
                 );
         return http.build();
     }
