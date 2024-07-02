@@ -37,7 +37,7 @@
         UPLOAD_IMAGE B ON A.TRADE_NO = B.TRADE_NO
         JOIN
         CATEGORY C ON A.CATEGORY_CODE = C.CATEGORY_CODE
-        WHERE A.APPROVE='Y'
+        WHERE A.APPROVE='Y' AND A.IS_TRADE !='E'
         )
         WHERE rn = 1
         ORDER BY TRADE_NO DESC
@@ -65,7 +65,7 @@
         JOIN
         CATEGORY C ON A.CATEGORY_CODE = C.CATEGORY_CODE
         WHERE
-        (A.TITLE LIKE '%' || #{keyword} || '%' OR A.ADDRESS LIKE '%' || #{keyword} || '%') AND A.CATEGORY_CODE LIKE '%' || #{category} || '%' AND A.APPROVE = 'Y'
+        (A.TITLE LIKE '%' || #{keyword} || '%' OR A.ADDRESS LIKE '%' || #{keyword} || '%') AND A.CATEGORY_CODE LIKE '%' || #{category} || '%' AND A.APPROVE='Y' AND A.IS_TRADE !='E'
         )
         WHERE rn = 1
         ORDER BY TRADE_NO DESC
@@ -262,7 +262,8 @@
         PRICE,
         STORED_IMAGE_NAME,
         CATEGORY,
-        APPROVE
+        APPROVE,
+        IS_TRADE
         FROM (
         SELECT
         A.TRADE_NO,
@@ -271,6 +272,7 @@
         B.STORED_IMAGE_NAME,
         C.CATEGORY,
         A.APPROVE,
+        A.IS_TRADE,
         ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY B.IMAGE_NO) AS rn
         FROM
         TRADE_BOARD A
@@ -318,4 +320,9 @@
         WHERE TRADE_NO=#{tradeNo} AND MEMBER_NO=#{memberNo}
     </delete>
 
+    <update id="endTrade">
+        UPDATE TRADE_BOARD
+        SET IS_TRADE = 'E'
+        WHERE TRADE_NO=#{tradeNo}
+    </update>
 </mapper>

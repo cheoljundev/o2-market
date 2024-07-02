@@ -14,4 +14,5 @@ public class MyListDto {
     private int price;
     private String category;
     private String approve;
+    private String isTrade;
 }

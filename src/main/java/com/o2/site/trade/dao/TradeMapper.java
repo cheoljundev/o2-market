@@ -66,4 +66,5 @@ public interface TradeMapper {
 
     void deleteWish(WishListDto wishListDto);
 
+    void endTrade(int tradeNo);
 }

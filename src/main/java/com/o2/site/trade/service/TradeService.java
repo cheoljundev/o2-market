@@ -134,6 +134,10 @@ public class TradeService {
     public void deleteWish(WishListDto wishListDto) {
         tradeMapper.deleteWish(wishListDto);
     }
+
+    public void endTrade(int tradeNo) {
+        tradeMapper.endTrade(tradeNo);
+    }
 }
 
 

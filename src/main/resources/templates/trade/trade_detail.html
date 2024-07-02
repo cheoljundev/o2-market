@@ -21,6 +21,7 @@
                 <li class="breadcrumb-item active" aria-current="page">상세보기</li>
             </ol>
         </nav>
+
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <a class="navbar-brand me-5" href="/trade/trade_main">전체 조회</a>
@@ -137,7 +138,12 @@
     <div align="center">
         <hr class="border border-dark">
         <div class="btn-group" aria-label="Small button group">
-            <a href="#" class="btn bg-body-secondary">문의하기</a>
+            <a th:href="@{/trade/trade_end(tradeNo=${tradeDomain.tradeNo})}"
+               class="btn bg-body-secondary"
+               th:if="${tradeDomain.isTrade != 'E'}">거래하기</a>
+            <a class="btn btn-dark"
+               th:if="${tradeDomain.isTrade == 'E'}"
+               disabled th:text="거래완료">거래 완료</a>
             <a th:href="@{/trade/trade_addWish(tradeNo=${tradeDomain.tradeNo})}" class="btn bg-body-secondary" th:text="${isWished}">찜하기</a>
             <a href="/trade/trade_main" class="btn bg-body-secondary">목록으로</a>
         </div>
