@@ -19,6 +19,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
+                // /admin은 관리자만
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
         );
         http.csrf(AbstractHttpConfigurer::disable);
