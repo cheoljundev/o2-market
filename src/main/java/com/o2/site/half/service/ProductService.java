@@ -37,7 +37,7 @@ public class ProductService {
         List<AdminProductListDto> products = new ArrayList<>();
         productDao.findRange(start, end).forEach(product -> {
             String storedImageName = uploadService.findImages(UploadImageDto.builder()
-                    .tradeNo(null)
+                    .tradeNo(product.getTradeNo())
                     .build()).get(0).getStoredImageName();
 
             String title = tradeService.getBoard(Integer.valueOf(String.valueOf(product.getTradeNo()))).getTitle();

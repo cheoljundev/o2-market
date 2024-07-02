@@ -37,7 +37,7 @@ public class TradeController {
 
     //전체 리스트
     @GetMapping("/trade_main")
-    public void trade_main(Model model, @RequestParam(defaultValue = "1") int page){
+    public void trade_main(Model model, @RequestParam(value = "page",defaultValue = "1") int page){
         int page_size = 5;
 
         ArrayList<TradeMainDto> mainlist = tradeService.selectMainList();
