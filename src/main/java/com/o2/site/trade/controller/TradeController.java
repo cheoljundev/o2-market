@@ -108,6 +108,16 @@ public class TradeController {
     //게시글 한개 조회
     @GetMapping("/trade_detail")
     public void trade_detail(Model model, int tradeNo){
+        int memberNo=1;
+        String isWished;
+        CheckWishDto checkWishDto = tradeService.checkWish(tradeNo,memberNo);
+        if(checkWishDto==null){
+            isWished="찜 하기";
+        }else if(checkWishDto.getTradeNo()!=tradeNo || checkWishDto.getMemberNo()!=memberNo){
+            isWished="찜 하기";
+        }else {
+            isWished="찜 해제";
+        }
         TradeDomain tradeDomain = tradeService.getBoard(tradeNo);
         System.out.println(tradeDomain);
         tradeService.upVisitCount(tradeNo);
@@ -121,7 +131,7 @@ public class TradeController {
         }
         System.out.println("찜"+wishList);
         ArrayList<CategoryDto> category = tradeService.getCategory();
-        model.addAttribute("isWished","찜 하기");
+        model.addAttribute("isWished",isWished);
         model.addAttribute("category",category);
         model.addAttribute("wishCount",wishList);
         model.addAttribute("tradeDomain",tradeDomain);
@@ -151,6 +161,7 @@ public class TradeController {
             int result = tradeService.addWish(wishListDto);
         }else {
             System.out.println("중복");
+            tradeService.deleteWish(wishListDto);
         }
         return "redirect:/trade/trade_detail?tradeNo="+wishListDto.getTradeNo();
     }
