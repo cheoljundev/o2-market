@@ -38,7 +38,7 @@
     <select id="findRangeWithConditions" parameterType="com.o2.site.half.dao.ProductSearchCond" resultType="com.o2.site.half.dto.UserListProductDto">
         SELECT *
         FROM (
-        SELECT p.PRODUCT_NO, p.TRADE_NO, p.SELLER_MEMBER_NO, p.SELLER_MEMBER_ID, p.SELLER_PHONE, p.HALF_PRICE, p.IS_DONE, p.CREATE_AT, p.ADMIN_MEMO,
+        SELECT p.PRODUCT_NO, p.TRADE_NO, p.SELLER_MEMBER_NO, p.SELLER_MEMBER_ID, p.SELLER_PHONE, t.price, p.HALF_PRICE, p.IS_DONE, p.CREATE_AT, p.ADMIN_MEMO,
         t.category_code, t.title, u.stored_image_name, ROW_NUMBER() OVER (ORDER BY p.PRODUCT_NO DESC) AS rnum
         FROM half_product p
         INNER JOIN trade_board t ON p.TRADE_NO = t.TRADE_NO

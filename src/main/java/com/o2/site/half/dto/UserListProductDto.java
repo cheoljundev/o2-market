@@ -13,6 +13,7 @@ public class UserListProductDto {
     private Long sellerMemberNo;
     private String sellerMemberId;
     private String sellerPhone;
+    private Long price;
     private Long halfPrice;
     private Integer isDone;
     private Date createdAt;
