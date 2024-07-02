@@ -39,17 +39,21 @@
         SELECT *
         FROM (
         SELECT p.PRODUCT_NO, p.TRADE_NO, p.SELLER_MEMBER_NO, p.SELLER_MEMBER_ID, p.SELLER_PHONE, p.HALF_PRICE, p.IS_DONE, p.CREATE_AT, p.ADMIN_MEMO,
-               t.category_code, t.title ,ROW_NUMBER() OVER (ORDER BY p.PRODUCT_NO DESC) AS rnum
+        t.category_code, t.title, u.stored_image_name, ROW_NUMBER() OVER (ORDER BY p.PRODUCT_NO DESC) AS rnum
         FROM half_product p
-        inner join trade_board t on p.TRADE_NO = t.TRADE_NO
+        INNER JOIN trade_board t ON p.TRADE_NO = t.TRADE_NO
+        LEFT JOIN (
+        SELECT trade_no, stored_image_name, ROW_NUMBER() OVER (PARTITION BY trade_no ORDER BY image_no ASC) as img_rnum
+        FROM upload_image
+        ) u ON t.trade_no = u.trade_no AND u.img_rnum = 1
         <where>
-            <if test="productSearchCond.categoryCode != null">
+            <if test="productSearchCond.categoryCode != null and productSearchCond.categoryCode != 'cg_all'">
                 AND t.CATEGORY_CODE = #{productSearchCond.categoryCode}
             </if>
-            <if test="productSearchCond.title != null">
-                AND t.title = #{productSearchCond.title}
+            <if test="productSearchCond.title != null and productSearchCond.title != ''">
+                AND t.title LIKE '%' || #{productSearchCond.title} || '%'
             </if>
-            and p.is_done = 1
+            AND p.is_done = 1
         </where>
         ) subquery
         WHERE rnum BETWEEN #{start} AND #{end}

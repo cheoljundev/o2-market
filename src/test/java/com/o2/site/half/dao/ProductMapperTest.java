@@ -6,6 +6,8 @@ import com.o2.site.half.dto.InsertProductDto;
 import com.o2.site.half.dto.ProductState;
 import com.o2.site.half.dto.UpdateProductDto;
 import com.o2.site.half.dto.UserListProductDto;
+import com.o2.site.upload.dao.UploadMapper;
+import com.o2.site.upload.domain.UploadImage;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ class ProductMapperTest {
 
     @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    private UploadMapper uploadMapper;
 
     @Test
     void insertProduct() {
@@ -58,9 +63,16 @@ class ProductMapperTest {
                 .build()
         );
 
+        uploadMapper.insertImage(UploadImage.builder()
+                .tradeNo(1L)
+                .imageName("test.jpg")
+                .storedImageName("test.jpg")
+                .build());
+
         List<UserListProductDto> products = productMapper.findRangeWithConditions(1, 1, ProductSearchCond.builder()
                 .categoryCode("cg_life")
                 .build());
+        System.out.println("products = " + products);
         Assertions.assertThat(products.size()).isEqualTo(1);
     }
 

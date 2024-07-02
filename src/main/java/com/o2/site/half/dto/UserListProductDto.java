@@ -19,4 +19,5 @@ public class UserListProductDto {
     private String adminMemo;
     private String categoryCode;
     private String title;
+    private String storedImageName;
 }
