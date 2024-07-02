@@ -21,9 +21,9 @@
   <nav class="main-nav">
     <a href="/" class="logo"><img src="/images/common/logo.png" alt="오이마켓"></a>
     <ul class="nav gap-2 justify-content-end mb-5">
-      <li sec:authorize="isAnonymous()" class="nav-item"><a href="" class="btn btn-outline-primary">로그인</a></li>
-      <li sec:authorize="isAnonymous()" class="nav-item"><a href="" class="btn btn-primary">회원가입</a></li>
-      <li sec:authorize="isAuthenticated()" class="nav-item"><a href="" class="btn btn-outline-primary">로그아웃</a></li>
+      <li sec:authorize="isAnonymous()" class="nav-item"><a href="/login" class="btn btn-outline-primary">로그인</a></li>
+      <li sec:authorize="isAnonymous()" class="nav-item"><a href="/join" class="btn btn-primary">회원가입</a></li>
+      <li sec:authorize="isAuthenticated()" class="nav-item"><a href="/logout" class="btn btn-outline-primary">로그아웃</a></li>
       <li sec:authorize="isAuthenticated()" class="nav-item"><a href="" class="btn btn-primary">마이페이지</a></li>
     </ul>
     <ul class="nav nav-pills gap-0 gap-sm-2 d-flex justify-content-center">
