@@ -65,7 +65,7 @@
         JOIN
         CATEGORY C ON A.CATEGORY_CODE = C.CATEGORY_CODE
         WHERE
-        A.TITLE LIKE '%' || #{keyword} || '%' AND A.CATEGORY_CODE LIKE '%' || #{category} || '%' AND A.APPROVE = 'Y'
+        (A.TITLE LIKE '%' || #{keyword} || '%' OR A.ADDRESS LIKE '%' || #{keyword} || '%') AND A.CATEGORY_CODE LIKE '%' || #{category} || '%' AND A.APPROVE = 'Y'
         )
         WHERE rn = 1
         ORDER BY TRADE_NO DESC
@@ -305,4 +305,9 @@
         SELECT * FROM TRADE_BOARD
         WHERE CATEGORY_CODE = #{categoryCode}
     </select>
+
+    <delete id="deleteWish">
+        DELETE FROM WISH_LIST
+        WHERE TRADE_NO=#{tradeNo} AND MEMBER_NO=#{memberNo}
+    </delete>
 </mapper>

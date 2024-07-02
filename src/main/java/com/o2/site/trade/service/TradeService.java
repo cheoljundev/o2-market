@@ -117,8 +117,19 @@ public class TradeService {
 
     public void deleteImpages(int tradeNo) {
         tradeMapper.deleteImages(tradeNo);
+    }
 
     public List<TradeDomain> findTradeByCategoryCode(String categoryCode) {
         return tradeMapper.findTradeByCategoryCode(categoryCode);
     }
+
+    public CheckWishDto checkWish(int tradeNo, int memberNo) {
+        return tradeMapper.checkWish(tradeNo,memberNo);
+    }
+
+    public void deleteWish(WishListDto wishListDto) {
+        tradeMapper.deleteWish(wishListDto);
+    }
 }
+
+

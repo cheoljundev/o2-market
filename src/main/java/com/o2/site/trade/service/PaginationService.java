@@ -24,7 +24,12 @@ public class PaginationService {
     public AdvListDto rndadv(List<AdvListDto> advList){
         //광고 랜덤 선택
         Random random = new Random();
-        int rand=random.nextInt(advList.size());
+        int rand=0;
+        try {
+            rand = random.nextInt(advList.size());
+        }catch (Exception e){
+            return null;
+        }
         AdvListDto randomAdv = advList.isEmpty() ? null : advList.get(rand);
         return randomAdv;
     }
