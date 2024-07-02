@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 @RequestMapping("/trade")
@@ -45,9 +43,6 @@ public class TradeController {
         ArrayList<TradeMainDto> mainlist = tradeService.selectMainList();
         ArrayList<CategoryDto> category = tradeService.getCategory();
         ArrayList<AdvListDto> advList = tradeService.getAdvList();
-
-        NumberFormat numberFormat = NumberFormat.getInstance(Locale.KOREA);
-
 
         int adjustPage=page-1;
         //페이지 나누기
