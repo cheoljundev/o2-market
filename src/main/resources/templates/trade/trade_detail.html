@@ -64,8 +64,14 @@
         <span th:text="'작성일: '+${tradeDomain.postDate}">날짜</span>
     </div>
     <div align="right">
-<!--        <a th:href="@{/trade/trade_delete(tradeNo=${tradeDomain.tradeNo})}">삭제</a> 구현 완료 권환이 있으면 나타나도록 수정 예정-->
-        <a th:href="@{/trade/trade_update(tradeNo=${tradeDomain.tradeNo})}">수정</a>
+        <th:block sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/trade/trade_delete(tradeNo=${tradeDomain.tradeNo})}">삭제</a>
+            <a th:href="@{/trade/trade_update(tradeNo=${tradeDomain.tradeNo})}">수정</a>
+        </th:block>
+        <th:block sec:authorize="hasRole('USER')" th:if="tradeDomain.member==NomemberNo">
+            <a th:href="@{/trade/trade_delete(tradeNo=${tradeDomain.tradeNo})}">삭제</a>
+            <a th:href="@{/trade/trade_update(tradeNo=${tradeDomain.tradeNo})}">수정</a>
+        </th:block>
     </div>
     <div>
         <h1 th:text="${tradeDomain.title}" align="center">제목</h1>
