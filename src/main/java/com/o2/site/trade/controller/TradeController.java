@@ -2,6 +2,7 @@ package com.o2.site.trade.controller;
 
 
 import com.o2.site.member.dto.CustomUserDetails;
+import com.o2.site.member.service.MemberService;
 import com.o2.site.trade.domain.AdvDomain;
 import com.o2.site.trade.domain.TradeDomain;
 import com.o2.site.trade.dto.*;
@@ -28,6 +29,9 @@ import java.util.List;
 public class TradeController {
     @Autowired
     PaginationService pagination;
+
+    @Autowired
+    MemberService memberService;
     private final TradeService tradeService;
 
     private final UploadService uploadService;
@@ -105,7 +109,8 @@ public class TradeController {
     //게시글 한개 조회
     @GetMapping("/trade_detail")
     public void trade_detail(Model model, int tradeNo, @AuthenticationPrincipal CustomUserDetails user){
-        int memberNo= 1;
+
+        Long memberNo = memberService.findMemberNo(user.getUser().getId());
         String isWished;
         CheckWishDto checkWishDto = tradeService.checkWish(tradeNo,memberNo);
         if(checkWishDto==null){
@@ -128,6 +133,7 @@ public class TradeController {
         }
         System.out.println("찜"+wishList);
         ArrayList<CategoryDto> category = tradeService.getCategory();
+        model.addAttribute("memberNo",memberNo);
         model.addAttribute("isWished",isWished);
         model.addAttribute("category",category);
         model.addAttribute("wishCount",wishList);
@@ -147,8 +153,9 @@ public class TradeController {
     }
     //찜하기
     @GetMapping("/trade_addWish")
-    public String trade_addWish(Model model, WishListDto wishListDto){
-        wishListDto.setMemberNo(1);
+    public String trade_addWish(Model model, WishListDto wishListDto,@AuthenticationPrincipal CustomUserDetails user){
+        Long memberNo = memberService.findMemberNo(user.getUser().getId());
+        wishListDto.setMemberNo(memberNo);
         CheckWishDto checkWishDto = tradeService.checkWish(wishListDto);
         System.out.println("위시리스트"+wishListDto);
         System.out.println("체크리스트"+checkWishDto);
@@ -164,8 +171,8 @@ public class TradeController {
     }
     //내 찜목록 보기
     @GetMapping("/trade_mywish")
-    public String trade_mywish(Model model, @RequestParam(value = "page",defaultValue = "1") int page){
-        int memberNo = 1;
+    public String trade_mywish(Model model, @RequestParam(value = "page",defaultValue = "1") int page, @AuthenticationPrincipal CustomUserDetails user){
+        Long memberNo = memberService.findMemberNo(user.getUser().getId());
         int page_size = 5;
         ArrayList<TradeMainDto> wishList = tradeService.myWishList(memberNo);
         ArrayList<AdvListDto> advList = tradeService.getAdvList();
@@ -258,7 +265,8 @@ public class TradeController {
     public void trade_adv_regist(){}
     //상품 등록 신청
     @PostMapping("/trade_app")
-    public String insertApp(ApplicationDto ad, @RequestParam("files") MultipartFile[] files){
+    public String insertApp(ApplicationDto ad, @RequestParam("files") MultipartFile[] files, @AuthenticationPrincipal CustomUserDetails user){
+        ad.setMemberNo(memberService.findMemberNo(user.getUser().getId()));
         int result = tradeService.insertApp(ad);
         System.out.println("no: "+ad.getTradeNo());
         System.out.println(result);
@@ -301,9 +309,9 @@ public class TradeController {
     }
     //내 작성글 모두 보기
     @GetMapping("/trade_mylist")
-    public String myList(Model model, String memberNo, @RequestParam(value = "page",defaultValue = "1") int page){
+    public String myList(Model model, @RequestParam(value = "page",defaultValue = "1") int page,  @AuthenticationPrincipal CustomUserDetails user){
         int page_size = 5;
-        memberNo="2";
+        Long memberNo = memberService.findMemberNo(user.getUser().getId());
         System.out.println(memberNo);
         ArrayList<MyListDto> mylist = tradeService.selectMyList(memberNo);
         ArrayList<CategoryDto> category = tradeService.getCategory();
@@ -359,8 +367,9 @@ public class TradeController {
     }
     //거래 완료
     @GetMapping("/trade_end")
-    public String trade_end(int tradeNo){
-        int memberNo=1;
+    public String trade_end(int tradeNo, @AuthenticationPrincipal CustomUserDetails user, Model model){
+        Long memberNo = memberService.findMemberNo(user.getUser().getId());
+        model.addAttribute("memberNo",memberNo);
         System.out.println(tradeNo);
         tradeService.endTrade(tradeNo);
         return "redirect:/trade/trade_main";

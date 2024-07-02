@@ -32,7 +32,7 @@ public interface TradeMapper {
 
     int addWish(WishListDto wishListDto);
 
-    ArrayList<TradeMainDto> myWishList(int memberNo);
+    ArrayList<TradeMainDto> myWishList(Long memberNo);
 
     ArrayList<TradeMainDto> selectAppList();
 
@@ -52,7 +52,7 @@ public interface TradeMapper {
 
     int deleteAdv(String advNo);
 
-    ArrayList<MyListDto> selectMyList(String memberNo);
+    ArrayList<MyListDto> selectMyList(Long memberNo);
 
     int updateBoard(ApplicationDto ad);
 
@@ -62,7 +62,7 @@ public interface TradeMapper {
 
     void doneTrade(Long tradeNo);
 
-    CheckWishDto checkWish(int tradeNo, int memberNo);
+    CheckWishDto checkWish(int tradeNo, Long memberNo);
 
     void deleteWish(WishListDto wishListDto);
 

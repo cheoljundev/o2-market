@@ -8,7 +8,7 @@
         INSERT INTO TRADE_BOARD
         VALUES (
             SEQ_TRADE_TRADE_NO.NEXTVAL,
-            2,
+            #{memberNo},
             #{title},
             #{category},
             #{content},

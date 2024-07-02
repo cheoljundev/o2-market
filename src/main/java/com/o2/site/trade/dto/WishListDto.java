@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class WishListDto {
-    private int memberNo;
+    private Long memberNo;
     private int tradeNo;
     private int count;
 }

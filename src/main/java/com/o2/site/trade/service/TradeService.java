@@ -67,7 +67,7 @@ public class TradeService {
         return tradeMapper.addWish(wishListDto);
     }
 
-    public ArrayList<TradeMainDto> myWishList(int memberNo) {
+    public ArrayList<TradeMainDto> myWishList(Long memberNo) {
         return tradeMapper.myWishList(memberNo);
     }
 
@@ -107,7 +107,7 @@ public class TradeService {
         return tradeMapper.deleteAdv(advNo);
     }
 
-    public ArrayList<MyListDto> selectMyList(String memberNo) {
+    public ArrayList<MyListDto> selectMyList(Long memberNo) {
         return tradeMapper.selectMyList(memberNo);
     }
 
@@ -127,7 +127,7 @@ public class TradeService {
         tradeMapper.doneTrade(tradeNo);
     }
   
-    public CheckWishDto checkWish(int tradeNo, int memberNo) {
+    public CheckWishDto checkWish(int tradeNo, Long memberNo) {
         return tradeMapper.checkWish(tradeNo,memberNo);
     }
 
