@@ -240,7 +240,12 @@ public class TradeController {
     @GetMapping("/trade_mylist")
     public String myList(Model model, @RequestParam(value = "page",defaultValue = "1") int page,  @AuthenticationPrincipal CustomUserDetails user){
         int page_size = 5;
-        Long memberNo = memberService.findMemberNo(user.getUser().getId());
+        Long memberNo;
+        try {
+            memberNo = memberService.findMemberNo(user.getUser().getId());
+        }catch (Exception e){
+            return "redirect:/login";
+        }
         System.out.println(memberNo);
         ArrayList<MyListDto> mylist = tradeService.selectMyList(memberNo);
         ArrayList<CategoryDto> category = tradeService.getCategory();
