@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -54,7 +55,8 @@ public class HalfUserController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail() {
+    public String detail(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("product", productService.findByProductNoForUser(id));
         return "half/user/detail";
     }
 

@@ -5,6 +5,7 @@ import com.o2.site.half.dao.ProductSearchCond;
 import com.o2.site.half.domain.Product;
 import com.o2.site.half.dto.*;
 import com.o2.site.trade.service.TradeService;
+import com.o2.site.upload.domain.UploadImage;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
 import lombok.RequiredArgsConstructor;
@@ -42,14 +43,14 @@ public class ProductService {
             int price = tradeService.getBoard(Integer.valueOf(String.valueOf(product.getTradeNo()))).getPrice();
 
             products.add(AdminProductListDto.builder()
-                            .productNo(product.getProductNo())
-                            .createdAt(product.getCreatedAt())
-                            .title(title)
-                            .tradeNo(product.getTradeNo())
-                            .thumbnail(storedImageName)
-                            .price(Long.valueOf(price))
-                            .halfPrice(product.getHalfPrice())
-                            .stateName(product.getIsDone())
+                    .productNo(product.getProductNo())
+                    .createdAt(product.getCreatedAt())
+                    .title(title)
+                    .tradeNo(product.getTradeNo())
+                    .thumbnail(storedImageName)
+                    .price(Long.valueOf(price))
+                    .halfPrice(product.getHalfPrice())
+                    .stateName(product.getIsDone())
                     .build());
         });
         return products;
@@ -80,5 +81,24 @@ public class ProductService {
 
     public int findPages(int pageSize, ProductSearchCond productSearchCond) {
         return productDao.findPages(pageSize, productSearchCond);
+    }
+
+    public UserProductDetailDto findByProductNoForUser(Long productNo) {
+        Product product = productDao.findByProductNo(productNo);
+        String title = tradeService.getBoard(Integer.valueOf(String.valueOf(product.getTradeNo()))).getTitle();
+        String content = tradeService.getBoard(Integer.valueOf(String.valueOf(product.getTradeNo()))).getContent();
+        Long price = Long.valueOf(tradeService.getBoard(Integer.valueOf(String.valueOf(product.getTradeNo()))).getPrice());
+        List<UploadImage> images = uploadService.findImages(UploadImageDto.builder()
+                .tradeNo(product.getTradeNo())
+                .build());
+        return UserProductDetailDto.builder()
+                .title(title)
+                .content(content)
+                .price(price)
+                .price(price)
+                .halfPrice(product.getHalfPrice())
+                .createdAt(product.getCreatedAt())
+                .uploadImages(images)
+                .build();
     }
 }
