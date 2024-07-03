@@ -11,6 +11,7 @@
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8832affe7a6eee9eb46d2eddd8d6a7fc&libraries=services"></script>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <script src="/js/club/getParam.js"></script>
+        <script src="/js/club/function.js"></script>
         <script>
             $(document).ready(function(){
                 $('#createGo').click(function(){
@@ -21,6 +22,15 @@
                     let dateFormat = new Date(dataDate+' '+dataTime);
 
                     let formData = new FormData();
+
+                    let dataArr = [dataDate,dataTime,address,addressDetail];
+
+                    let result = handleNullInArray(dataArr);
+
+                    if (result == 0) {
+                        alert("값이 없습니다.");
+                        return;
+                    }
 
                     formData.append('dateTime',dateFormat);
                     formData.append('address',address);

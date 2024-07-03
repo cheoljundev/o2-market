@@ -72,7 +72,8 @@ public class ClubScheduleContrlloer {
     }
 
     @PostMapping("/scheduleInUser")
+    @ResponseBody
     public void scheduleInUser(ScheduleDto scheduleDto) {
-
+        clubScheduleService.scheduleInUser(scheduleDto);
     }
 }

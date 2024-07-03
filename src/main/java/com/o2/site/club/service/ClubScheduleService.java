@@ -44,5 +44,9 @@ public class ClubScheduleService {
         return scheduleMapper.scheduleUserInCheck(scheduleDto);
     }
 
+    public int scheduleInUser(ScheduleDto scheduleDto) {
+        return scheduleMapper.scheduleInUser(scheduleDto);
+    }
+
 
 }

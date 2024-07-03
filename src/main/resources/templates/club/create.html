@@ -8,7 +8,7 @@
                 src="https://code.jquery.com/jquery-3.7.1.js"
                 integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
                 crossorigin="anonymous"></script>
-        <script src="/js/club/key.js"></script>
+        <script src="/js/club/function.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
 
@@ -46,7 +46,28 @@
                       reader.readAsDataURL(fileDOM.files[0]);
                     });
                 });
+                $('#createGo').click(function(){
+                    let clubName = $('#clubName').val();
+                    let categoryId = $('#categoryId').val();
+                    let membersLimit = $('#membersLimit').val();
+                    let ageLimitStart = $('#ageLimitStart').val();
+                    let ageLimitEnd = $('#ageLimitEnd').val();
+                    let area = $('#area').val();
+
+                    let dataArr = [clubName,categoryId,membersLimit,ageLimitEnd,ageLimitStart,area];
+
+                    let result = handleNullInArray(dataArr);
+
+                    console.log(result);
+                    if (result == 0) {
+                        alert("값이 없습니다.");
+                        return;
+                    } else {
+                        $('#clubCreateForm').submit();
+                    }
+                });
             });
+
         </script>
     </th:block>
 
@@ -64,7 +85,7 @@
             </ol>
         </nav>
         <h2 class="mb-2">모임 생성</h2>
-        <form action="createAction" method="post" enctype="multipart/form-data">
+        <form action="/club/createAction" method="post" enctype="multipart/form-data" id="clubCreateForm">
             <div class="mb-3">
                 <label for="clubName" class="form-label">모임명</label>
                 <input type="text" class="form-control" id="clubName" name="clubName" placeholder="">
@@ -81,15 +102,15 @@
             <div class="row">
                 <div class="col-3">
                     <label for="membersLimit" class="form-label">최대 인원 수</label>
-                    <input type="number" class="form-control" id="membersLimit" name="membersLimit" placeholder="">
+                    <input type="number" class="form-control" id="membersLimit" name="membersLimit" placeholder="" min="1">
                 </div>
                 <div class="col-3">
                     <label for="ageLimitStart" class="form-label">최소 나이</label>
-                    <input type="number" class="form-control" id="ageLimitStart" name="ageLimitStart" placeholder="">
+                    <input type="number" class="form-control" id="ageLimitStart" name="ageLimitStart" placeholder="" min="1">
                 </div>
                 <div class="col-3">
                     <label for="ageLimitEnd" class="form-label">최대 나이</label>
-                    <input type="number" class="form-control numInput" id="ageLimitEnd" name="ageLimitEnd" placeholder="">
+                    <input type="number" class="form-control numInput" id="ageLimitEnd" name="ageLimitEnd" placeholder="" min="1">
                 </div>
                 <div class="col-3" id="imgAddDiv">
                     <img src="/images/club/imgAdd.jpg" id="image" alt="이미지가 없습니다." width="300" height="300">
@@ -112,7 +133,7 @@
                 <textarea class="form-control" id="intro" name="intro" rows="4"></textarea>
             </div>
             <div class="d-md-flex justify-content-md-end">
-                <button type="submit" class="btn btn-primary" id="createGo">생성</button>
+                <button type="button" class="btn btn-primary" id="createGo">생성</button>
             </div>
         </form>
     </div>

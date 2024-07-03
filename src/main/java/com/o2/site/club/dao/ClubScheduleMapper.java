@@ -28,4 +28,6 @@ public interface ClubScheduleMapper {
 
     // 일정 참여 유저 체크
     int scheduleUserInCheck(ScheduleDto scheduleDto);
+
+    int scheduleInUser(ScheduleDto scheduleDto);
 }

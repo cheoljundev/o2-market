@@ -30,7 +30,7 @@
         SELECT COUNT(0) FROM SCHEDULE_USER WHERE USER_NO = #{userNo} AND SCHEDULE_ID = #{scheduleId}
     </select>
 
-    <insert id="userInsert">
-        INSERT INTO
+    <insert id="scheduleInUser">
+        INSERT INTO SCHEDULE_USER VALUES(#{userNo}, #{scheduleId})
     </insert>
 </mapper>

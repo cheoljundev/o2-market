@@ -11,18 +11,28 @@
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8832affe7a6eee9eb46d2eddd8d6a7fc&libraries=services"></script>
         <script src="/js/club/getParam.js"></script>
         <script>
-            $(document).ready(function({
+            $(document).ready(function(){
+                $("#modal").modal("hide");
+
+                $('#inUserListBtn').click(function(){
+                    $("#modal").modal("show");
+                });
+
+                $('#closeModalBtn').click(function(){
+                    $("#modal").modal("hide");
+                });
+
                 $('#inBtn').click(function(){
 
                 let formData = new FormData();
                 let loginUserNo = [[${loginUserNo}]];
-                let scheduleId = [[${scheduleId}]];
+                let scheduleId = [[${scheduleDto.scheduleId}]];
                 console.log(loginUserNo + scheduleId);
                 formData.append('userNo',loginUserNo);
                 formData.append('scheduleId',scheduleId);
 
                     $.ajax({
-                        url : "/club/scheduleInUser", // 요기에
+                        url : "/club/schedule/scheduleInUser", // 요기에
                         processData : false,
                         contentType : false,
                         type : 'POST',
@@ -31,10 +41,9 @@
                             alert('일정 참여 완료 되었습니다.');
                             location.href='/club/schedule/list?clubName='+ getClubName();
                         }
-                    });
-                });
-                });
-            });
+                    })
+                })
+            })
         </script>
     </th:block>
 
@@ -68,16 +77,17 @@
             <h4 th:text="${#dates.format(scheduleDto.dateTime, 'yyyy-MM-dd HH:mm')}"></h4>
             <br>
             <div class="row">
-                <div class="col-6">
+                <div class="col-7">
                     <h2>장소</h2>
                     <h3 th:text="'주소 : ' + ${scheduleDto.address}"></h3>
                 </div>
-                <div class="col-6">
+                <div class="col-5">
                     <div class="row" style="margin-bottom:20px;">
                         <div class="col-4">
                         <th:block th:if="${userInCheck == 1 && scheduleUserInCheck == 0}">
                             <button class="btn btn-outline-primary" id="inBtn">일정 참여</button><br>
                         </th:block>
+                            <button class="btn btn-outline-primary" id="inUserListBtn">참여인원</button>
                         </div>
                     </div>
                 </div>
@@ -88,6 +98,42 @@
     </div>
     <input type="hidden" id="getAddress" th:value="${scheduleDto.address}">
     <input type="hidden" id="getAddressDetail" th:value="${scheduleDto.addressDetail}">
+    <!-- 모달창 -->
+    <div class="modal" id="modal"  role="dialog" aria-labelledby="remoteModalLabel" aria-hidden="true" >
+        <div class="modal-dialog" style="width:850px;">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">참여인원</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-4" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-togglebutton="false">
+                        <div role="content">
+                            <div class="widget-body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">아이디</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="userListBody">
+                                        <th:block th:each="user : ${userList}">
+                                            <tr>
+                                                <td th:text="${user}"></td>
+                                            </tr>
+                                        </th:block>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="closeModalBtn">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="text/javascript">
         $(document).ready(function(){
             let getAddress = $('#getAddress').val();
