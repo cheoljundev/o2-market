@@ -61,7 +61,8 @@ public class HalfUserController {
     }
 
     @GetMapping("/order/{id}")
-    public String order() {
+    public String order(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("product", productService.findByProductNoForUser(id));
         return "half/user/order";
     }
 }
