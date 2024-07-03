@@ -6,11 +6,13 @@ import com.o2.site.upload.domain.UploadImage;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class MyBatisOrderDao implements OrderDao{
@@ -23,11 +25,16 @@ public class MyBatisOrderDao implements OrderDao{
         return orderMapper.findByOrderNo(orderNo);
     }
 
+    @Override
+    public AdminOrderDetailDto findByProductNo(Long productNo) {
+        return orderMapper.findByProductNo(productNo);
+    }
 
     @Override
     public List<AdminOrderListDto> findRange(int start, int end, SearchCond searchCond) {
         List<AdminOrderListDto> adminOrderListDtoList = new ArrayList<>();
         orderMapper.findRange(start, end, searchCond).forEach(adminOrderJoinListDto -> {
+            log.info("adminOrderJoinListDto: {}", adminOrderJoinListDto);
             UploadImage image = uploadService.findImages(UploadImageDto.builder()
                     .orderNo(adminOrderJoinListDto.getOrderNo())
                     .build()).get(0);

@@ -7,7 +7,8 @@
         BUYER_MEMBER_NO,
         RECIPIENT_NAME,
         RECIPIENT_PHONE,
-        RECIPIENT_ADDRESS
+        RECIPIENT_ADDRESS,
+        DELIVERY_MEMO
         )
         values(
         <choose>
@@ -18,7 +19,8 @@
         #{buyerMemberNo},
         #{recipientName},
         #{recipientPhone},
-        #{recipientAddress}
+        #{recipientAddress},
+        #{deliveryMemo}
         )
     </insert>
 
@@ -27,6 +29,13 @@
          inner join half_product p on p.PRODUCT_NO = o.PRODUCT_NO
         inner join trade_board t on t.TRADE_NO = p.TRADE_NO
          where ORDER_NO = #{orderNo}
+    </select>
+
+    <select id="findByProductNo" resultType="com.o2.site.half.dto.order.AdminOrderDetailDto">
+        select o.order_no, o.create_at, t.title, o.recipient_name, o.recipient_address, o.delivery_memo, o.invoice  from half_order o
+         inner join half_product p on p.PRODUCT_NO = o.PRODUCT_NO
+        inner join trade_board t on t.TRADE_NO = p.TRADE_NO
+         where ORDER_NO = #{productNo}
     </select>
 
     <select id="findRange" parameterType="com.o2.site.half.dao.SearchCond" resultType="com.o2.site.half.dto.order.AdminOrderJoinListDto">

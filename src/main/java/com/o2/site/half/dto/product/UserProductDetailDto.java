@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserProductDetailDto {
+    private Long productNo;
     private String title;
     private String content;
     @NumberFormat(pattern = "###,###")

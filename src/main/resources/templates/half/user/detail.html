@@ -43,7 +43,7 @@
         </div>
         <div class="row justify-content-center flex-nowrap gx-3 mb-5">
             <div class="col-auto">
-                <a href="/half/order/1" class="btn btn-primary w-100">구매하기</a>
+                <a href="/half/order/1" th:href="@{/half/order/{no} (no=${product.productNo})}" class="btn btn-primary w-100">구매하기</a>
             </div>
         </div>
         <div class="row justify-content-center mb-5">

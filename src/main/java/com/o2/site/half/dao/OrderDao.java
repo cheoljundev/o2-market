@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface OrderDao {
     AdminOrderDetailDto findByOrderNo(Long orderNo);
+    AdminOrderDetailDto findByProductNo(Long productNo);
     List<AdminOrderListDto> findRange(int start, int end, SearchCond searchCond);
     void insertOrder(InsertOrderDto insertOrderDto);
     void updateOrder(UpdateOrderDto updateOrderDto);

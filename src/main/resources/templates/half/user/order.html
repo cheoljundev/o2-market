@@ -27,6 +27,7 @@
                 <div class="row">
                     <div class="col-12"><h3 class="fs-4">상품명</h3></div>
                     <div class="col-12"><p th:text="${product.title}">상품명</p></div>
+                    <input type="hidden" class="product-no" th:value="${no}">
                 </div>
                 <div class="row">
                     <div class="col-12"><h3 class="fs-4">정가</h3></div>
@@ -60,7 +61,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-12">
-                        <input type="text" class="form-control" id="name" placeholder="홍길동">
+                        <input type="text" class="form-control recipient-name" id="name" placeholder="홍길동">
                     </div>
                 </div>
                 <div class="row">
@@ -68,7 +69,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-12">
-                        <input type="text" class="form-control" id="phone" placeholder="01012345678">
+                        <input type="text" class="form-control recipient-phone" id="phone" placeholder="01012345678">
                     </div>
                 </div>
                 <div class="row">
@@ -76,7 +77,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-12">
-                        <input type="text" class="form-control" id="address" placeholder="서울특별시 중구 세종대로 110">
+                        <input type="text" class="form-control recipient-address" id="address" placeholder="서울특별시 중구 세종대로 110">
                     </div>
                 </div>
                 <div class="row">
@@ -84,12 +85,12 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-12">
-                        <textarea class="form-control" id="meno" rows="3" placeholder="집 앞에 두고 가세요."></textarea>
+                        <textarea class="form-control delivery-memo" id="meno" rows="3" placeholder="집 앞에 두고 가세요."></textarea>
                     </div>
                 </div>
             </div>
             <div class="row gx-2 gx-lg-1">
-                <div class="col-auto"><button type="submit" class="btn btn-primary w-100">구매하기</button></div>
+                <div class="col-auto"><button type="button" class="btn btn-primary w-100" onclick="order()">구매하기</button></div>
                 <div class="col-auto"><button type="reset" class="btn btn-secondary w-100">재입력</button></div>
             </div>
         </form>

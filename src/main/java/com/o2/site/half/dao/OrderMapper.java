@@ -13,6 +13,7 @@ import java.util.List;
 @Mapper
 public interface OrderMapper {
     AdminOrderDetailDto findByOrderNo(Long orderNo);
+    AdminOrderDetailDto findByProductNo(Long productNo);
     List<AdminOrderJoinListDto> findRange(@Param("start") int start, @Param("end") int end, @Param("searchCond") SearchCond searchCond);
     void insertOrder(InsertOrderDto insertOrderDto);
     void updateOrder(UpdateOrderDto updateOrderDto);

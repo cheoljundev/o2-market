@@ -20,4 +20,6 @@ public interface MemberMapper {
     void insertMemberRole(MemberRole memberRole);
 
     List<MemberRole> findMemberRole(Long memberNo);
+
+    void updateMember(Member member);
 }

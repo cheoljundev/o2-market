@@ -69,13 +69,17 @@ public class ProductService {
         Long memberNo = tradeService.getBoard(Integer.valueOf(String.valueOf(product.getTradeNo()))).getMemberNo();
         String id = memberMapper.findByMemberNo(memberNo).getId();
         String address = memberMapper.findByMemberNo(memberNo).getAddress();
+        Long price = (long) tradeService.getBoard(Integer.parseInt(String.valueOf(product.getTradeNo()))).getPrice() / 2;
         return AdminProductDetailDto.builder()
                 .productNo(product.getProductNo())
+                .tradeNo(product.getTradeNo())
                 .title(title)
                 .sellerMemberNo(memberNo)
                 .sellerMemberId(id)
                 .sellerAddress(address)
                 .adminMemo(product.getAdminMemo())
+                .price(price)
+                .state(ProductState.code(product.getState()))
                 .build();
     }
 
@@ -96,6 +100,7 @@ public class ProductService {
                 .tradeNo(product.getTradeNo())
                 .build());
         return UserProductDetailDto.builder()
+                .productNo(product.getProductNo())
                 .title(title)
                 .content(content)
                 .price(price)
