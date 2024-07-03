@@ -9,6 +9,7 @@
                 integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
                 crossorigin="anonymous"></script>
         <script src="/js/club/getParam.js"></script>
+        <script src="/js/club/page.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
 
@@ -19,119 +20,49 @@
                 getList();
             });
 
-            function getList(pageNo) {
-                if (pageNo == 0 || pageNo == '' || pageNo == null) {
-                    pageNo = 1;
-                }
+            function getList(nowPage) {
                 $('#clubTableDiv').html('');
-                let title = $('#keyword').val();
+
+                let searchSel = 'title';
+                let keyword = $('#keyword').val();
 
                 $.ajax({
-                        type : "GET",
-                        url : "/club/board/getList",
-                        dataType : "json",
-                        data : {'title' : title, 'clubName' : getClubName() ,'page' : pageNo},
-                        success : function(result) {
-                            let template = '';
-                            console.log(result);
-                            if (result.totalElements == 0) {
-                                template = '';
-                            } else {
+                    type : "GET",
+                    url : "/club/board/getList",
+                    dataType : "json",
+                    data : {'searchValue' : searchSel, 'keyword' : keyword, 'nowPage' : nowPage, 'clubName' : getClubName()},
+                    success : function(result) {
+                        let template = '';
+                                for (var i = 0; i < result.viewAll.length; i++) {
 
-                                for (var i = 0; i < result.size; i++) {
-
-                                let imageStr = result.content[i].imageStr;
+                                let imageStr = result.viewAll[i].imageStr;
                                 if (imageStr === null || imageStr == '' || imageStr === undefined) {
                                     imageStr = '/images/club/imgAdd.jpg';
                                 } else {
-                                    imageStr = '/images/' + result.content[i].imageStr;
+                                    imageStr = '/images/' + result.viewAll[i].imageStr;
                                 }
-                                console.log(imageStr);
                                 template += `
                                      <div class="col">
-                                        <a class="page-link" href="/club/board/detail?clubName=${result.content[i].clubName}&clubBoardId=${result.content[i].clubBoardId}">
+                                        <a class="page-link" href="/club/board/detail?clubName=${result.viewAll[i].clubName}&clubBoardId=${result.viewAll[i].clubBoardId}">
                                             <div class="card h-100">
                                                 <img src="${imageStr}" class="card-img-top" onerror=this.src="/images/club/imgAdd.jpg" width="214px" height="300px">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">${result.content[i].title}</h5>
+                                                    <h5 class="card-title">${result.viewAll[i].title}</h5>
                                                 </div>
                                             </div>
                                         </a>
                                     </div>
                                 `;
                                 }
-
+                                getpaging(result);
                                 $('#clubTableDiv').append(template);
 
                                 }
-                                PAGE.paging(pageNo,result.totalPages,result.totalElements);
-
-                            }
-                        });
-                    }
-
-            const PAGE = {
-	            paging: function pagenation(pageNo, totalPageCount, totalElementCount) {
-
-                if (totalElementCount == 0) {
-                    $('#pagination').html('');
-                    return false;
-                }
-
-                let pageBlock = 10;
-                let blockNo = PAGE.toInt(pageNo / pageBlock) + 1;
-                let startPageNo = (blockNo - 1) * pageBlock;
-                let endPageNo = blockNo * pageBlock - 1;
-
-                if (endPageNo > totalPageCount - 1) {
-                    endPageNo = totalPageCount - 1;
-                }
-
-                let prevBlockPageNo = (blockNo - 1) * pageBlock - 1;
-                let nextBlockPageNo = blockNo * pageBlock;
-
-                 $('#pagination').html('');
-                 let pageHtml = '';
-                 if (prevBlockPageNo >= 0) {
-                 // 나중에 수정할것 1
-                 pageHtml += `
-                       <li class="page-item">
-                            <a class="page-link" href="#" onclick="getList(1);" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                     `;
-                 }
-                 for (let i = startPageNo + 1; i <= endPageNo; i++) {
-                    if (i == pageNo) {
-                        pageHtml += `
-                            <li class="page-item active"><a class="page-link">`+(i)+`</a></li>
-                        `;
-                    } else {
-                        pageHtml += `
-                            <li class="page-item"><a class="page-link" onclick="getList(`+(i)+`)">`+(i )+`</a></li>
-                        `;
-                    }
-                 }
-                 if (nextBlockPageNo < totalPageCount) {
-                     pageHtml += `
-                        <li class="page-item">
-                            <a class="page-link" href="#" onclick="getList(`+ nextBlockPageNo +`)" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    `;
-                 }
 
 
-                $('#pagination').append(pageHtml);
-                },
-                    toInt: function(value) {
-                    if (value != null) {
-                        return parseInt(value, 10);
-                    }
-	            }
-            }
+                            });
+                        }
+
 
         </script>
     </th:block>
@@ -168,7 +99,9 @@
         </div>
         <br>
         <div class="d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-primary" onclick="location.href='/club/board/create?clubName='+getClubName();+''">글 작성</button>
+            <th:block th:if="${userInCheck == 1}">
+                <button type="button" class="btn btn-primary" onclick="location.href='/club/board/create?clubName='+getClubName();+''">글 작성</button>
+            </th:block>
         </div>
         <div class="pagination justify-content-center">
             <nav aria-label="Page navigation example">

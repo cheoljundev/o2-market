@@ -1,10 +1,7 @@
 package com.o2.site.club.dto;
 
-import com.o2.site.club.domain.RequestList;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.Date;
 
 @Getter

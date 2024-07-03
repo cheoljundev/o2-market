@@ -56,6 +56,9 @@
                                 events.push({"start":dateTimeFormat, "url" : "/club/schedule/detail?clubName="+getClubName()+"&scheduleId="+result[i].scheduleId});
                             }
                             successCallback(events);
+                            if ([[${clubDto.readerNo != loginUserNo}]]) {
+                                $('.fc-createScheduleGoBtn-button').hide();
+                            }
                         }
                     });
                   },

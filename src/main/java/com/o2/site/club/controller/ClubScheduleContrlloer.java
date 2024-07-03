@@ -1,9 +1,9 @@
 package com.o2.site.club.controller;
 
-import com.o2.site.club.domain.ClubFunction;
+import com.o2.site.club.function.ClubFunction;
+import com.o2.site.club.dto.ClubDto;
 import com.o2.site.club.dto.ClubUserDto;
 import com.o2.site.club.dto.ScheduleDto;
-import com.o2.site.club.service.ClubBoardService;
 import com.o2.site.club.service.ClubScheduleService;
 import com.o2.site.club.service.ClubService;
 import com.o2.site.member.dto.CustomUserDetails;
@@ -26,7 +26,12 @@ public class ClubScheduleContrlloer {
     ClubService clubService;
 
     @GetMapping("/list")
-    public void listGo() {}
+    public void listGo(@AuthenticationPrincipal CustomUserDetails user, Model model, @RequestParam("clubName") String clubName) {
+        long loginUserNo = ClubFunction.getUserNo(user, model);
+        ClubDto clubDto = clubService.getClubInfo(clubName);
+
+        model.addAttribute("clubDto", clubDto);
+    }
 
     @GetMapping("/getList")
     @ResponseBody

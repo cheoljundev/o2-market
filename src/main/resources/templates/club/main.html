@@ -19,62 +19,59 @@
                 getList();
             });
 
-            function getList(pageNo) {
-                        $('#clubTableDiv').html('');
-                        let clubName = '';
-                        let area = '';
+            function getList(nowPage) {
+                $('#clubTableDiv').html('');
 
-                        let searchSel = $('#searchSel').val();
-                        if (searchSel == 'clubName') {
-                            clubName = $('#keyword').val();
-                        } else if (searchSel == 'area') {
-                            area = $('#keyword').val();
-                        }
-                        $.ajax({
-                                type : "GET",
-                                url : "/club/getList",
-                                dataType : "json",
-                                data : {'clubName' : clubName, 'area' : area, 'page' : pageNo},
-                                success : function(result) {
-                                    let template = '';
-                                    console.log(result);
-                                    if (result.totalElements == 0) {
-                                        template = '';
-                                    } else {
+                let searchSel = $('#searchSel').val();
+                let keyword = $('#keyword').val();
+                console.log(searchSel);
+                console.log(keyword);
 
-                                        for (var i = 0; i < result.size; i++) {
+                $.ajax({
+                    type : "GET",
+                    url : "/club/getList",
+                    dataType : "json",
+                    data : {'searchValue' : searchSel, 'keyword' : keyword, 'nowPage' : nowPage},
+                    success : function(result) {
+                        let template = '';
+                        console.log(result.paging.searchValue);
+                        console.log(result.viewAll.length + "실행");
+                        if (result == null) {
+                            template = '';
+                        } else {
 
-                                        let imageStr = result.content[i].imageStr;
-                                        if (imageStr === null || imageStr == '' || imageStr === undefined) {
-                                            imageStr = '/images/club/imgAdd.jpg';
-                                        } else {
-                                            imageStr = '/images/' + result.content[i].imageStr;
-                                        }
-                                        console.log(imageStr);
-                                        template += `
-                                             <div class="col">
-                                                <a class="page-link" href="/club/detail?clubName=${result.content[i].clubName}">
-                                                    <div class="card h-100">
-                                                        <img src="${imageStr}" class="card-img-top" onerror=this.src="/images/club/imgAdd.jpg" width="214px" height="300px">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title">${result.content[i].clubName}</h5>
-                                                            <p class="card-text">장소 : ${result.content[i].area}</p>
-                                                            <p class="card-text">연령 : ${result.content[i].ageLimitStart} ~ ${result.content[i].ageLimitEnd}<br>인원 : 20 / ${result.content[i].membersLimit}</p>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        `;
-                                    }
+                            for (var i = 0; i < result.viewAll.length; i++) {
 
-                                $('#clubTableDiv').append(template);
-
-                                }
-                                PAGE.paging(result.totalPages, pageNo,result.totalElements);
-
+                            let imageStr = result.viewAll[i].imageStr;
+                            if (imageStr === null || imageStr == '' || imageStr === undefined) {
+                                imageStr = '/images/club/imgAdd.jpg';
+                            } else {
+                                imageStr = '/images/' + result.viewAll[i].imageStr;
                             }
-                        });
+                            console.log(imageStr);
+                            template += `
+                                 <div class="col">
+                                    <a class="page-link" href="/club/detail?clubName=${result.viewAll[i].clubName}">
+                                        <div class="card h-100">
+                                            <img src="${imageStr}" class="card-img-top" onerror=this.src="/images/club/imgAdd.jpg" width="214px" height="300px">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${result.viewAll[i].clubName}</h5>
+                                                <p class="card-text">장소 : ${result.viewAll[i].area}</p>
+                                                <p class="card-text">연령 : ${result.viewAll[i].ageLimitStart} ~ ${result.viewAll[i].ageLimitEnd}<br>인원 : 20 / ${result.viewAll[i].membersLimit}</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            `;
+                        }
+                    getpaging(result);
+
+                    $('#clubTableDiv').append(template);
+
                     }
+                    }
+                });
+            }
 
         </script>
     </th:block>

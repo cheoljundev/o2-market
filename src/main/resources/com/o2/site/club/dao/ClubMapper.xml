@@ -20,17 +20,16 @@
         SELECT *
         FROM CLUB
             <where>
-                <if test="data.clubName != null and data.clubName != ''">
-                    AND CLUB_NAME LIKE '%' || #{data.clubName} || '%'
+                <if test="searchValue == 'clubName'">
+                    AND CLUB_NAME LIKE '%' || #{keyword} || '%'
                 </if>
-                <if test="data.area != null and data.area != ''">
-                    AND AREA LIKE '%' || #{data.area} || '%'
+                <if test="searchValue == 'area'">
+                    AND AREA LIKE '%' || #{keyword} || '%'
                 </if>
             </where>
         ) A
         LEFT JOIN UPLOAD_IMAGE UI ON A.CLUB_NAME = UI.CLUB_NAME -- 조인 추가
-        ) WHERE RNUM > #{pageable.pageNumber} * #{pageable.pageSize}
-        AND RNUM <![CDATA[<=]]> (#{pageable.pageNumber} + 1) * #{pageable.pageSize}
+        ) WHERE RNUM BETWEEN  #{start} AND #{end}
 
     </select>
 
@@ -38,11 +37,11 @@
         SELECT COUNT(*) AS CNT
         FROM CLUB
         <where>
-            <if test="clubName != null and clubName != ''">
-                AND CLUB_NAME LIKE '%' || #{clubName} || '%'
+            <if test="searchValue == 'clubName'">
+                AND CLUB_NAME LIKE '%' || #{keyword} || '%'
             </if>
-            <if test="area != null and area != ''">
-                AND AREA LIKE '%' || #{area} || '%'
+            <if test="searchValue == 'area'">
+                AND AREA LIKE '%' || #{keyword} || '%'
             </if>
         </where>
     </select>
@@ -99,5 +98,6 @@
         <if test="!id.equals('') and id != null">
             AND M.ID LIKE '%' || #{id} || '%'
         </if>
+        AND A.USER_NO NOT IN (SELECT READER_NO FROM CLUB WHERE CLUB_NAME = #{clubName})
     </select>
 </mapper>

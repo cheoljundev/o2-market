@@ -1,23 +1,22 @@
 package com.o2.site.club.dao;
 
-import com.o2.site.club.domain.RequestList;
 import com.o2.site.club.dto.ClubCategoryDto;
 import com.o2.site.club.dto.ClubDto;
 import com.o2.site.club.dto.ClubUserDto;
+import com.o2.site.club.dto.PageDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface ClubMapper {
 
     // 모임 리스트
-    public List<Map<String, Object>> clubList(RequestList<?> requestList);
+    public List<ClubDto> clubList(PageDto pageDto);
     
     // 모임 리스트 총 카운트
-    public int clubListCount(ClubDto clubDto);
+    public int clubListCount(PageDto pageDto);
 
     // 모임 생성
     public int clubInsert(ClubDto clubDto);

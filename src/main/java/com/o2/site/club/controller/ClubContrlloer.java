@@ -1,10 +1,7 @@
 package com.o2.site.club.controller;
 
-import com.o2.site.club.domain.ClubFunction;
-import com.o2.site.club.dto.ClubCategoryDto;
-import com.o2.site.club.dto.ClubDto;
-import com.o2.site.club.dto.ClubUserDto;
-import com.o2.site.club.dto.ScheduleDto;
+import com.o2.site.club.function.ClubFunction;
+import com.o2.site.club.dto.*;
 import com.o2.site.club.service.ClubBoardService;
 import com.o2.site.club.service.ClubScheduleService;
 import com.o2.site.club.service.ClubService;
@@ -12,10 +9,7 @@ import com.o2.site.member.dto.CustomUserDetails;
 import com.o2.site.upload.domain.UploadImage;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -25,7 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -46,8 +42,8 @@ public class ClubContrlloer {
     UploadService uploadService;
 
     @GetMapping("/main")
-    public void mainGo(@AuthenticationPrincipal CustomUserDetails user, Model model) {
-        ClubFunction.getUserNo(user, model);
+    public void mainGo(@AuthenticationPrincipal CustomUserDetails user, Model model){
+        long loginUserNo = ClubFunction.getUserNo(user, model);
     }
 
     @GetMapping("/create")
@@ -101,7 +97,7 @@ public class ClubContrlloer {
         clubUserDto.setClubName(clubDto.getClubName());
         clubUserDto.setUserNo(clubDto.getReaderNo());
         clubService.clubUserInsert(clubUserDto);
-
+        clubService.clubUserIn(clubUserDto);
         if (!image.isEmpty()) {
             UploadImageDto uploadImageDto = new UploadImageDto();
             uploadImageDto.setImage(image);
@@ -121,10 +117,24 @@ public class ClubContrlloer {
     }
 
     @GetMapping("/getList")
-    @RequestBody
-    public ResponseEntity<?> getListClub(ClubDto clubDto, @PageableDefault(size = 9) Pageable pageable) {
-        System.out.println(pageable);
-        return ResponseEntity.ok(clubService.getClubList(clubDto, pageable));
+    @ResponseBody
+    public ResponseEntity<?> getListClub(PageDto pageDto, Model model
+            , @RequestParam(value="nowPage", required=false)String nowPage) {
+        System.out.println(pageDto.toString());
+        String cntPerPage = "9";
+        int total = clubService.clubListCount(pageDto);
+        if (nowPage == null) {
+            nowPage = "1";
+        } else if (nowPage == null) {
+            nowPage = "1";
+        }
+        pageDto = new PageDto(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),pageDto.getKeyword(),pageDto.getSearchValue());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("paging", pageDto);
+        response.put("viewAll", clubService.getClubList(pageDto));
+
+        return ResponseEntity.ok(response);
 
     }
 
@@ -146,13 +156,13 @@ public class ClubContrlloer {
     @GetMapping("/getClubAppUserList")
     @ResponseBody
     public List<ClubUserDto> getClubAppUserList(ClubUserDto clubUserDto) {
-        System.out.println(clubUserDto);
         return clubService.clubAppUserList(clubUserDto);
     }
 
-    @PostMapping("/userDeleteUser")
+    @PostMapping("/userDeleteAcation")
     @ResponseBody
     public void userDeleteUser(ClubUserDto clubUserDto) {
+
         clubService.clubUserDelete(clubUserDto);
     }
 

@@ -1,4 +1,4 @@
-package com.o2.site.club.domain;
+package com.o2.site.club.function;
 
 import com.o2.site.member.dto.CustomUserDetails;
 import org.springframework.ui.Model;
@@ -15,3 +15,4 @@ public class ClubFunction {
         return loginUserNo;
     }
 }
+
