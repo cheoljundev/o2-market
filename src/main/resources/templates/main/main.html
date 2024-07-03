@@ -13,13 +13,7 @@
             <div class="col-md-12 text-center">
                 <h1>안녕하세요 ! O2마켓입니다.</h1>
                 <p class="lead">중고거래 플랫폼</p>
-                <th:block sec:authorize="isAuthenticated()">
-                    <a class="btn btn-primary btn-lg" href="/trade/trade_main?page=1" role="button">거래 바로가기</a>
-                </th:block>
-                <th:block sec:authorize="isAnonymous()">
-                    <a class="btn btn-primary btn-lg" href="/login" role="button">로그인</a>
-                </th:block>
-
+                <a class="btn btn-primary btn-lg" href="/trade/trade_main?page=1" role="button">거래 바로가기</a>
             </div>
         </div>
     </div>

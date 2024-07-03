@@ -101,9 +101,16 @@ public class TradeController {
         return "/trade/trade_search";
     }
     @GetMapping("/trade_application")
-    public void trade_application(Model model){
+    public String trade_application(Model model,@AuthenticationPrincipal CustomUserDetails user){
+        Long memberNo;
+        try {
+            memberNo = memberService.findMemberNo(user.getUser().getId());
+        }catch (Exception e){
+            return "redirect:/login";
+        }
         ArrayList<CategoryDto> category = tradeService.getCategory();
         model.addAttribute("category",category);
+        return "/trade/trade_application";
     }
     //게시글 한개 조회
     @GetMapping("/trade_detail")
@@ -112,7 +119,7 @@ public class TradeController {
         try {
             memberNo = memberService.findMemberNo(user.getUser().getId());
         }catch (Exception e){
-            return "redirect:/";
+            return "redirect:/login";
         }
         String isWished;
         CheckWishDto checkWishDto = tradeService.checkWish(tradeNo,memberNo);
@@ -177,7 +184,12 @@ public class TradeController {
     //내 찜목록 보기
     @GetMapping("/trade_mywish")
     public String trade_mywish(Model model, @RequestParam(value = "page",defaultValue = "1") int page, @AuthenticationPrincipal CustomUserDetails user){
-        Long memberNo = memberService.findMemberNo(user.getUser().getId());
+        Long memberNo;
+        try {
+            memberNo = memberService.findMemberNo(user.getUser().getId());
+        }catch (Exception e){
+            return "redirect:/login";
+        }
         int page_size = 5;
         ArrayList<TradeMainDto> wishList = tradeService.myWishList(memberNo);
         ArrayList<AdvListDto> advList = tradeService.getAdvList();
