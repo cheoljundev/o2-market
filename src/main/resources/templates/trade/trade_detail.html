@@ -146,7 +146,7 @@
         <div class="btn-group" aria-label="Small button group">
             <a th:href="@{/trade/trade_end(tradeNo=${tradeDomain.tradeNo})}"
                class="btn bg-body-secondary"
-               th:if="${tradeDomain.isTrade != 'E' && memberNo==tradeDomain.memberNo}">거래하기</a>
+               th:if="${tradeDomain.isTrade != 'E' && memberNo==tradeDomain.memberNo}">거래완료</a>
             <a th:href="@{/trade/trade_addWish(tradeNo=${tradeDomain.tradeNo})}" class="btn bg-body-secondary" th:text="${isWished}">찜하기</a>
             <a href="/trade/trade_main" class="btn bg-body-secondary">목록으로</a>
         </div>
