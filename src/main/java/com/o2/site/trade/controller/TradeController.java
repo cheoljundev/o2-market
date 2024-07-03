@@ -107,9 +107,13 @@ public class TradeController {
     }
     //게시글 한개 조회
     @GetMapping("/trade_detail")
-    public void trade_detail(Model model, int tradeNo, @AuthenticationPrincipal CustomUserDetails user){
-
-        Long memberNo = memberService.findMemberNo(user.getUser().getId());
+    public String trade_detail(Model model, int tradeNo, @AuthenticationPrincipal CustomUserDetails user){
+        Long memberNo;
+        try {
+            memberNo = memberService.findMemberNo(user.getUser().getId());
+        }catch (Exception e){
+            return "redirect:/";
+        }
         String isWished;
         CheckWishDto checkWishDto = tradeService.checkWish(tradeNo,memberNo);
         if(checkWishDto==null){
@@ -139,6 +143,7 @@ public class TradeController {
         model.addAttribute("wishCount",wishList);
         model.addAttribute("tradeDomain",tradeDomain);
         model.addAttribute("imageList",imageList);
+        return "/trade/trade_detail";
     }
     //삭제
     @GetMapping("/trade_delete")
@@ -195,12 +200,17 @@ public class TradeController {
 
     //상품 등록 신청
     @PostMapping("/trade_app")
-    public String insertApp(ApplicationDto ad, @RequestParam("files") MultipartFile[] files, @AuthenticationPrincipal CustomUserDetails user){
+    public String insertApp(ApplicationDto ad, @RequestParam("files") MultipartFile[] files,MultipartFile thumbnail, @AuthenticationPrincipal CustomUserDetails user){
         ad.setMemberNo(memberService.findMemberNo(user.getUser().getId()));
         int result = tradeService.insertApp(ad);
         System.out.println("no: "+ad.getTradeNo());
         System.out.println(result);
         try{
+            UploadImageDto uploadImage = UploadImageDto.builder()
+                    .image(thumbnail)
+                    .tradeNo(Long.valueOf(ad.getTradeNo()))
+                    .build();
+            uploadService.insertImage(uploadImage);
             for(MultipartFile image : files){
                 UploadImageDto uploadImageDto = UploadImageDto.builder()
                         .image(image)
@@ -249,17 +259,26 @@ public class TradeController {
     }
     //게시글 수정
     @PostMapping("/trade_update")
-    public String trade_update(ApplicationDto ad, @RequestParam("files") MultipartFile[] files){
+    public String trade_update(ApplicationDto ad, @RequestParam("files") MultipartFile[] files,MultipartFile thumbnail){
         System.out.println(ad);
         int reslut = tradeService.updateBoard(ad);
         try{
+            if (thumbnail.isEmpty()) {
+                System.out.println("empty");
+                return "redirect:/trade/trade_main";
+            }
+            UploadImageDto uploadImage = UploadImageDto.builder()
+                    .image(thumbnail)
+                    .tradeNo(Long.valueOf(ad.getTradeNo()))
+                    .build();
+            tradeService.deleteImpages(ad.getTradeNo());
+            uploadService.insertImage(uploadImage);
             for (MultipartFile file : files) {
                 if (file.isEmpty()) {
                     System.out.println("empty");
                     return "redirect:/trade/trade_main";
                 }
             }
-                tradeService.deleteImpages(ad.getTradeNo());
             for (MultipartFile image : files) {
                 UploadImageDto uploadImageDto = UploadImageDto.builder()
                         .image(image)
