@@ -39,4 +39,10 @@ public class ClubScheduleService {
     public List<String> scheduleInUserList(long scheduleId) {
         return scheduleMapper.scheduleInUserList(scheduleId);
     }
+
+    public int scheduleUserInCheck(ScheduleDto scheduleDto) {
+        return scheduleMapper.scheduleUserInCheck(scheduleDto);
+    }
+
+
 }

@@ -10,7 +10,32 @@
                 crossorigin="anonymous"></script>
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8832affe7a6eee9eb46d2eddd8d6a7fc&libraries=services"></script>
         <script src="/js/club/getParam.js"></script>
+        <script>
+            $(document).ready(function({
+                $('#inBtn').click(function(){
 
+                let formData = new FormData();
+                let loginUserNo = [[${loginUserNo}]];
+                let scheduleId = [[${scheduleId}]];
+                console.log(loginUserNo + scheduleId);
+                formData.append('userNo',loginUserNo);
+                formData.append('scheduleId',scheduleId);
+
+                    $.ajax({
+                        url : "/club/scheduleInUser", // 요기에
+                        processData : false,
+                        contentType : false,
+                        type : 'POST',
+                        data : formData,
+                        success : function(data) {
+                            alert('일정 참여 완료 되었습니다.');
+                            location.href='/club/schedule/list?clubName='+ getClubName();
+                        }
+                    });
+                });
+                });
+            });
+        </script>
     </th:block>
 
 
@@ -50,9 +75,9 @@
                 <div class="col-6">
                     <div class="row" style="margin-bottom:20px;">
                         <div class="col-4">
-                            <button class="btn btn-outline-primary">일정 참여인원</button><br>
-                            <button class="btn btn-outline-primary">일정 참여</button><br>
-                            <button class="btn btn-outline-primary">일정 수정</button>
+                        <th:block th:if="${userInCheck == 1 && scheduleUserInCheck == 0}">
+                            <button class="btn btn-outline-primary" id="inBtn">일정 참여</button><br>
+                        </th:block>
                         </div>
                     </div>
                 </div>

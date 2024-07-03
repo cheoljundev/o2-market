@@ -102,9 +102,6 @@
                         </th:block>
                     </th:block>
                 </div>
-                <th:block th:text="${userInCheck}"></th:block>
-                <th:block th:text="${appUserCheck}"></th:block>
-                <th:block th:text="${loginUserNo}"></th:block>
                 <div class="d-md-flex justify-content-md-end">
                     <th:block th:if="${loginUserNo != null}">
                         <th:block th:if="${userInCheck == 1 && loginUserNo != clubDto.readerNo}">

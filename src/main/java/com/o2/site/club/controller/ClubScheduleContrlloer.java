@@ -1,9 +1,14 @@
 package com.o2.site.club.controller;
 
+import com.o2.site.club.domain.ClubFunction;
+import com.o2.site.club.dto.ClubUserDto;
 import com.o2.site.club.dto.ScheduleDto;
 import com.o2.site.club.service.ClubBoardService;
 import com.o2.site.club.service.ClubScheduleService;
+import com.o2.site.club.service.ClubService;
+import com.o2.site.member.dto.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +22,9 @@ public class ClubScheduleContrlloer {
     @Autowired
     ClubScheduleService clubScheduleService;
 
+    @Autowired
+    ClubService clubService;
+
     @GetMapping("/list")
     public void listGo() {}
 
@@ -28,10 +36,25 @@ public class ClubScheduleContrlloer {
     }
 
     @GetMapping("/detail")
-    public void detailGo(@RequestParam("scheduleId") long scheduleId, Model model) {
+    public void detailGo(@RequestParam("scheduleId") long scheduleId, Model model, @AuthenticationPrincipal CustomUserDetails user, @RequestParam("clubName") String clubName) {
         ScheduleDto scheduleDto = clubScheduleService.clubScheduleDeteil(scheduleId);
         System.out.println(scheduleDto);
+        long loginUserNo = ClubFunction.getUserNo(user, model);
+        ClubUserDto clubUserDto = new ClubUserDto();
+        clubUserDto.setUserNo(loginUserNo);
+        clubUserDto.setClubName(clubName);
+        scheduleDto.setUserNo(loginUserNo);
+        List<String> userList = clubScheduleService.scheduleInUserList(scheduleId);
+        int userInCheck = clubService.clubUserInCheck(clubUserDto);
+        int appUserCheck = clubService.clubAppUserCheck(clubUserDto);
+        int scheduleUserInCheck = clubScheduleService.scheduleUserInCheck(scheduleDto);
+
         model.addAttribute("scheduleDto", scheduleDto);
+        model.addAttribute("userList", userList);
+        model.addAttribute("userInCheck", userInCheck);
+        model.addAttribute("appUserCheck", appUserCheck);
+        model.addAttribute("scheduleUserInCheck", scheduleUserInCheck);
+
     }
 
     @GetMapping("/create")
@@ -41,5 +64,10 @@ public class ClubScheduleContrlloer {
     public void createAction(ScheduleDto scheduleDto) {
         System.out.println(scheduleDto);
         clubScheduleService.scheduleCreate(scheduleDto);
+    }
+
+    @PostMapping("/scheduleInUser")
+    public void scheduleInUser(ScheduleDto scheduleDto) {
+
     }
 }
