@@ -12,22 +12,25 @@
 
     <select id="clubList" resultType="com.o2.site.club.dto.ClubDto">
         SELECT * FROM (
-            SELECT ROWNUM AS RNUM, A.*
-                , (SELECT STORED_IMAGE_NAME FROM UPLOAD_IMAGE WHERE CLUB_NAME IN(A.CLUB_NAME)) AS IMAGE_STR
-            FROM (
-                SELECT *
-                FROM CLUB
-                <where>
-                    <if test="data.clubName != null and data.clubName != ''">
-                        AND CLUB_NAME LIKE '%' || #{data.clubName} || '%'
-                    </if>
-                    <if test="data.area != null and data.area != ''">
-                        AND AREA LIKE '%' || #{data.area} || '%'
-                    </if>
-                </where>
-                order by CREATE_DATE desc
-                ) A WHERE ROWNUM <![CDATA[<=]]> #{pageable.pageNumber} * #{pageable.pageSize}
-                ) WHERE RNUM <![CDATA[>]]> (#{pageable.pageNumber}-1) * #{pageable.pageSize}
+        SELECT
+        ROW_NUMBER() OVER (ORDER BY CREATE_DATE DESC) AS RNUM,
+        A.*,
+        UI.STORED_IMAGE_NAME AS IMAGE_STR -- UPLOAD_IMAGE 테이블과 조인하여 STORED_IMAGE_NAME 가져오기
+        FROM (
+        SELECT *
+        FROM CLUB
+            <where>
+                <if test="data.clubName != null and data.clubName != ''">
+                    AND CLUB_NAME LIKE '%' || #{data.clubName} || '%'
+                </if>
+                <if test="data.area != null and data.area != ''">
+                    AND AREA LIKE '%' || #{data.area} || '%'
+                </if>
+            </where>
+        ) A
+        LEFT JOIN UPLOAD_IMAGE UI ON A.CLUB_NAME = UI.CLUB_NAME -- 조인 추가
+        ) WHERE RNUM > #{pageable.pageNumber} * #{pageable.pageSize}
+        AND RNUM <![CDATA[<=]]> (#{pageable.pageNumber} + 1) * #{pageable.pageSize}
 
     </select>
 
@@ -56,6 +59,14 @@
         FROM CLUB c LEFT JOIN club_category cc ON c.CATEGORY_ID = cc.CLUB_CATEGORY_ID where c.CLUB_NAME  = #{clubName}
     </select>
 
+    <select id="clubUserInCheck">
+        SELECT COUNT(0) FROM CLUB_USER WHERE USER_NO = #{userNo} AND CLUB_NAME = #{clubName} AND IN_CK = 'Y'
+    </select>
+
+    <select id="clubAppUserCheck">
+        SELECT COUNT(0) FROM CLUB_USER WHERE USER_NO = #{userNo} AND CLUB_NAME = #{clubName} AND IN_CK = 'N'
+    </select>
+
     <delete id="clubUserDelete">
         DELETE FROM CLUB_USER WHERE USER_NO = #{userNo} AND CLUB_NAME = #{clubName}
     </delete>
@@ -71,10 +82,22 @@
     </update>
 
     <select id="clubAppUserList">
-        SELECT * FROM CLUB_USER WHERE CLUB_NAME = #{clubName} AND IN_CK = 'N'
+        SELECT A.*, M.ID
+        FROM CLUB_USER A
+        JOIN Member M ON M.MEMBER_NO = A.USER_NO
+        WHERE A.CLUB_NAME = #{clubName} AND A.IN_CK = 'N'
+        <if test="!id.equals('') and id != null">
+            AND M.ID LIKE '%' || #{id} || '%'
+        </if>
     </select>
 
     <select id="clubUserList">
-        SELECT * FROM CLUB_USER WHERE CLUB_NAME = #{clubName} AND IN_CK = 'Y'
+        SELECT A.*, M.ID
+        FROM CLUB_USER A
+        JOIN Member M ON M.MEMBER_NO = A.USER_NO
+        WHERE A.CLUB_NAME = #{clubName} AND A.IN_CK = 'Y'
+        <if test="!id.equals('') and id != null">
+            AND M.ID LIKE '%' || #{id} || '%'
+        </if>
     </select>
 </mapper>

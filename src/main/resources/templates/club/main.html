@@ -20,9 +20,6 @@
             });
 
             function getList(pageNo) {
-                        if (pageNo == 0 || pageNo == '' || pageNo == null) {
-                            pageNo = 1;
-                        }
                         $('#clubTableDiv').html('');
                         let clubName = '';
                         let area = '';
@@ -33,9 +30,6 @@
                         } else if (searchSel == 'area') {
                             area = $('#keyword').val();
                         }
-                        console.log(clubName);
-                        console.log(area);
-                        console.log(searchSel);
                         $.ajax({
                                 type : "GET",
                                 url : "/club/getList",
@@ -76,7 +70,7 @@
                                 $('#clubTableDiv').append(template);
 
                                 }
-                                PAGE.paging(pageNo,result.totalPages,result.totalElements);
+                                PAGE.paging(result.totalPages, pageNo,result.totalElements);
 
                             }
                         });
@@ -111,9 +105,12 @@
 
         </div>
         <br>
-        <div class="d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-primary" onclick=location.href="/club/create">모임 생성</button>
-        </div>
+        <th:block th:if="${loginUserNo != null}">
+            <div class="d-md-flex justify-content-md-end">
+                <button type="button" class="btn btn-primary" onclick=location.href="/club/create">모임 생성</button>
+            </div>
+        </th:block>
+
         <div class="pagination justify-content-center">
             <nav aria-label="Page navigation example">
                 <ul class="pagination" id="pagination">

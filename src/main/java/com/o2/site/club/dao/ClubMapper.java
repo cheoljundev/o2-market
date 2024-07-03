@@ -5,7 +5,6 @@ import com.o2.site.club.dto.ClubCategoryDto;
 import com.o2.site.club.dto.ClubDto;
 import com.o2.site.club.dto.ClubUserDto;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +32,6 @@ public interface ClubMapper {
     public int clubUserInsert(ClubUserDto clubUserDto);
 
 // 관리자
-    // 모임원 리스트
-    public ArrayList<ClubUserDto> clubUserList();
 
     // 모임원 탈퇴
     public int clubUserDelete(ClubUserDto clubUserDto);
@@ -46,10 +43,17 @@ public interface ClubMapper {
     public int clubUserIn(ClubUserDto clubUserDto);
 
     // 모임원 관리 요청 리스트
-    public List<ClubUserDto> clubAppUserList(String clubName);
+    public List<ClubUserDto> clubAppUserList(ClubUserDto clubUserDto);
 
     // 모임원 관리 모임원 리스트
-    public List<ClubUserDto> clubUserList(String clubName);
+    public List<ClubUserDto> clubUserList(ClubUserDto clubUserDto);
+    
+    // 모임원인지 체크
+    public int clubUserInCheck(ClubUserDto clubUserDto);
+
+    // 모임원인지 체크
+    public int clubAppUserCheck(ClubUserDto clubUserDto);
+
 // 관리자 end
 
     

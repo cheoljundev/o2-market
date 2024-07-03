@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = O2Application.class)
-//@Transactional
+@Transactional
 class ClubServiceTest {
 
     @Autowired
