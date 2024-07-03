@@ -72,6 +72,7 @@ class ProductMapperTest {
         List<UserListProductDto> products = productMapper.findRangeWithConditions(1, 1, ProductSearchCond.builder()
                 .categoryCode("cg_life")
                 .build());
+        System.out.println("products = " + products);
         Assertions.assertThat(products.size()).isEqualTo(1);
     }
 

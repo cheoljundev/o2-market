@@ -6,6 +6,7 @@ import com.o2.site.half.dto.UserListProductDto;
 import com.o2.site.half.service.ProductService;
 import com.o2.site.trade.service.TradeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/half")
 @RequiredArgsConstructor
@@ -33,7 +35,6 @@ public class HalfUserController {
                 .categoryCode(category)
                 .title(searchTitle)
                 .build();
-
         int pagesLength = productService.findPages(10, productSearchCond);
         Pagination pagination = new Pagination(
                 currentPage,
@@ -43,6 +44,7 @@ public class HalfUserController {
 
         List<UserListProductDto> products = productService.findRange(pagination.getStartElement(),  pagination.getEndElement(),
                 productSearchCond);
+        log.info("products: {}", products);
         model.addAttribute("categories", tradeService.getCategory());
         model.addAttribute("pagination", pagination);
         model.addAttribute("category", category);

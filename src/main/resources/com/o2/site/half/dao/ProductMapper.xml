@@ -26,15 +26,6 @@
         )
     </insert>
 
-    <select id="findRange" resultType="com.o2.site.half.domain.Product">
-        SELECT *
-        FROM (
-        SELECT PRODUCT_NO, TRADE_NO, SELLER_MEMBER_NO, SELLER_MEMBER_ID, SELLER_PHONE, HALF_PRICE, IS_DONE, CREATE_AT, ADMIN_MEMO, ROW_NUMBER() OVER (ORDER BY PRODUCT_NO DESC) AS rnum
-        FROM half_product
-        ) subquery
-        WHERE rnum BETWEEN #{start} AND #{end}
-    </select>
-
     <select id="findRangeWithConditions" parameterType="com.o2.site.half.dao.ProductSearchCond" resultType="com.o2.site.half.dto.UserListProductDto">
         SELECT *
         FROM (
@@ -48,12 +39,12 @@
         ) u ON t.trade_no = u.trade_no AND u.img_rnum = 1
         <where>
             <if test="productSearchCond.categoryCode != null and productSearchCond.categoryCode != 'cg_all' and productSearchCond.categoryCode != ''">
-                AND t.CATEGORY_CODE = #{productSearchCond.categoryCode}
+                AND t.category_code = #{productSearchCond.categoryCode}
             </if>
             <if test="productSearchCond.title != null and productSearchCond.title != ''">
                 AND t.title LIKE '%' || #{productSearchCond.title} || '%'
             </if>
-            AND p.is_done = 1
+            AND p.IS_DONE = 1
         </where>
         ) subquery
         WHERE rnum BETWEEN #{start} AND #{end}
@@ -73,18 +64,23 @@
     </set>
     where PRODUCT_NO = #{productNo}
     </update>
+
     <select id="count">
         SELECT COUNT(*) FROM half_product
     </select>
+
     <select id="countWithConditions" parameterType="com.o2.site.half.dao.ProductSearchCond">
-        SELECT COUNT(*) FROM half_product
+        SELECT COUNT(*)
+        FROM half_product p
+        INNER JOIN trade_board t ON p.TRADE_NO = t.TRADE_NO
         <where>
-            <if test="categoryCode != null and categoryCode != 'cg_all' and categoryCode !=''">
-                AND CATEGORY_CODE = #{categoryCode}
+            <if test="categoryCode != null and categoryCode != 'cg_all' and categoryCode != ''">
+                AND t.category_code = #{categoryCode}
             </if>
             <if test="title != null and title != ''">
-                AND TITLE LIKE '%' || #{title} || '%'
+                AND t.title LIKE '%' || #{title} || '%'
             </if>
+            AND p.IS_DONE = 1
         </where>
     </select>
 </mapper>
