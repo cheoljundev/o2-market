@@ -1,9 +1,9 @@
 package com.o2.site.half.dao;
 
 import com.o2.site.half.domain.Product;
-import com.o2.site.half.dto.InsertProductDto;
-import com.o2.site.half.dto.UpdateProductDto;
-import com.o2.site.half.dto.UserListProductDto;
+import com.o2.site.half.dto.product.InsertProductDto;
+import com.o2.site.half.dto.product.UpdateProductDto;
+import com.o2.site.half.dto.product.UserListProductDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -26,8 +26,8 @@ public class MybatisProductDao implements ProductDao{
     }
 
     @Override
-    public List<UserListProductDto> findRange(int start, int end, ProductSearchCond productSearchCond) {
-        return productMapper.findRangeWithConditions(start, end, productSearchCond);
+    public List<UserListProductDto> findRange(int start, int end, SearchCond searchCond) {
+        return productMapper.findRangeWithConditions(start, end, searchCond);
     }
 
     @Override
@@ -50,8 +50,8 @@ public class MybatisProductDao implements ProductDao{
     }
 
     @Override
-    public int findPages(int pageSize, ProductSearchCond productSearchCond) {
-        int count = productMapper.countWithConditions(productSearchCond);
+    public int findPages(int pageSize, SearchCond searchCond) {
+        int count = productMapper.countWithConditions(searchCond);
         if (count == 0) {
             return 0;
         }

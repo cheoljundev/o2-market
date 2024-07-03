@@ -7,7 +7,13 @@
 
     <insert id="insertMember" useGeneratedKeys="true" parameterType="com.o2.site.member.domain.Member">
         INSERT INTO member (member_no, id, password, name, phone_number, address, mileage)
-        VALUES (SEQ_MEMBER_NO.NEXTVAL, #{id}, #{password}, #{name}, #{phoneNumber}, #{address}, #{mileage})
+        VALUES (
+        <choose>
+            <when test="memberNo != null">#{memberNo}</when>
+            <otherwise>SEQ_MEMBER_NO.NEXTVAL</otherwise>
+        </choose>,
+        #{id}, #{password}, #{name}, #{phoneNumber}, #{address}, #{mileage}
+        )
     </insert>
 
     <insert id="insertMemberRole" parameterType="com.o2.site.member.domain.MemberRole">
@@ -24,6 +30,10 @@
 
     <select id="findByUsername" resultType="com.o2.site.member.domain.Member">
         SELECT * FROM member WHERE id = #{id}
+    </select>
+
+    <select id="findByMemberNo" resultType="com.o2.site.member.domain.Member">
+        SELECT * FROM member WHERE member_no = #{memberNo}
     </select>
 
 

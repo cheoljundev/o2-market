@@ -1,4 +1,4 @@
-package com.o2.site.half.dto;
+package com.o2.site.half.dto.product;
 
 import lombok.Builder;
 import lombok.Data;
@@ -12,18 +12,15 @@ import java.util.Date;
 public class UserListProductDto {
     private Long productNo;
     private Long tradeNo;
-    private Long sellerMemberNo;
-    private String sellerMemberId;
-    private String sellerPhone;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date createdAt;
+    private String title;
     @NumberFormat(pattern = "#,###")
     private Long price;
     @NumberFormat(pattern = "#,###")
     private Long halfPrice;
-    private Integer isDone;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
-    private String adminMemo;
+    private int state;
     private String categoryCode;
-    private String title;
+    private String adminMemo;
     private String storedImageName;
 }

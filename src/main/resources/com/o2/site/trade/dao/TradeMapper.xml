@@ -7,7 +7,10 @@
     <insert id="insertApp" useGeneratedKeys="true" keyProperty="tradeNo" keyColumn="TRADE_NO">
         INSERT INTO TRADE_BOARD
         VALUES (
-            SEQ_TRADE_TRADE_NO.NEXTVAL,
+            <choose>
+                    <when test="tradeNo != null">#{tradeNo}</when>
+                    <otherwise>SEQ_TRADE_TRADE_NO.NEXTVAL</otherwise>
+            </choose>,
             #{memberNo},
             #{title},
             #{category},

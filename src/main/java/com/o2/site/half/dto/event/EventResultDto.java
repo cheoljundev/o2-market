@@ -1,4 +1,4 @@
-package com.o2.site.half.dto;
+package com.o2.site.half.dto.event;
 
 import lombok.Data;
 

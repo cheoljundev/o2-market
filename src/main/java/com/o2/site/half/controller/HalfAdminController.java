@@ -1,7 +1,11 @@
 package com.o2.site.half.controller;
 
-import com.o2.site.half.dao.OrderSearchCond;
+import com.o2.site.half.dao.SearchCond;
 import com.o2.site.half.dto.*;
+import com.o2.site.half.dto.event.EventResultDto;
+import com.o2.site.half.dto.event.EventResultTradeDto;
+import com.o2.site.half.dto.order.*;
+import com.o2.site.half.dto.product.*;
 import com.o2.site.half.service.OrderService;
 import com.o2.site.half.service.ProductService;
 import com.o2.site.trade.domain.TradeDomain;
@@ -45,19 +49,19 @@ public class HalfAdminController {
                         @RequestParam(value = "page", defaultValue = "1") int currentPage,
                         Model model) {
 
-        OrderSearchCond orderSearchCond = new OrderSearchCond();
+        SearchCond searchCond = new SearchCond();
         switch (searchField) {
             case "buyerMemberId":
-                orderSearchCond.setBuyerMemberId(searchValue);
+                searchCond.setBuyerMemberId(searchValue);
                 break;
             case "buyerPhone":
-                orderSearchCond.setBuyerPhone(searchValue);
+                searchCond.setBuyerPhone(searchValue);
                 break;
             case "recipientName":
-                orderSearchCond.setRecipientName(searchValue);
+                searchCond.setRecipientName(searchValue);
                 break;
             case "recipientPhone":
-                orderSearchCond.setRecipientPhone(searchValue);
+                searchCond.setRecipientPhone(searchValue);
                 break;
             default:
                 searchField = "";
@@ -65,7 +69,7 @@ public class HalfAdminController {
         }
 
         int pageSIze = 10;
-        int pageLength = orderService.findPages(orderSearchCond, pageSIze);
+        int pageLength = orderService.findPages(searchCond, pageSIze);
 
         Pagination pagination = new Pagination(
                 currentPage,
@@ -76,7 +80,7 @@ public class HalfAdminController {
         List<AdminOrderListDto> orders = orderService.findRange(
                 pagination.getStartElement(),
                 pagination.getEndElement(),
-                orderSearchCond);
+                searchCond);
 
         model.addAttribute("orders", orders);
         model.addAttribute("searchConds", orderService.getSearchCond());
@@ -105,7 +109,7 @@ public class HalfAdminController {
         orderService.updateOrder(UpdateOrderDto.builder()
                 .orderNo(orderNo)
                 .invoice(invoice)
-                .state(1)
+                .state(OrderState.SHIPPING)
                 .build());
     }
 
@@ -173,10 +177,6 @@ public class HalfAdminController {
         resultTrades.forEach(eventResultTradeDto -> {
             productService.insertProduct(InsertProductDto.builder()
                     .tradeNo((long) eventResultTradeDto.getTradeNo())
-                    .sellerMemberNo((long) eventResultTradeDto.getMemberNo())
-                    .sellerMemberId("admin")
-                    .sellerPhone("01012345678")
-                    .halfPrice((long) eventResultTradeDto.getHalfPrice())
                     .build());
         });
 
@@ -210,7 +210,7 @@ public class HalfAdminController {
     public void updateDone(@RequestBody AdminProductUpdateDto adminProductUpdateDto){
         productService.updateProduct(UpdateProductDto.builder()
                 .productNo(adminProductUpdateDto.getProductNo())
-                .isDone(ProductState.DONE)
+                .state(ProductState.DONE)
                 .adminMemo(adminProductUpdateDto.getAdminMemo())
                 .build());
     }

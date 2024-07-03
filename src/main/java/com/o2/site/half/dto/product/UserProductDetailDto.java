@@ -1,4 +1,4 @@
-package com.o2.site.half.dto;
+package com.o2.site.half.dto.product;
 
 import com.o2.site.upload.domain.UploadImage;
 import lombok.AllArgsConstructor;

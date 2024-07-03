@@ -1,36 +1,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.o2.site.half.dao.ProductMapper">
-    <insert id="insertProduct" parameterType="com.o2.site.half.dto.InsertProductDto">
+    <insert id="insertProduct" parameterType="com.o2.site.half.dto.product.InsertProductDto">
         insert into half_product(
             PRODUCT_NO,
-            TRADE_NO,
-            SELLER_MEMBER_NO,
-            SELLER_MEMBER_ID,
-            SELLER_PHONE,
-            HALF_PRICE,
-            IS_DONE
+            TRADE_NO
         ) values (
         <choose>
             <when test="productNo != null">#{productNo}</when>
             <otherwise>SEQ_HALF_PRODUCT_NO.NEXTVAL</otherwise>
         </choose>,
-            #{tradeNo},
-            #{sellerMemberNo},
-            #{sellerMemberId},
-            #{sellerPhone},
-            #{halfPrice},
-        <choose>
-            <when test="isDone != null">#{isDone}</when>
-            <otherwise>0</otherwise>
-        </choose>
+            #{tradeNo}
         )
     </insert>
 
-    <select id="findRangeWithConditions" parameterType="com.o2.site.half.dao.ProductSearchCond" resultType="com.o2.site.half.dto.UserListProductDto">
+
+    <select id="findRange" resultType="com.o2.site.half.domain.Product">
         SELECT *
         FROM (
-        SELECT p.PRODUCT_NO, p.TRADE_NO, p.SELLER_MEMBER_NO, p.SELLER_MEMBER_ID, p.SELLER_PHONE, t.price, p.HALF_PRICE, p.IS_DONE, p.CREATE_AT, p.ADMIN_MEMO,
-        t.category_code, t.title, u.stored_image_name, ROW_NUMBER() OVER (ORDER BY p.PRODUCT_NO DESC) AS rnum
+                 SELECT PRODUCT_NO, TRADE_NO, CREATE_AT, ADMIN_MEMO, STATE, ROW_NUMBER() OVER (ORDER BY PRODUCT_NO DESC) AS rnum
+                 FROM half_product
+             ) subquery
+        WHERE rnum BETWEEN #{start} AND #{end}
+    </select>
+
+    <select id="findRangeWithConditions" parameterType="com.o2.site.half.dao.SearchCond" resultType="com.o2.site.half.dto.product.UserListProductDto">
+        SELECT *
+        FROM (
+        SELECT p.PRODUCT_NO, p.TRADE_NO, p.CREATE_AT, t.title,  t.price, t.price / 2 AS half_price,  p.state, t.category_code,
+               p.ADMIN_MEMO, u.stored_image_name, ROW_NUMBER() OVER (ORDER BY p.PRODUCT_NO DESC) AS rnum
         FROM half_product p
         INNER JOIN trade_board t ON p.TRADE_NO = t.TRADE_NO
         LEFT JOIN (
@@ -38,13 +35,15 @@
         FROM upload_image
         ) u ON t.trade_no = u.trade_no AND u.img_rnum = 1
         <where>
-            <if test="productSearchCond.categoryCode != null and productSearchCond.categoryCode != 'cg_all' and productSearchCond.categoryCode != ''">
-                AND t.category_code = #{productSearchCond.categoryCode}
+            <if test="searchCond.categoryCode != null and searchCond.categoryCode != 'cg_all' and searchCond.categoryCode != ''">
+                AND t.category_code = #{searchCond.categoryCode}
             </if>
-            <if test="productSearchCond.title != null and productSearchCond.title != ''">
-                AND t.title LIKE '%' || #{productSearchCond.title} || '%'
+            <if test="searchCond.title != null and searchCond.title != ''">
+                AND t.title LIKE '%' || #{searchCond.title} || '%'
             </if>
-            AND p.IS_DONE = 1
+            <if test="searchCond.state != null and searchCond.state != ''">
+                AND p.state = #{searchCond.state}
+            </if>
         </where>
         ) subquery
         WHERE rnum BETWEEN #{start} AND #{end}
@@ -56,10 +55,10 @@
         WHERE PRODUCT_NO = #{productNo}
     </select>
 
-    <update id="updateProduct" parameterType="com.o2.site.half.dto.UpdateProductDto">
+    <update id="updateProduct" parameterType="com.o2.site.half.dto.product.UpdateProductDto">
     update half_product
     <set>
-        <if test="isDone != null">IS_DONE = #{isDone},</if>
+        <if test="state != null">state = #{state},</if>
         <if test="adminMemo != null">ADMIN_MEMO = #{adminMemo},</if>
     </set>
     where PRODUCT_NO = #{productNo}
@@ -69,7 +68,7 @@
         SELECT COUNT(*) FROM half_product
     </select>
 
-    <select id="countWithConditions" parameterType="com.o2.site.half.dao.ProductSearchCond">
+    <select id="countWithConditions" parameterType="com.o2.site.half.dao.SearchCond">
         SELECT COUNT(*)
         FROM half_product p
         INNER JOIN trade_board t ON p.TRADE_NO = t.TRADE_NO
@@ -80,7 +79,9 @@
             <if test="title != null and title != ''">
                 AND t.title LIKE '%' || #{title} || '%'
             </if>
-            AND p.IS_DONE = 1
+            <if test="state != null and state != ''">
+                AND p.state = #{state}
+            </if>
         </where>
     </select>
 </mapper>

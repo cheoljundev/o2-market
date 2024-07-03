@@ -1,97 +1,62 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.o2.site.half.dao.OrderMapper">
-    <select id="findByOrderNo" resultType="com.o2.site.half.domain.Order">
-        select * from half_order where ORDER_NO = #{orderNo}
+    <insert id="insertOrder" parameterType="com.o2.site.half.dto.order.InsertOrderDto">
+        insert into half_order(
+        ORDER_NO,
+        PRODUCT_NO,
+        BUYER_MEMBER_NO,
+        RECIPIENT_NAME,
+        RECIPIENT_PHONE,
+        RECIPIENT_ADDRESS
+        )
+        values(
+        <choose>
+            <when test="orderNo != null">#{orderNo}</when>
+            <otherwise>SEQ_HALF_ORDER_NO.NEXTVAL</otherwise>
+        </choose>,
+        #{productNo},
+        #{buyerMemberNo},
+        #{recipientName},
+        #{recipientPhone},
+        #{recipientAddress}
+        )
+    </insert>
+
+    <select id="findByOrderNo" resultType="com.o2.site.half.dto.order.AdminOrderDetailDto">
+        select o.order_no, o.create_at, t.title, o.recipient_name, o.recipient_address, o.delivery_memo, o.invoice  from half_order o
+         inner join half_product p on p.PRODUCT_NO = o.PRODUCT_NO
+        inner join trade_board t on t.TRADE_NO = p.TRADE_NO
+         where ORDER_NO = #{orderNo}
     </select>
 
-    <select id="findAll" resultType="com.o2.site.half.domain.Order">
-        select * from half_order
-        <where>
-            <if test="buyerMemberId != null and buyerMemberId != ''">
-                AND BUYER_MEMBER_ID LIKE '%' || #{buyerMemberId} || '%'
-            </if>
-            <if test="buyerPhone != null and buyerPhone != ''">
-                AND BUYER_PHONE LIKE '%' || #{buyerPhone} || '%'
-            </if>
-            <if test="recipientName != null and recipientName != ''">
-                AND RECIPIENT_NAME LIKE '%' || #{recipientName} || '%'
-            </if>
-            <if test="recipientPhone != null and recipientPhone != ''">
-                AND RECIPIENT_PHONE LIKE '%' || #{recipientPhone} || '%'
-            </if>
-        </where>
-        order by ORDER_NO DESC
-    </select>
-
-    <select id="findRange" parameterType="com.o2.site.half.dao.OrderSearchCond" resultType="com.o2.site.half.domain.Order">
+    <select id="findRange" parameterType="com.o2.site.half.dao.SearchCond" resultType="com.o2.site.half.dto.order.AdminOrderJoinListDto">
         SELECT *
         FROM (
-        SELECT ORDER_NO, PRODUCT_NO, CREATE_AT, TITLE, CATEGORY_CODE, PRICE, HALF_PRICE,
-        SELLER_MEMBER_NO, SELLER_MEMBER_ID, SELLER_PHONE, STATE, INVOICE, BUYER_MEMBER_NO,
-        BUYER_MEMBER_ID, BUYER_PHONE, RECIPIENT_NAME, RECIPIENT_PHONE, RECIPIENT_ADDRESS,
-        DELIVERY_MEMO, ROW_NUMBER() OVER (ORDER BY ORDER_NO DESC) AS rnum
-        FROM half_order
+        SELECT o.ORDER_NO, o.PRODUCT_NO, p.TRADE_NO, o.CREATE_AT, t.TITLE, t.PRICE, o.RECIPIENT_NAME,
+        o.state, ROW_NUMBER() OVER (ORDER BY o.ORDER_NO DESC) AS rnum
+        FROM half_order o
+        INNER JOIN half_product p ON o.PRODUCT_NO = p.PRODUCT_NO
+        INNER JOIN trade_board t ON p.TRADE_NO = t.TRADE_NO
+        INNER JOIN member m ON o.BUYER_MEMBER_NO = m.MEMBER_NO
         <where>
-            <if test="orderSearchCond.buyerMemberId != null and orderSearchCond.buyerMemberId != ''">
-                AND BUYER_MEMBER_ID LIKE '%' || #{orderSearchCond.buyerMemberId} || '%'
+            <if test="searchCond.buyerMemberId != null and searchCond.buyerMemberId != ''">
+                AND m.ID LIKE '%' || #{searchCond.buyerMemberId} || '%'
             </if>
-            <if test="orderSearchCond.buyerPhone != null and orderSearchCond.buyerPhone != ''">
-                AND BUYER_PHONE LIKE '%' || #{orderSearchCond.buyerPhone} || '%'
+            <if test="searchCond.buyerPhone != null and searchCond.buyerPhone != ''">
+                AND m.phone_number LIKE '%' || #{searchCond.buyerPhone} || '%'
             </if>
-            <if test="orderSearchCond.recipientName != null and orderSearchCond.recipientName != ''">
-                AND RECIPIENT_NAME LIKE '%' || #{orderSearchCond.recipientName} || '%'
+            <if test="searchCond.recipientName != null and searchCond.recipientName != ''">
+                AND o.RECIPIENT_NAME LIKE '%' || #{searchCond.recipientName} || '%'
             </if>
-            <if test="orderSearchCond.recipientPhone != null and orderSearchCond.recipientPhone != ''">
-                AND RECIPIENT_PHONE LIKE '%' || #{orderSearchCond.recipientPhone} || '%'
+            <if test="searchCond.recipientPhone != null and searchCond.recipientPhone != ''">
+                AND o.RECIPIENT_PHONE LIKE '%' || #{searchCond.recipientPhone} || '%'
             </if>
         </where>
         ) subquery
         WHERE rnum BETWEEN #{start} AND #{end}
     </select>
 
-    <insert id="insertOrder" parameterType="com.o2.site.half.dto.InsertOrderDto">
-        insert into half_order(
-            ORDER_NO,
-            PRODUCT_NO,
-            TITLE,
-            CATEGORY_CODE,
-            PRICE,
-            HALF_PRICE,
-            SELLER_MEMBER_NO,
-            SELLER_MEMBER_ID,
-            SELLER_PHONE,
-            BUYER_MEMBER_NO,
-            BUYER_MEMBER_ID,
-            BUYER_PHONE,
-            RECIPIENT_NAME,
-            RECIPIENT_PHONE,
-            RECIPIENT_ADDRESS,
-            DELIVERY_MEMO
-        )
-        values(
-            <choose>
-                <when test="orderNo != null">#{orderNo}</when>
-                <otherwise>SEQ_HALF_ORDER_NO.NEXTVAL</otherwise>
-            </choose>,
-            #{productNo},
-            #{title},
-            #{categoryCode},
-            #{price},
-            #{halfPrice},
-            #{sellerMemberNo},
-            #{sellerMemberId},
-            #{sellerPhone},
-            #{buyerMemberNo},
-            #{buyerMemberId},
-            #{buyerPhone},
-            #{recipientName},
-            #{recipientPhone},
-            #{recipientAddress},
-            #{deliveryMemo}
-              )
-    </insert>
-
-    <update id="updateOrder" parameterType="com.o2.site.half.dto.UpdateOrderDto">
+    <update id="updateOrder" parameterType="com.o2.site.half.dto.order.UpdateOrderDto">
         update half_order
         <set>
             <if test="invoice != null and invoice != ''">
@@ -108,20 +73,23 @@
         delete from half_order where ORDER_NO = #{orderNo}
     </delete>
 
-    <select id="count" parameterType="com.o2.site.half.dao.OrderSearchCond">
-        select count(*) from half_order
+    <select id="count" parameterType="com.o2.site.half.dao.SearchCond">
+        select count(*) from half_order o
+        INNER JOIN half_product p ON o.PRODUCT_NO = p.PRODUCT_NO
+        INNER JOIN trade_board t ON p.TRADE_NO = t.TRADE_NO
+        INNER JOIN member m ON t.MEMBER_NO = m.MEMBER_NO
         <where>
             <if test="buyerMemberId != null and buyerMemberId != ''">
-                AND BUYER_MEMBER_ID LIKE '%' || #{buyerMemberId} || '%'
+                AND m.ID LIKE '%' || #{buyerMemberId} || '%'
             </if>
             <if test="buyerPhone != null and buyerPhone != ''">
-                AND BUYER_PHONE LIKE '%' || #{buyerPhone} || '%'
+                AND m.phone_number LIKE '%' || #{buyerPhone} || '%'
             </if>
             <if test="recipientName != null and recipientName != ''">
-                AND RECIPIENT_NAME LIKE '%' || #{recipientName} || '%'
+                AND o.RECIPIENT_NAME LIKE '%' || #{recipientName} || '%'
             </if>
             <if test="recipientPhone != null and recipientPhone != ''">
-                AND RECIPIENT_PHONE LIKE '%' || #{recipientPhone} || '%'
+                AND o.RECIPIENT_PHONE LIKE '%' || #{recipientPhone} || '%'
             </if>
         </where>
     </select>

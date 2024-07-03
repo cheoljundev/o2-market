@@ -1,18 +1,15 @@
 package com.o2.site.half.controller;
 
-import com.o2.site.half.dao.ProductSearchCond;
+import com.o2.site.half.dao.SearchCond;
 import com.o2.site.half.dto.Pagination;
-import com.o2.site.half.dto.UserListProductDto;
+import com.o2.site.half.dto.product.UserListProductDto;
 import com.o2.site.half.service.ProductService;
 import com.o2.site.trade.service.TradeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,11 +29,11 @@ public class HalfUserController {
                           @RequestParam(value = "page", defaultValue = "1") Integer currentPage
                        ) {
 
-        ProductSearchCond productSearchCond = ProductSearchCond.builder()
+        SearchCond searchCond = SearchCond.builder()
                 .categoryCode(selectedCategory)
                 .title(searchTitle)
                 .build();
-        int pagesLength = productService.findPages(10, productSearchCond);
+        int pagesLength = productService.findPages(10, searchCond);
         Pagination pagination = new Pagination(
                 currentPage,
                 pagesLength,
@@ -44,8 +41,7 @@ public class HalfUserController {
         );
 
         List<UserListProductDto> products = productService.findRange(pagination.getStartElement(),  pagination.getEndElement(),
-                productSearchCond);
-        log.info("products: {}", products);
+                searchCond);
         model.addAttribute("categories", tradeService.getCategory());
         model.addAttribute("pagination", pagination);
         model.addAttribute("selectedCategory", selectedCategory);
@@ -65,4 +61,6 @@ public class HalfUserController {
         model.addAttribute("product", productService.findByProductNoForUser(id));
         return "half/user/order";
     }
+
+//    @PostMapping("/order")
 }

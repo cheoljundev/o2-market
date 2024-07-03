@@ -1,4 +1,4 @@
-package com.o2.site.half.dao;
+package com.o2.site.half.dto.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class ProductSearchCond {
-    private String title;
-    private String categoryCode;
+@NoArgsConstructor
+public class InsertProductDto {
+    private Long productNo;
+    private Long tradeNo;
 }
