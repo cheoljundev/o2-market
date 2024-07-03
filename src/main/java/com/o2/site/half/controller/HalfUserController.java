@@ -26,13 +26,13 @@ public class HalfUserController {
 
     @GetMapping("/list")
     public String list(Model model,
-                            @RequestParam(value = "category", required = false) String category,
+                            @RequestParam(value = "selectedCategory", required = false) String selectedCategory,
                           @RequestParam(value = "searchTitle", required = false) String searchTitle,
                           @RequestParam(value = "page", defaultValue = "1") Integer currentPage
                        ) {
 
         ProductSearchCond productSearchCond = ProductSearchCond.builder()
-                .categoryCode(category)
+                .categoryCode(selectedCategory)
                 .title(searchTitle)
                 .build();
         int pagesLength = productService.findPages(10, productSearchCond);
@@ -47,7 +47,7 @@ public class HalfUserController {
         log.info("products: {}", products);
         model.addAttribute("categories", tradeService.getCategory());
         model.addAttribute("pagination", pagination);
-        model.addAttribute("category", category);
+        model.addAttribute("selectedCategory", selectedCategory);
         model.addAttribute("searchTitle", searchTitle);
         model.addAttribute("products", products);
         return "half/user/list";

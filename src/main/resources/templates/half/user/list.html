@@ -11,6 +11,7 @@
                 object-fit: cover;
             }
         </style>
+        <script src="/js/half/list.js" defer></script>
     </th:block>
 
 </head>
@@ -26,8 +27,8 @@
         <div class="row mb-2 px-md-0 px-2">
             <div class="px-0  col-4  col-md-3 col-lg-2">
                 <select class="form-select form-select-sm h-100 category-select" aria-label=".form-select-sm example">
-                    <option selected>카테고리명</option>
-                    <option th:each="category : ${categories}" th:text="${category.category}" th:value="${category.categoryCode}">One</option>
+                    <option>카테고리명</option>
+                    <option th:each="category : ${categories}" th:text="${category.category}" th:value="${category.categoryCode}" th:selected="${category.categoryCode == selectedCategory}">One</option>
                 </select>
             </div>
             <div class="col-lg-2 col-md-3 col-4">
@@ -61,10 +62,11 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-                <form action="">
+                <form action="/half/list">
                     <div class="input-group mb-3">
                         <span class="input-group-text">상품명</span>
-                        <input type="search" class="form-control" placeholder="상품명을 입력하세요." aria-label="상품명을 입력하세요." aria-describedby="button-addon2">
+                        <input type="hidden" th:name="${selectedCategory}">
+                        <input type="search" class="form-control" placeholder="상품명을 입력하세요." name="searchTitle" aria-label="상품명을 입력하세요." aria-describedby="button-addon2">
                         <button class="btn btn-outline-secondary" id="button-addon2">검색</button>
                     </div>
                 </form>
@@ -77,7 +79,7 @@
                         th:classappend="${!pagination.prev ? 'disabled' : ''}"
                     >
                         <a class="page-link" href="#"
-                           th:href="@{/half/list(category=${category}, searchTitle=${searchTitle}  ,page=${pagination.prevPage})}"
+                           th:href="@{/half/list(selectedCategory=${selectedCategory}, searchTitle=${searchTitle}  ,page=${pagination.prevPage})}"
                            aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
@@ -85,12 +87,12 @@
                     <li class="page-item"
                         th:each="page : ${pagination.pages}"
                     ><a class="page-link" href="/half/list"
-                        th:href="@{/half/list(category=${category}, searchTitle=${searchTitle}  ,page=${page})}"
+                        th:href="@{/half/list(selectedCategory=${selectedCategory}, searchTitle=${searchTitle}  ,page=${page})}"
                         th:text="${page}" th:classappend="${page == pagination.currentPage ? 'active' : ''}">1</a></li>
                     <li class="page-item"
                         th:classappend="${!pagination.next ? 'disabled' : ''}"
                     >
-                        <a class="page-link" href="#" th:href="@{/half/list(category=${category}, searchTitle=${searchTitle}  ,page=${pagination.nextPage})}" aria-label="Next">
+                        <a class="page-link" href="#" th:href="@{/half/list(selectedCategory=${selectedCategory}, searchTitle=${searchTitle}  ,page=${pagination.nextPage})}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
