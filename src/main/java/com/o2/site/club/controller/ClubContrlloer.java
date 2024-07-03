@@ -138,16 +138,16 @@ public class ClubContrlloer {
 
     @GetMapping("/getClubInUserList")
     @ResponseBody
-    public List<ClubUserDto> getClubInUserList(@RequestParam(value = "clubName")String clubName, @RequestParam(value = "keyword", required = false) String keyword) {
+    public List<ClubUserDto> getClubInUserList(ClubUserDto clubUserDto) {
 
-        return clubService.clubUserList(clubName, keyword);
+        return clubService.clubUserList(clubUserDto);
     }
 
     @GetMapping("/getClubAppUserList")
     @ResponseBody
-    public List<ClubUserDto> getClubAppUserList(@RequestParam(value = "clubName")String clubName, @RequestParam(value = "keyword", required = false) String keyword) {
-        System.out.println(clubName + keyword);
-        return clubService.clubAppUserList(clubName, keyword);
+    public List<ClubUserDto> getClubAppUserList(ClubUserDto clubUserDto) {
+        System.out.println(clubUserDto);
+        return clubService.clubAppUserList(clubUserDto);
     }
 
     @PostMapping("/userDeleteUser")

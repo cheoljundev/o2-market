@@ -82,16 +82,22 @@
     </update>
 
     <select id="clubAppUserList">
-        SELECT A.*, (SELECT ID FROM MEMBER WHERE MEMBER_NO = A.USER_NO) AS ID FROM CLUB_USER A WHERE CLUB_NAME = #{clubName} AND IN_CK = 'N'
-        <if test="keyword != null and keyword != ''">
-            AND ID LIKE '%' || #{keyword} || '%'
+        SELECT A.*, M.ID
+        FROM CLUB_USER A
+        JOIN Member M ON M.MEMBER_NO = A.USER_NO
+        WHERE A.CLUB_NAME = #{clubName} AND A.IN_CK = 'N'
+        <if test="!id.equals('') and id != null">
+            AND M.ID LIKE '%' || #{id} || '%'
         </if>
     </select>
 
     <select id="clubUserList">
-        SELECT A.*, (SELECT ID FROM MEMBER WHERE MEMBER_NO = A.USER_NO) AS ID FROM CLUB_USER A WHERE CLUB_NAME = #{clubName} AND IN_CK = 'Y'
-        <if test="keyword != null and keyword != ''">
-            AND ID LIKE '%' || #{keyword} || '%'
+        SELECT A.*, M.ID
+        FROM CLUB_USER A
+        JOIN Member M ON M.MEMBER_NO = A.USER_NO
+        WHERE A.CLUB_NAME = #{clubName} AND A.IN_CK = 'Y'
+        <if test="!id.equals('') and id != null">
+            AND M.ID LIKE '%' || #{id} || '%'
         </if>
     </select>
 </mapper>

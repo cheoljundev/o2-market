@@ -15,7 +15,7 @@
                 $('#searchBtn').click(function(){
                     console.log(switchNum);
                     let keyword = $('#keyword').val();
-                    console.log(keyword);
+
                     if (switchNum == 0) {
                         inUserList(keyword);
                     } else {
@@ -23,17 +23,15 @@
                     }
                 });
                 function inUserList (keyword){
-                    let formData = new FormData();
-
-                    formData.append('clubName',getClubName());
-                    formData.append('keyword',keyword);
+                    if (keyword === undefined) {
+                        keyword = '';
+                    }
                     switchNum = 0;
                     $('#userListBody').html('');
                     $.ajax({
                         type: "GET",
-                        url: "/club/getClubInUserList",
+                        url: "/club/getClubInUserList?clubName="+getClubName()+"&id="+keyword ,
                         dataType: "json",
-                        data: formData,
                         success: function (result) {
                             for (var i = 0 ; i < result.length; i++) {
                                 let date = new Date(result[i].inDate);
@@ -52,18 +50,16 @@
                 }
 
                 function appUserList(keyword) {
-                    let formData = new FormData();
-
-                    formData.append('clubName',getClubName());
-                    formData.append('keyword',keyword);
+                    if (keyword === undefined) {
+                        keyword = '';
+                    }
                     switchNum = 1;
                     $('#userListBody').html('');
                     htmlStr = '';
                     $.ajax({
                         type: "GET",
-                        url: "/club/getClubAppUserList",
+                        url: "/club/getClubAppUserList?clubName="+getClubName()+"&id="+keyword,
                         dataType: "json",
-                        data: formData,
                         success: function (result) {
                             for (var i = 0 ; i < result.length; i++) {
                                 let date = new Date(result[i].inDate);
