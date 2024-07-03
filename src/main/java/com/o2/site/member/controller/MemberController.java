@@ -2,19 +2,16 @@ package com.o2.site.member.controller;
 
 import com.o2.site.member.domain.Member;
 import com.o2.site.member.domain.MemberRole;
-import com.o2.site.member.dto.MemberDTO;
 import com.o2.site.member.dto.MemberJoinDTO;
 import com.o2.site.member.service.MemberService;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 
@@ -74,5 +71,30 @@ public class MemberController {
     @GetMapping("/login")
     public String loginForm() {
         return "member/login";
+    }
+
+    @GetMapping("/member/myPage")
+    public String myPageForm() {
+        return "/member/myPage_buyList";
+    }
+
+    @GetMapping("member/myPage_buyList")
+    public String myBuyForm() {
+        return "/member/myPage_buyList";
+    }
+
+    @GetMapping("member/myPage_sellList")
+    public String mySellForm() {
+        return "/member/myPage_sellList";
+    }
+
+    @GetMapping("member/myPage_interestList")
+    public String myInterestForm() {
+        return "/member/myPage_interestList";
+    }
+
+    @GetMapping("member/myPage_clubList")
+    public String myClubForm() {
+        return "/member/myPage_clubList";
     }
 }
