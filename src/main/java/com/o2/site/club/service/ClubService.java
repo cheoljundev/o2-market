@@ -71,4 +71,11 @@ public class ClubService {
 
     return clubMapper.clubAppUserCheck(clubUserDto); }
 
+    public int clubDelete(String clubName) {
+        return clubMapper.clubDelete(clubName);
+    }
+
+    public List<ClubDto> myPageClubList(long userNo) {
+        return clubMapper.myPageClubList(userNo);
+    }
 }

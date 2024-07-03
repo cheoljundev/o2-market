@@ -1,12 +1,18 @@
 package com.o2.site.member.controller;
 
+import com.o2.site.club.dto.ClubDto;
+import com.o2.site.club.function.ClubFunction;
+import com.o2.site.club.service.ClubService;
 import com.o2.site.member.domain.Member;
 import com.o2.site.member.domain.MemberRole;
+import com.o2.site.member.dto.CustomUserDetails;
 import com.o2.site.member.dto.MemberJoinDTO;
 import com.o2.site.member.service.MemberService;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,6 +30,7 @@ public class MemberController {
     private final MemberService memberService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UploadService uploadService;
+    private final ClubService clubService;
 
 
     // 회원가입 페이지 이동
@@ -89,7 +97,10 @@ public class MemberController {
     }
 
     @GetMapping("/member/myPage_clubList")
-    public String myClubForm() {
+    public String myClubForm(Model model, @AuthenticationPrincipal CustomUserDetails user) {
+        long loginUserNo = ClubFunction.getUserNo(user, model);
+        List<ClubDto> myClubList = clubService.myPageClubList(loginUserNo);
+        model.addAttribute("myClubList", myClubList);
         return "/member/myPage_clubList";
     }
 }

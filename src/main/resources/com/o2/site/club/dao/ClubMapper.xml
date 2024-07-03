@@ -100,4 +100,13 @@
         </if>
         AND A.USER_NO NOT IN (SELECT READER_NO FROM CLUB WHERE CLUB_NAME = #{clubName})
     </select>
+
+    <delete id="clubDelete">
+        DELETE FROM CLUB WHERE CLUB_NAME = #{clubName}
+    </delete>
+
+    <select id="myPageClubList">
+        SELECT * FROM CLUB WHERE CLUB_NAME IN (SELECT CLUB_NAME FROM CLUB_USER WHERE USER_NO IN #{userNo})
+    </select>
+
 </mapper>

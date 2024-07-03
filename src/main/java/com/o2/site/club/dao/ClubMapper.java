@@ -21,6 +21,8 @@ public interface ClubMapper {
     // 모임 생성
     public int clubInsert(ClubDto clubDto);
 
+    public int clubDelete(String clubName);
+
     // 모임 카테고리 리스트
     public ArrayList<ClubCategoryDto> clubCategoryList();
 
@@ -52,6 +54,8 @@ public interface ClubMapper {
 
     // 모임원인지 체크
     public int clubAppUserCheck(ClubUserDto clubUserDto);
+
+    public List<ClubDto> myPageClubList(long userNo);
 
 // 관리자 end
 

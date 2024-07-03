@@ -30,21 +30,17 @@
         <table class="table table-striped" style="text-align: center">
             <thead>
             <tr>
-                <th style="background-color: #00b040; text-align: center">번호</th>
-                <th style="background-color: #00b040; text-align: center">가입일자</th>
                 <th style="background-color: #00b040; text-align: center">모임명</th>
                 <th style="background-color: #00b040; text-align: center">지역</th>
-                <th style="background-color: #00b040; text-align: center">관리자명</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-            </tr>
+                <th:block th:each="clubDto : ${myClubList}">
+                    <tr>
+                        <td th:text="${clubDto.clubName}"></td>
+                        <td th:text="${clubDto.area}"></td>
+                    </tr>
+                </th:block>
             </tbody>
         </table>
     </div>

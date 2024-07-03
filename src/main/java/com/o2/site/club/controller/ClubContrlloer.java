@@ -171,4 +171,10 @@ public class ClubContrlloer {
     public void userOk(ClubUserDto clubUserDto) {
         clubService.clubUserIn(clubUserDto);
     }
+
+    @PostMapping("/clubDelete")
+    @ResponseBody
+    public int clubDelete(@RequestParam("clubName") String clubName) {
+        return clubService.clubDelete(clubName);
+    }
 }
