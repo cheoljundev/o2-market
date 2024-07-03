@@ -73,27 +73,22 @@ public class MemberController {
         return "member/login";
     }
 
-    @GetMapping("/member/myPage")
-    public String myPageForm() {
-        return "/member/myPage_buyList";
-    }
-
-    @GetMapping("member/myPage_buyList")
+    @GetMapping("/member/myPage_buyList")
     public String myBuyForm() {
         return "/member/myPage_buyList";
     }
 
-    @GetMapping("member/myPage_sellList")
+    @GetMapping("/member/myPage_sellList")
     public String mySellForm() {
         return "/member/myPage_sellList";
     }
 
-    @GetMapping("member/myPage_interestList")
+    @GetMapping("/member/myPage_interestList")
     public String myInterestForm() {
         return "/member/myPage_interestList";
     }
 
-    @GetMapping("member/myPage_clubList")
+    @GetMapping("/member/myPage_clubList")
     public String myClubForm() {
         return "/member/myPage_clubList";
     }
