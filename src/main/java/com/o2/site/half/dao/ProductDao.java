@@ -14,4 +14,5 @@ public interface ProductDao {
     Product findByProductNo(Long productNo);
     void updateProduct(UpdateProductDto updateProductDto);
     int findPages(int pageSize);
+    int findPages(int pageSize, ProductSearchCond productSearchCond);
 }

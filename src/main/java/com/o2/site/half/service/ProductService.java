@@ -77,4 +77,8 @@ public class ProductService {
     public int findPages(int pageSize) {
         return productDao.findPages(pageSize);
     }
+
+    public int findPages(int pageSize, ProductSearchCond productSearchCond) {
+        return productDao.findPages(pageSize, productSearchCond);
+    }
 }

@@ -18,5 +18,6 @@ public interface ProductMapper {
     Product findByProductNo(Long productNo);
     void updateProduct(UpdateProductDto updateProductDto);
     int count();
+    int countWithConditions(ProductSearchCond productSearchCond);
 
 }

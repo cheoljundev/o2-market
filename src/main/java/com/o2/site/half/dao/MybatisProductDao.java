@@ -48,4 +48,13 @@ public class MybatisProductDao implements ProductDao{
         }
         return (int) Math.ceil((double) count / pageSize);
     }
+
+    @Override
+    public int findPages(int pageSize, ProductSearchCond productSearchCond) {
+        int count = productMapper.countWithConditions(productSearchCond);
+        if (count == 0) {
+            return 0;
+        }
+        return (int) Math.ceil((double) count / pageSize);
+    }
 }
