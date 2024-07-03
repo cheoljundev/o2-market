@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/mainLayout :: layout(~{::title}, ~{::main}, ~{::insertHead})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>마이 페이지</title>
+    <th:block th:fragment="insertHead">
+    </th:block>
+</head>
+<body>
+<main>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col col-lg-３">
+                <h1>구매 목록</h1>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a type="button" href="/member/myPage_buyList" class="btn btn-primary">구매</a>
+                    <a type="button" href="/member/myPage_sellList" class="btn btn-primary">판매</a>
+                    <a type="button" href="/member/myPage_interestList" class="btn btn-primary">관심</a>
+                    <a type="button" href="/member/myPage_clubList" class="btn btn-primary">모임</a>
+                </div>
+            </div>
+            <div class="col-lg-３">
+            </div>
+            <div class="col-lg-３">
+            </div>
+        </div>
+    </div>
+    <div class="container" style="padding-top: 10px">
+        <table class="table table-striped" style="text-align: center">
+            <thead>
+            <tr>
+                <th style="background-color: #00b040; text-align: center">번호</th>
+                <th style="background-color: #00b040; text-align: center">구매일자</th>
+                <th style="background-color: #00b040; text-align: center">상품명</th>
+                <th style="background-color: #00b040; text-align: center">금액</th>
+                <th style="background-color: #00b040; text-align: center">판매자명</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>4</td>
+                <td>5</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

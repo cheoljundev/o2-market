@@ -15,7 +15,7 @@ public class EventResultTradeDto {
     private int tradeNo;
     private UploadImage thumbnail;
     private String title;
-    private int memberNo;
+    private Long memberNo;
     @NumberFormat(pattern = "#,###")
     private int price;
     @NumberFormat(pattern = "#,###")

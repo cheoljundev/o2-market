@@ -5,6 +5,7 @@ import com.o2.site.club.dto.ClubCategoryDto;
 import com.o2.site.club.dto.ClubDto;
 import com.o2.site.club.service.ClubBoardService;
 import com.o2.site.club.service.ClubService;
+import com.o2.site.member.dto.CustomUserDetails;
 import com.o2.site.upload.domain.UploadImage;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,10 +50,11 @@ public class ClubBoardContrlloer {
     public void createGo() {}
 
     @PostMapping("/create")
-    public void createAction(ClubBoardDto clubBoardDto, @RequestParam(value = "images", required = false) List<MultipartFile> images) throws IOException {
+    public void createAction(ClubBoardDto clubBoardDto, @RequestParam(value = "images", required = false) List<MultipartFile> images, @AuthenticationPrincipal CustomUserDetails user) throws IOException {
 
         // 추후 로그인 아이디로 수정 start
-        clubBoardDto.setWriter(1);
+        long loginUserNo = user.getUser().getMemberRoles().get(0).getMemberNo();
+        clubBoardDto.setWriter(loginUserNo);
         // 추후 로그인 아이디로 수정 End
         clubBoardService.createClubBoard(clubBoardDto);
 

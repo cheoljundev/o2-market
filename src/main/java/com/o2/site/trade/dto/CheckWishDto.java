@@ -8,6 +8,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CheckWishDto {
-    private int memberNo;
+    private Long memberNo;
     private int tradeNo;
 }

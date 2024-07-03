@@ -53,7 +53,11 @@
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="content" th:text="${tradeDomain.content}"></textarea>
         </div>
         <div class="mb-3">
-            <label for="formFileMultiple" class="form-label">파일 업로드</label>
+            <label for="formFile" class="form-label">썸네일</label>
+            <input class="form-control" type="file" id="formFile" name="thumbnail">
+        </div>
+        <div class="mb-3">
+            <label for="formFileMultiple" class="form-label">추가 이미지</label>
             <input class="form-control" type="file" name="files" id="formFileMultiple" multiple>
         </div>
         <input type="hidden" id="tradeNo" name="tradeNo" th:value="${tradeDomain.tradeNo}">

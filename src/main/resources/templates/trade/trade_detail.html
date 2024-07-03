@@ -21,6 +21,7 @@
                 <li class="breadcrumb-item active" aria-current="page">상세보기</li>
             </ol>
         </nav>
+
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <a class="navbar-brand me-5" href="/trade/trade_main">전체 조회</a>
@@ -52,6 +53,11 @@
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 300px;" name="keyword">
                             <button id="searchButton" class="btn btn-outline-success" type="submit">Search</button>
                         </form>
+                        <form action="/trade/trade_mylist" id="myList" method="get" class="px-4">
+                            <li class="nav-item">
+                                <button class="btn btn-outline-success" type="submit">작성글</button>
+                            </li>
+                        </form>
                     </ul>
                 </div>
             </div>
@@ -63,8 +69,14 @@
         <span th:text="'작성일: '+${tradeDomain.postDate}">날짜</span>
     </div>
     <div align="right">
-<!--        <a th:href="@{/trade/trade_delete(tradeNo=${tradeDomain.tradeNo})}">삭제</a> 구현 완료 권환이 있으면 나타나도록 수정 예정-->
-        <a th:href="@{/trade/trade_update(tradeNo=${tradeDomain.tradeNo})}">수정</a>
+        <th:block sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/trade/trade_delete(tradeNo=${tradeDomain.tradeNo})}">삭제</a>
+            <a th:href="@{/trade/trade_update(tradeNo=${tradeDomain.tradeNo})}">수정</a>
+        </th:block>
+        <th:block sec:authorize="!hasRole('ADMIN')" th:if="${tradeDomain.memberNo == memberNo}">
+            <a th:href="@{/trade/trade_delete(tradeNo=${tradeDomain.tradeNo})}">삭제</a>
+            <a th:href="@{/trade/trade_update(tradeNo=${tradeDomain.tradeNo})}">수정</a>
+        </th:block>
     </div>
     <div>
         <h1 th:text="${tradeDomain.title}" align="center">제목</h1>
@@ -137,7 +149,9 @@
     <div align="center">
         <hr class="border border-dark">
         <div class="btn-group" aria-label="Small button group">
-            <a href="#" class="btn bg-body-secondary">문의하기</a>
+            <a th:href="@{/trade/trade_end(tradeNo=${tradeDomain.tradeNo})}"
+               class="btn bg-body-secondary"
+               th:if="${tradeDomain.isTrade != 'E' && memberNo==tradeDomain.memberNo}">거래완료</a>
             <a th:href="@{/trade/trade_addWish(tradeNo=${tradeDomain.tradeNo})}" class="btn bg-body-secondary" th:text="${isWished}">찜하기</a>
             <a href="/trade/trade_main" class="btn bg-body-secondary">목록으로</a>
         </div>

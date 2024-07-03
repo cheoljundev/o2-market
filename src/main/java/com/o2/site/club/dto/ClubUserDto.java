@@ -9,8 +9,9 @@ import java.util.Date;
 @ToString
 public class ClubUserDto {
 
-    private int userNo;
+    private long userNo;
     private String clubName;
+    private String id;
     private char inCk;
     private Date inDate;
 

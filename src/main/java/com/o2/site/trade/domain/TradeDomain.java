@@ -10,7 +10,7 @@ import java.sql.Date;
 @ToString
 public class TradeDomain {
     private int tradeNo;
-    private int memberNo;
+    private Long memberNo;
     private String title;
     private String categoryCode;
     private String content;

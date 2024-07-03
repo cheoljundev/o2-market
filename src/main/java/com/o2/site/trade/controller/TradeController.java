@@ -1,7 +1,8 @@
 package com.o2.site.trade.controller;
 
 
-import com.o2.site.trade.domain.AdvDomain;
+import com.o2.site.member.dto.CustomUserDetails;
+import com.o2.site.member.service.MemberService;
 import com.o2.site.trade.domain.TradeDomain;
 import com.o2.site.trade.dto.*;
 import com.o2.site.trade.service.PaginationService;
@@ -10,6 +11,7 @@ import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,9 @@ import java.util.List;
 public class TradeController {
     @Autowired
     PaginationService pagination;
+
+    @Autowired
+    MemberService memberService;
     private final TradeService tradeService;
 
     private final UploadService uploadService;
@@ -64,7 +69,7 @@ public class TradeController {
 
     //검색 리스트
     @GetMapping("/trade_search")
-    public String trade_sarch(Model model, SearchDto searchDto, @RequestParam(defaultValue = "1") int page){
+    public String trade_sarch(Model model, SearchDto searchDto, @RequestParam(value = "page",defaultValue = "1") int page){
         int page_size = 5;
         if(searchDto.getCategory().equals("cg_all")){
             searchDto.setCategory("");
@@ -96,14 +101,26 @@ public class TradeController {
         return "/trade/trade_search";
     }
     @GetMapping("/trade_application")
-    public void trade_application(Model model){
+    public String trade_application(Model model,@AuthenticationPrincipal CustomUserDetails user){
+        Long memberNo;
+        try {
+            memberNo = memberService.findMemberNo(user.getUser().getId());
+        }catch (Exception e){
+            return "redirect:/login";
+        }
         ArrayList<CategoryDto> category = tradeService.getCategory();
         model.addAttribute("category",category);
+        return "/trade/trade_application";
     }
     //게시글 한개 조회
     @GetMapping("/trade_detail")
-    public void trade_detail(Model model, int tradeNo){
-        int memberNo=1;
+    public String trade_detail(Model model, int tradeNo, @AuthenticationPrincipal CustomUserDetails user){
+        Long memberNo;
+        try {
+            memberNo = memberService.findMemberNo(user.getUser().getId());
+        }catch (Exception e){
+            return "redirect:/login";
+        }
         String isWished;
         CheckWishDto checkWishDto = tradeService.checkWish(tradeNo,memberNo);
         if(checkWishDto==null){
@@ -125,12 +142,15 @@ public class TradeController {
             wishList=0;
         }
         System.out.println("찜"+wishList);
+        System.out.println("mem"+memberNo+", tm: "+tradeDomain.getMemberNo());
         ArrayList<CategoryDto> category = tradeService.getCategory();
+        model.addAttribute("memberNo",memberNo);
         model.addAttribute("isWished",isWished);
         model.addAttribute("category",category);
         model.addAttribute("wishCount",wishList);
         model.addAttribute("tradeDomain",tradeDomain);
         model.addAttribute("imageList",imageList);
+        return "/trade/trade_detail";
     }
     //삭제
     @GetMapping("/trade_delete")
@@ -145,8 +165,9 @@ public class TradeController {
     }
     //찜하기
     @GetMapping("/trade_addWish")
-    public String trade_addWish(Model model, WishListDto wishListDto){
-        wishListDto.setMemberNo(1);
+    public String trade_addWish(Model model, WishListDto wishListDto,@AuthenticationPrincipal CustomUserDetails user){
+        Long memberNo = memberService.findMemberNo(user.getUser().getId());
+        wishListDto.setMemberNo(memberNo);
         CheckWishDto checkWishDto = tradeService.checkWish(wishListDto);
         System.out.println("위시리스트"+wishListDto);
         System.out.println("체크리스트"+checkWishDto);
@@ -162,8 +183,13 @@ public class TradeController {
     }
     //내 찜목록 보기
     @GetMapping("/trade_mywish")
-    public String trade_mywish(Model model, @RequestParam(defaultValue = "1") int page){
-        int memberNo = 1;
+    public String trade_mywish(Model model, @RequestParam(value = "page",defaultValue = "1") int page, @AuthenticationPrincipal CustomUserDetails user){
+        Long memberNo;
+        try {
+            memberNo = memberService.findMemberNo(user.getUser().getId());
+        }catch (Exception e){
+            return "redirect:/login";
+        }
         int page_size = 5;
         ArrayList<TradeMainDto> wishList = tradeService.myWishList(memberNo);
         ArrayList<AdvListDto> advList = tradeService.getAdvList();
@@ -182,85 +208,21 @@ public class TradeController {
         model.addAttribute("totalPages", totalPages);
         return "/trade/trade_mywish";
     }
-    @GetMapping("/trade_admin")
-    public void trade_admin(){}
-    //관리자 페이지 신청 리스트 조회
-    @GetMapping("/trade_admin_application")
-    public void trade_admin_application(Model model, @RequestParam(defaultValue = "1") int page){
-        int page_size = 6;
-        int adjustPage=page-1;
-        ArrayList<TradeMainDto> mainlist = tradeService.selectAppList();
-        System.out.println(mainlist);
-        //페이지 나누기
-        List<TradeMainDto> paginatedMainList = pagination.paginate(mainlist, adjustPage, page_size);
-        int totalPages = (int) Math.ceil((double) mainlist.size() / page_size);
-        System.out.println("총 갯수: "+mainlist.size());
-        model.addAttribute("mainlist", paginatedMainList);
-        model.addAttribute("cg","전체");
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
-    }
-    //관리자 페이지 신청 상세 조회
-    @GetMapping("/trade_admin_approve")
-    public void trade_admin_approve(Model model, int tradeNo){
-        TradeDomain tradeDomain = tradeService.getBoard(tradeNo);
-        System.out.println(tradeDomain);
-        ArrayList<String> imageList = tradeService.getImages(tradeNo);
-        System.out.println(imageList);
-        model.addAttribute("tradeDomain",tradeDomain);
-        model.addAttribute("imageList",imageList);
-    }
-    //관리자-신청 승인
-    @GetMapping("/approve")
-    public String admin_approve(String tradeNo){
-        int result = tradeService.approveBoard(tradeNo);
-        if(result>0){
-            System.out.println("승인");
-        }
-        return "redirect:/trade/trade_admin_application";
-    }
-    //관리자-신청 거절
-    @GetMapping("/reject")
-    public String admin_reject(String tradeNo){
-        System.out.println(tradeNo);
-        int result = tradeService.rejectBoard(tradeNo);
-        if(result>0){
-            System.out.println("거절");
-        }
-        return "redirect:/trade/trade_admin_application";
-    }
-    //광고 디테일
-    @GetMapping("/trade_adv_detail")
-    public void trade_adv_detail(Model model, String advNo){
-        System.out.println(advNo);
-        AdvDetailDto advDetailDto = tradeService.getAdvDetail(advNo);
-        model.addAttribute("advDetail", advDetailDto);
-    }
-    //관리자 광고 리스트
-    @GetMapping("/trade_adv_list")
-    public void trade_adv_list(Model model, @RequestParam(defaultValue = "1") int page){
-        int page_size = 6;
-        ArrayList<AdvListDto> advList = tradeService.getAdvList();
-        System.out.println(advList);
-        int adjustPage=page-1;
-        //페이지 나누기
-        List<AdvListDto> paginatedMainList = pagination.advpaginate(advList, adjustPage, page_size);
 
-        int totalPages = (int) Math.ceil((double) advList.size() / page_size);
-        model.addAttribute("advList",paginatedMainList);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
-    }
-    //관리자 광고 등록
-    @GetMapping("/trade_adv_regist")
-    public void trade_adv_regist(){}
+
     //상품 등록 신청
     @PostMapping("/trade_app")
-    public String insertApp(ApplicationDto ad, @RequestParam("files") MultipartFile[] files){
+    public String insertApp(ApplicationDto ad, @RequestParam("files") MultipartFile[] files,MultipartFile thumbnail, @AuthenticationPrincipal CustomUserDetails user){
+        ad.setMemberNo(memberService.findMemberNo(user.getUser().getId()));
         int result = tradeService.insertApp(ad);
         System.out.println("no: "+ad.getTradeNo());
         System.out.println(result);
         try{
+            UploadImageDto uploadImage = UploadImageDto.builder()
+                    .image(thumbnail)
+                    .tradeNo(Long.valueOf(ad.getTradeNo()))
+                    .build();
+            uploadService.insertImage(uploadImage);
             for(MultipartFile image : files){
                 UploadImageDto uploadImageDto = UploadImageDto.builder()
                         .image(image)
@@ -273,35 +235,17 @@ public class TradeController {
         }
         return "redirect:/trade/trade_main";
     }
-    //관리자 광고 등록
-    @PostMapping("/trade_adv_regist")
-    public String insertAdv(AdvDomain advDomain, @RequestParam("image") MultipartFile image){
-        System.out.println(advDomain);
-        int result = tradeService.insertAdv(advDomain);
-        try{
-            UploadImageDto uploadImageDto = UploadImageDto.builder()
-                    .image(image)
-                    .advNo(Long.valueOf(advDomain.getAdvNo()))
-                    .build();
-            uploadService.insertImage(uploadImageDto);
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("이미지 등록 실패");
-        }
-        return "redirect:/trade/trade_adv_list";
-    }
-    //관리자 광고 삭제
-    @GetMapping("/trade_adv_delete")
-    public String deleteAdv(String advNo){
-        System.out.println(advNo);
-        int result = tradeService.deleteAdv(advNo);
-        return "redirect:/trade/trade_adv_list";
-    }
+
     //내 작성글 모두 보기
     @GetMapping("/trade_mylist")
-    public String myList(Model model, String memberNo, @RequestParam(defaultValue = "1") int page){
+    public String myList(Model model, @RequestParam(value = "page",defaultValue = "1") int page,  @AuthenticationPrincipal CustomUserDetails user){
         int page_size = 5;
-        memberNo="2";
+        Long memberNo;
+        try {
+            memberNo = memberService.findMemberNo(user.getUser().getId());
+        }catch (Exception e){
+            return "redirect:/login";
+        }
         System.out.println(memberNo);
         ArrayList<MyListDto> mylist = tradeService.selectMyList(memberNo);
         ArrayList<CategoryDto> category = tradeService.getCategory();
@@ -310,6 +254,8 @@ public class TradeController {
         List<MyListDto> paginatedMainList = pagination.mylistpaginate(mylist, adjustPage, page_size);
 
         int totalPages = (int) Math.ceil((double) mylist.size() / page_size);
+
+        System.out.println(mylist);
 
         model.addAttribute("category",category);
         model.addAttribute("mainlist", paginatedMainList);
@@ -328,18 +274,28 @@ public class TradeController {
         ArrayList<CategoryDto> category = tradeService.getCategory();
         model.addAttribute("category",category);
     }
+    //게시글 수정
     @PostMapping("/trade_update")
-    public String trade_update(ApplicationDto ad, @RequestParam("files") MultipartFile[] files){
+    public String trade_update(ApplicationDto ad, @RequestParam("files") MultipartFile[] files,MultipartFile thumbnail){
         System.out.println(ad);
         int reslut = tradeService.updateBoard(ad);
         try{
+            if (thumbnail.isEmpty()) {
+                System.out.println("empty");
+                return "redirect:/trade/trade_main";
+            }
+            UploadImageDto uploadImage = UploadImageDto.builder()
+                    .image(thumbnail)
+                    .tradeNo(Long.valueOf(ad.getTradeNo()))
+                    .build();
+            tradeService.deleteImpages(ad.getTradeNo());
+            uploadService.insertImage(uploadImage);
             for (MultipartFile file : files) {
                 if (file.isEmpty()) {
                     System.out.println("empty");
                     return "redirect:/trade/trade_main";
                 }
             }
-                tradeService.deleteImpages(ad.getTradeNo());
             for (MultipartFile image : files) {
                 UploadImageDto uploadImageDto = UploadImageDto.builder()
                         .image(image)
@@ -350,6 +306,15 @@ public class TradeController {
         }catch (Exception e){
             System.out.println("이미지 등록 실패");
         }
+        return "redirect:/trade/trade_main";
+    }
+    //거래 완료
+    @GetMapping("/trade_end")
+    public String trade_end(int tradeNo, @AuthenticationPrincipal CustomUserDetails user, Model model){
+        Long memberNo = memberService.findMemberNo(user.getUser().getId());
+        model.addAttribute("memberNo",memberNo);
+        System.out.println(tradeNo);
+        tradeService.endTrade(tradeNo);
         return "redirect:/trade/trade_main";
     }
 }
