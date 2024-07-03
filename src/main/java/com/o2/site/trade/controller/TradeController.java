@@ -131,6 +131,7 @@ public class TradeController {
             wishList=0;
         }
         System.out.println("찜"+wishList);
+        System.out.println("mem"+memberNo+", tm: "+tradeDomain.getMemberNo());
         ArrayList<CategoryDto> category = tradeService.getCategory();
         model.addAttribute("memberNo",memberNo);
         model.addAttribute("isWished",isWished);

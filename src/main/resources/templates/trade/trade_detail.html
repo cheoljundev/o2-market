@@ -68,7 +68,7 @@
             <a th:href="@{/trade/trade_delete(tradeNo=${tradeDomain.tradeNo})}">삭제</a>
             <a th:href="@{/trade/trade_update(tradeNo=${tradeDomain.tradeNo})}">수정</a>
         </th:block>
-        <th:block sec:authorize="hasRole('USER')" th:if="tradeDomain.member==NomemberNo">
+        <th:block sec:authorize="!hasRole('ADMIN')" th:if="${tradeDomain.memberNo == memberNo}">
             <a th:href="@{/trade/trade_delete(tradeNo=${tradeDomain.tradeNo})}">삭제</a>
             <a th:href="@{/trade/trade_update(tradeNo=${tradeDomain.tradeNo})}">수정</a>
         </th:block>
