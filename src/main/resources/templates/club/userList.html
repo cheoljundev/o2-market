@@ -11,10 +11,138 @@
         <script src="/js/club/getParam.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
+                let switchNum = 0;
+                $('#searchBtn').click(function(){
+                    console.log(switchNum);
+                    let keyword = $('#keyword').val();
+                    console.log(keyword);
+                    if (switchNum == 0) {
+                        inUserList(keyword);
+                    } else {
+                        appUserList(keyword);
+                    }
+                });
+                function inUserList (keyword){
+                    let formData = new FormData();
 
+                    formData.append('clubName',getClubName());
+                    formData.append('keyword',keyword);
+                    switchNum = 0;
+                    $('#userListBody').html('');
+                    $.ajax({
+                        type: "GET",
+                        url: "/club/getClubInUserList",
+                        dataType: "json",
+                        data: formData,
+                        success: function (result) {
+                            for (var i = 0 ; i < result.length; i++) {
+                                let date = new Date(result[i].inDate);
+                                let dateFormat = getFormatDate(date);
+                                htmlStr = `
+                                    <tr>
+                                        <td>`+dateFormat+`</td>
+                                        <td>`+result[i].id+`</td>
+                                        <td><button class="btn btn-danger deleteUser" data="`+result[i].userNo+`">추방</button></td>
+                                    </tr>
+                                `;
+                                $('#userListBody').append(htmlStr);
+                            }
+                        }
+                    });
+                }
 
+                function appUserList(keyword) {
+                    let formData = new FormData();
 
+                    formData.append('clubName',getClubName());
+                    formData.append('keyword',keyword);
+                    switchNum = 1;
+                    $('#userListBody').html('');
+                    htmlStr = '';
+                    $.ajax({
+                        type: "GET",
+                        url: "/club/getClubAppUserList",
+                        dataType: "json",
+                        data: formData,
+                        success: function (result) {
+                            for (var i = 0 ; i < result.length; i++) {
+                                let date = new Date(result[i].inDate);
+                                let dateFormat = getFormatDate(date);
+                                htmlStr = `
+                                    <tr>
+                                        <td>`+dateFormat+`</td>
+                                        <td>`+result[i].id+`</td>
+                                        <td><button class="btn btn-outline-primary okUser" data="`+result[i].userNo+`">수락</button>  <button class="btn btn-danger deleteUser" data="`+result[i].userNo+`">취소</button></td>
+                                    </tr>
+                                `;
+                                $('#userListBody').append(htmlStr);
+                            }
+
+                        }
+                    });
+                }
+
+                $('#clubInUserBtn').click(function(){
+                    inUserList();
+                });
+
+                $('#clubAppUserBtn').click(function(){
+                    appUserList();
+                });
+
+                $('#userListBody').on('click', '.okUser', function() {
+
+                    let formData = new FormData();
+                    let userNo = $(this).attr('data');
+
+                    formData.append('userNo',userNo);
+                    formData.append('clubName',getClubName());
+                    $.ajax({
+                        url : "/club/userOk",
+                        processData : false,
+                        contentType : false,
+                        type : 'POST',
+                        data : formData,
+                        success : function(data) {
+                            alert('가입 완료 되었습니다.');
+                            location.href='/club/userList?clubName=' + getClubName();
+                        }
+                    });
+                });
+
+                $('#userListBody').on('click', '.deleteUser', function() {
+
+                    let formData = new FormData();
+                    let userNo = $(this).attr('data');
+
+                    formData.append('userNo',userNo);
+                    formData.append('clubName',getClubName());
+
+                    $.ajax({
+                        url : "/club/userDeleteUser",
+                        processData : false,
+                        contentType : false,
+                        type : 'POST',
+                        data : formData,
+                        success : function(data) {
+                            alert('가입이 취소 되었습니다.');
+                            location.href='/club/userList?clubName=' + getClubName();
+                        }
+                    });
+                });
             });
+            function getFormatDate(date){
+                let year = date.getFullYear();              //yyyy
+                let month = (1 + date.getMonth());          //M
+                month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+                let day = date.getDate();                   //d
+                day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+                let hours = date.getHours(); // 시
+                hours = hours >= 10 ? hours : '0' + hours;
+                let minutes = date.getMinutes();  // 분
+                minutes = minutes >= 10 ? hours : '0' + minutes;
+                return  year + '-' + month + '-' + day + ' '+ hours + ':' + minutes;       //'-' 추가하여 yyyy-mm-dd 형태 생성 가능
+            }
         </script>
     </th:block>
 
@@ -43,13 +171,13 @@
             <br>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-bottom: 20px;">
                 <div class="btn-group" role="group" aria-label="Basic outlined example">
-                    <button type="button" class="btn btn-outline-primary">모임원</button>
-                    <button type="button" class="btn btn-outline-primary">요청</button>
+                    <button type="button" class="btn btn-outline-primary" id="clubInUserBtn">모임원</button>
+                    <button type="button" class="btn btn-outline-primary" id="clubAppUserBtn">요청</button>
                 </div>
             </div>
             <div class="d-md-flex justify-content-md-end">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="width: 300px;" id="keyword">
-                <button class="btn btn-outline-success" type="submit" onclick="getList(1);">검색</button>
+                <button class="btn btn-outline-success" type="submit" id="searchBtn">검색</button>
             </div>
             <div class="row">
                 <div class="col-12">
@@ -61,53 +189,11 @@
                             <th scope="col">탈퇴 버튼</th>
                         </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>2024-06-18 17:30</td>
-                                <td>부산 00동 00 고기</td>
-                                <td><button class="btn btn-outline-primary">추방</button></td>
-                            </tr>
-                            <tr>
-                                <td>2024-06-14 15:30</td>
-                                <td>부산 00동 00 고기</td>
-                                <td><button class="btn btn-outline-primary">추방</button></td>
-                            </tr>
-                            <tr>
-                                <td>2024-06-19 19:30</td>
-                                <td>부산 00동 00 고기</td>
-                                <td><button class="btn btn-outline-primary">추방</button></td>
-                            </tr>
-                            <tr>
-                                <td>2024-06-19 19:30</td>
-                                <td>부산 00동 00 고기</td>
-                                <td><button class="btn btn-outline-primary">추방</button></td>
-                            </tr>
-                            <tr>
-                                <td>2024-06-19 19:30</td>
-                                <td>부산 00동 00 고기</td>
-                                <td><button class="btn btn-outline-primary">추방</button></td>
-                            </tr>
-                            <tr>
-                                <td>2024-06-19 19:30</td>
-                                <td>부산 00동 00 고기</td>
-                                <td><button class="btn btn-outline-primary">추방</button></td>
-                            </tr>
-                            <tr>
-                                <td>2024-06-19 19:30</td>
-                                <td>부산 00동 00 고기</td>
-                                <td><button class="btn btn-outline-primary">추방</button></td>
-                            </tr>
-                            <tr>
-                                <td>2024-06-19 19:30</td>
-                                <td>부산 00동 00 고기</td>
-                                <td><button class="btn btn-outline-primary">추방</button></td>
+                        <tbody id="userListBody">
 
-                            </tr>
                         </tbody>
                     </table>
                 </div>
-                페이징
-
             </div>
         </form>
     </div>

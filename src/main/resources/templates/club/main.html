@@ -105,9 +105,12 @@
 
         </div>
         <br>
-        <div class="d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-primary" onclick=location.href="/club/create">모임 생성</button>
-        </div>
+        <th:block th:if="${loginUserNo != null}">
+            <div class="d-md-flex justify-content-md-end">
+                <button type="button" class="btn btn-primary" onclick=location.href="/club/create">모임 생성</button>
+            </div>
+        </th:block>
+
         <div class="pagination justify-content-center">
             <nav aria-label="Page navigation example">
                 <ul class="pagination" id="pagination">

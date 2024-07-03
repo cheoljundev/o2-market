@@ -67,12 +67,19 @@ public class ClubService {
         return clubMapper.clubUserIn(clubUserDto);
     }
 
-    public List<ClubUserDto> clubAppUserList(String clubName) {
-        return clubMapper.clubAppUserList(clubName);
+    public List<ClubUserDto> clubAppUserList(String clubName, String keyword) {
+        System.out.println("실행");
+        return clubMapper.clubAppUserList(clubName, keyword);
     }
 
-    public List<ClubUserDto> clubUserList(String clubName) {
-        return clubMapper.clubUserList(clubName);
+    public List<ClubUserDto> clubUserList(String clubName, String keyword) {
+        return clubMapper.clubUserList(clubName, keyword);
     }
+
+    public int clubUserInCheck(ClubUserDto clubUserDto) {return clubMapper.clubUserInCheck(clubUserDto); }
+
+    public int clubAppUserCheck(ClubUserDto clubUserDto) {
+
+        return clubMapper.clubAppUserCheck(clubUserDto); }
 
 }

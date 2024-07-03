@@ -59,6 +59,14 @@
         FROM CLUB c LEFT JOIN club_category cc ON c.CATEGORY_ID = cc.CLUB_CATEGORY_ID where c.CLUB_NAME  = #{clubName}
     </select>
 
+    <select id="clubUserInCheck">
+        SELECT COUNT(0) FROM CLUB_USER WHERE USER_NO = #{userNo} AND CLUB_NAME = #{clubName} AND IN_CK = 'Y'
+    </select>
+
+    <select id="clubAppUserCheck">
+        SELECT COUNT(0) FROM CLUB_USER WHERE USER_NO = #{userNo} AND CLUB_NAME = #{clubName} AND IN_CK = 'N'
+    </select>
+
     <delete id="clubUserDelete">
         DELETE FROM CLUB_USER WHERE USER_NO = #{userNo} AND CLUB_NAME = #{clubName}
     </delete>
@@ -74,10 +82,16 @@
     </update>
 
     <select id="clubAppUserList">
-        SELECT * FROM CLUB_USER WHERE CLUB_NAME = #{clubName} AND IN_CK = 'N'
+        SELECT A.*, (SELECT ID FROM MEMBER WHERE MEMBER_NO = A.USER_NO) AS ID FROM CLUB_USER A WHERE CLUB_NAME = #{clubName} AND IN_CK = 'N'
+        <if test="keyword != null and keyword != ''">
+            AND ID LIKE '%' || #{keyword} || '%'
+        </if>
     </select>
 
     <select id="clubUserList">
-        SELECT * FROM CLUB_USER WHERE CLUB_NAME = #{clubName} AND IN_CK = 'Y'
+        SELECT A.*, (SELECT ID FROM MEMBER WHERE MEMBER_NO = A.USER_NO) AS ID FROM CLUB_USER A WHERE CLUB_NAME = #{clubName} AND IN_CK = 'Y'
+        <if test="keyword != null and keyword != ''">
+            AND ID LIKE '%' || #{keyword} || '%'
+        </if>
     </select>
 </mapper>
