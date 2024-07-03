@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public class ApplicationDto {
     private int tradeNo;
-    private int memberNo;
+    private Long memberNo;
     private String title;
     private String category;
     private String content;

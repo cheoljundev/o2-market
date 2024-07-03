@@ -69,6 +69,7 @@
                             <span th:if="${trade.approve == 'Y'}" style="color: green; font-size: 18px;">승인</span>
                             <span th:if="${trade.approve == 'R'}" style="color: red; font-size: 18px;">거절</span>
                             <span th:if="${trade.approve == 'N'}" style="color: black; font-size: 18px;">미승인</span>
+                            <span th:if="${trade.isTrade == 'E'}" style="color: blue; font-size: 18px;">거래완료</span>
                         </div>
                         <br>
                         <span th:text="${trade.title}">Title</span>
@@ -113,7 +114,9 @@
                 </ul>
             </nav>
         </div>
-        <a class="btn btn-primary btn-lg" href="/trade/trade_admin" role="button">거래 관리자 이동</a>
+        <th:block sec:authorize="hasRole('ADMIN')">
+            <a class="btn btn-primary btn-lg" href="/trade/trade_admin" role="button">거래 관리자 이동</a>
+        </th:block>
     </div>
 
 

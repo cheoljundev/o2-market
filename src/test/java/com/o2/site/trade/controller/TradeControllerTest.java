@@ -91,7 +91,7 @@ class TradeControllerTest {
     @Test
     void myList() {
         //given
-        String memberNo="1";
+        Long memberNo=1L;
         //when
         ArrayList<MyListDto> list = tradeService.selectMyList(memberNo);
         ArrayList<TradeMainDto> list2 = tradeService.selectMainList();
