@@ -1,27 +1,23 @@
-package com.o2.site.half.dto;
+package com.o2.site.half.dto.order;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class InsertOrderDto {
     private Long orderNo;
     private Long productNo;
-    private String title;
-    private String categoryCode;
-    private Long price;
-    private Long halfPrice;
-    private Long sellerMemberNo;
-    private String sellerMemberId;
-    private String sellerPhone;
     private Long buyerMemberNo;
-    private String buyerMemberId;
-    private String buyerPhone;
     private String recipientName;
     private String recipientPhone;
     private String recipientAddress;
     private String deliveryMemo;
+    private Long mileage;
 }

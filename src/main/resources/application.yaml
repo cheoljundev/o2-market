@@ -14,6 +14,15 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+# 마이바티스 디버깅
+logging:
+  level:
+    com:
+      o2:
+        site:
+          half:
+            dao: trace
+
 # 경로 설정
 file:
   dir: /uploads/

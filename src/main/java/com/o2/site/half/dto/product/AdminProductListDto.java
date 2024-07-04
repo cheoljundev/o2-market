@@ -1,4 +1,4 @@
-package com.o2.site.half.dto;
+package com.o2.site.half.dto.product;
 
 import lombok.Builder;
 import lombok.Data;
@@ -20,21 +20,11 @@ public class AdminProductListDto {
     private Long price;
     @NumberFormat(pattern = "#,###")
     private Long halfPrice;
-    private String stateName;
+    private String state;
 
     public static class AdminProductListDtoBuilder {
-        public AdminProductListDtoBuilder stateName(Integer stateCode) {
-            switch (stateCode.intValue()) {
-                case 0:
-                    this.stateName = "매입 대기";
-                    break;
-                case 1:
-                    this.stateName = "매입 완료";
-                    break;
-                default:
-                    this.stateName = "알수없음";
-                    break;
-            }
+        public AdminProductListDtoBuilder state(int state) {
+            this.state = ProductState.code(state).getStateName();
             return this;
         }
     }

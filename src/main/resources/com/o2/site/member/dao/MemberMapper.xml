@@ -7,7 +7,13 @@
 
     <insert id="insertMember" useGeneratedKeys="true" parameterType="com.o2.site.member.domain.Member">
         INSERT INTO member (member_no, id, password, name, phone_number, address, mileage)
-        VALUES (SEQ_MEMBER_NO.NEXTVAL, #{id}, #{password}, #{name}, #{phoneNumber}, #{address}, #{mileage})
+        VALUES (
+        <choose>
+            <when test="memberNo != null">#{memberNo}</when>
+            <otherwise>SEQ_MEMBER_NO.NEXTVAL</otherwise>
+        </choose>,
+        #{id}, #{password}, #{name}, #{phoneNumber}, #{address}, #{mileage}
+        )
     </insert>
 
     <insert id="insertMemberRole" parameterType="com.o2.site.member.domain.MemberRole">
@@ -25,6 +31,22 @@
     <select id="findByUsername" resultType="com.o2.site.member.domain.Member">
         SELECT * FROM member WHERE id = #{id}
     </select>
+
+    <select id="findByMemberNo" resultType="com.o2.site.member.domain.Member">
+        SELECT * FROM member WHERE member_no = #{memberNo}
+    </select>
+
+    <update id="updateMember" parameterType="com.o2.site.member.domain.Member">
+        UPDATE member
+        <set>
+            <if test="password != null">password = #{password},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="phoneNumber != null">phone_number = #{phoneNumber},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="mileage != null">mileage = #{mileage},</if>
+        </set>
+        WHERE member_no = #{memberNo}
+    </update>
 
 
 

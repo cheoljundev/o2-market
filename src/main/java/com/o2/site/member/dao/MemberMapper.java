@@ -13,9 +13,13 @@ public interface MemberMapper {
 
     Member findByUsername(String id);
 
+    Member findByMemberNo(Long memberNo);
+
     Long findMemberNo(String id);
 
     void insertMemberRole(MemberRole memberRole);
 
     List<MemberRole> findMemberRole(Long memberNo);
+
+    void updateMember(Member member);
 }

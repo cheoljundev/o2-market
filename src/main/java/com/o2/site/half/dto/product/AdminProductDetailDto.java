@@ -1,4 +1,4 @@
-package com.o2.site.half.dto;
+package com.o2.site.half.dto.product;
 
 import lombok.Builder;
 import lombok.Data;
@@ -9,11 +9,12 @@ import java.util.Date;
 @Data
 public class AdminProductDetailDto {
     private Long productNo;
-    private String title;
     private Long tradeNo;
+    private String title;
     private Long sellerMemberNo;
     private String sellerMemberId;
-    private Long halfPrice;
+    private String sellerAddress;
     private String adminMemo;
-    private Integer isDone;
+    private Long price;
+    private ProductState state;
 }
