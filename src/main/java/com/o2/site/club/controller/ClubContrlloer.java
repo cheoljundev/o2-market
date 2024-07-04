@@ -86,11 +86,9 @@ public class ClubContrlloer {
     @PostMapping("/createAction")
     public String createAction(ClubDto clubDto, @RequestParam(value = "image", required = false) MultipartFile image , Model model,  @AuthenticationPrincipal CustomUserDetails user) throws IOException {
 
-
-        // 추후 로그인 아이디로 수정 start
         long loginUserNo = ClubFunction.getUserNo(user, model);
         clubDto.setReaderNo(loginUserNo);
-        // 추후 로그인 아이디로 수정 end
+
 
         clubService.createClub(clubDto);
         ClubUserDto clubUserDto = new ClubUserDto();

@@ -62,10 +62,9 @@ public class ClubBoardContrlloer {
     @PostMapping("/create")
     public void createAction(ClubBoardDto clubBoardDto, @RequestParam(value = "images", required = false) List<MultipartFile> images, @AuthenticationPrincipal CustomUserDetails user) throws IOException {
 
-        // 추후 로그인 아이디로 수정 start
         long loginUserNo = user.getUser().getMemberRoles().get(0).getMemberNo();
         clubBoardDto.setWriter(loginUserNo);
-        // 추후 로그인 아이디로 수정 End
+
         clubBoardService.createClubBoard(clubBoardDto);
 
         clubBoardDto.setClubBoardId(clubBoardService.getClubBoardSeq());
