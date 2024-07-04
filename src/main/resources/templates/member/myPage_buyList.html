@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>마이 페이지</title>
     <th:block th:fragment="insertHead">
+        <script src="/js/mypage/buylist.js"></script>
     </th:block>
 </head>
 <body>
@@ -30,20 +31,25 @@
         <table class="table table-striped" style="text-align: center">
             <thead>
             <tr>
-                <th style="background-color: #00b040; text-align: center">번호</th>
-                <th style="background-color: #00b040; text-align: center">구매일자</th>
-                <th style="background-color: #00b040; text-align: center">상품명</th>
-                <th style="background-color: #00b040; text-align: center">금액</th>
-                <th style="background-color: #00b040; text-align: center">판매자명</th>
+                <th>번호</th>
+                <th>구매일자</th>
+                <th>상품명</th>
+                <th>금액</th>
+                <th>송장번호</th>
+                <th>상태</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
+            <tr th:each="order : ${orders}" class="align-middle">
+                <td th:text="${order.orderNo}">1</td>
+                <td th:text="${{order.createAt}}">2024-07-01</td>
+                <td th:text="${{order.title}}">상품명</td>
+                <td th:text="${{order.price}}">5,000</td>
+                <td th:text="${{order.invoice}}">123412341234</td>
+                <td>
+                    <span th:if="${order.state == '구매확정'}" th:text="${order.state}">구매확정</span>
+                    <button th:if="${order.state != '구매확정'}" th:attr="data-orderno=${order.orderNo}" class="btn btn-primary" onclick="confirmOrder(this)">구매확정</button>
+                </td>
             </tr>
             </tbody>
         </table>

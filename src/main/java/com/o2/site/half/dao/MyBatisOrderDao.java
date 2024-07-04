@@ -31,6 +31,11 @@ public class MyBatisOrderDao implements OrderDao{
     }
 
     @Override
+    public List<UserOrderListDto> findAll(SearchCond searchCond) {
+        return orderMapper.findAll(searchCond);
+    }
+
+    @Override
     public List<AdminOrderListDto> findRange(int start, int end, SearchCond searchCond) {
         List<AdminOrderListDto> adminOrderListDtoList = new ArrayList<>();
         orderMapper.findRange(start, end, searchCond).forEach(adminOrderJoinListDto -> {

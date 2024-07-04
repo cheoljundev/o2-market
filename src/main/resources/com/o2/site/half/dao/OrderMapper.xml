@@ -38,6 +38,47 @@
          where ORDER_NO = #{productNo}
     </select>
 
+    <resultMap id="UserOrderListDtoResultMap" type="com.o2.site.half.dto.order.UserOrderListDto">
+        <constructor>
+            <idArg column="ORDER_NO" javaType="Long" />
+            <arg column="ID" javaType="String" />
+            <arg column="CREATE_AT" javaType="Date" />
+            <arg column="TITLE" javaType="String" />
+            <arg column="PRICE" javaType="Long" />
+            <arg column="INVOICE" javaType="String" />
+            <arg column="STATE" javaType="Integer" />
+        </constructor>
+    </resultMap>
+
+    <select id="findAll" parameterType="com.o2.site.half.dao.SearchCond" resultMap="UserOrderListDtoResultMap">
+        SELECT o.ORDER_NO,
+               m.id,
+               o.CREATE_AT,
+               t.TITLE,
+               t.PRICE / 2 as price,
+               o.INVOICE,
+                o.state
+        FROM half_order o
+        INNER JOIN half_product p ON o.PRODUCT_NO = p.PRODUCT_NO
+        INNER JOIN trade_board t ON p.TRADE_NO = t.TRADE_NO
+        INNER JOIN member m ON o.BUYER_MEMBER_NO = m.MEMBER_NO
+        <where>
+            <if test="buyerMemberId != null and buyerMemberId != ''">
+                AND m.ID = #{buyerMemberId}
+            </if>
+            <if test="buyerPhone != null and buyerPhone != ''">
+                AND m.phone_number LIKE '%' || #{buyerPhone} || '%'
+            </if>
+            <if test="recipientName != null and recipientName != ''">
+                AND o.RECIPIENT_NAME LIKE '%' || #{recipientName} || '%'
+            </if>
+            <if test="recipientPhone != null and recipientPhone != ''">
+                AND o.RECIPIENT_PHONE LIKE '%' || #{recipientPhone} || '%'
+            </if>
+        </where>
+
+    </select>
+
     <select id="findRange" parameterType="com.o2.site.half.dao.SearchCond" resultType="com.o2.site.half.dto.order.AdminOrderJoinListDto">
         SELECT *
         FROM (
