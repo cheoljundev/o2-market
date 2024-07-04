@@ -47,4 +47,9 @@ public class ClubBoardService {
 
         return clubBoardMapper.clubBoardDeteil(clubBoardId);
     }
+
+    public int boardDelete(long clubBoardId) {
+
+        return clubBoardMapper.boardDelete(clubBoardId);
+    }
 }

@@ -47,9 +47,10 @@ public class ClubBoardContrlloer {
     }
 
     @GetMapping("/detail")
-    public void detailGo(@RequestParam("clubBoardId") long clubBoardId, Model model) {
+    public void detailGo(@RequestParam("clubBoardId") long clubBoardId, Model model, @AuthenticationPrincipal CustomUserDetails user) {
         ClubBoardDto clubBoardDto = clubBoardService.clubBoardDeteil(clubBoardId);
         List<UploadImage> uploadImageList = uploadService.findImages(UploadImageDto.builder().clubBoardId(clubBoardId).build());
+        long loginUserNo = ClubFunction.getUserNo(user, model);
 
         model.addAttribute("uploadImageList",uploadImageList);
         model.addAttribute("clubBoardDto",clubBoardDto);
@@ -102,6 +103,12 @@ public class ClubBoardContrlloer {
 
         return ResponseEntity.ok(response);
 
+    }
+
+    @PostMapping("/delete")
+    @ResponseBody
+    public int delete(@RequestParam("clubBoardId") long clubBoardId) {
+        return clubBoardService.boardDelete(clubBoardId);
     }
 }
 

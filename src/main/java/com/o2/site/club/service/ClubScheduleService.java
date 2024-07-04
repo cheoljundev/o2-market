@@ -48,5 +48,9 @@ public class ClubScheduleService {
         return scheduleMapper.scheduleInUser(scheduleDto);
     }
 
+    public int scheduleDelete(long scheduleId) {
+        return scheduleMapper.scheduleDelete(scheduleId);
+    }
+
 
 }

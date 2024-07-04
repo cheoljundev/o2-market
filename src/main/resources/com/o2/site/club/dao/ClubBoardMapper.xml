@@ -43,4 +43,8 @@
     <select id="clubBoardDeteil">
         SELECT * FROM CLUB_BOARD WHERE CLUB_BOARD_ID = #{clubBoardId}
     </select>
+
+    <delete id="boardDelete">
+        DELETE FROM CLUB_BOARD WHERE CLUB_BOARD_ID = #{clubBoardId}
+    </delete>
 </mapper>

@@ -33,4 +33,8 @@
     <insert id="scheduleInUser">
         INSERT INTO SCHEDULE_USER VALUES(#{userNo}, #{scheduleId})
     </insert>
+
+    <delete id="scheduleDelete">
+        DELETE FROM SCHEDULE WHERE SCHEDULE_ID = #{scheduleId}
+    </delete>
 </mapper>

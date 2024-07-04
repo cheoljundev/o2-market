@@ -41,8 +41,26 @@
                             alert('일정 참여 완료 되었습니다.');
                             location.href='/club/schedule/list?clubName='+ getClubName();
                         }
+                    });
+                });
+
+                $('#scheduleDelBtn').click(function(){
+                    let formData = new FormData();
+                    let scheduleId = [[${scheduleDto.scheduleId}]];
+                    formData.append('scheduleId',scheduleId);
+                    $.ajax({
+                        url : "/club/schedule/delete", // 요기에
+                        processData : false,
+                        contentType : false,
+                        type : 'POST',
+                        data : formData,
+                        success : function(data) {
+                            alert('일정이 삭제 되었습니다.');
+                            location.href='/club/schedule/list?clubName='+ getClubName();
+                        }
                     })
-                })
+                });
+
             })
         </script>
     </th:block>
@@ -87,7 +105,11 @@
                         <th:block th:if="${userInCheck == 1 && scheduleUserInCheck == 0}">
                             <button class="btn btn-outline-primary" id="inBtn">일정 참여</button><br>
                         </th:block>
+                        <th:block th:if="${clubDto.readerNo == loginUserNo}">
+                            <button class="btn btn-danger" id="scheduleDelBtn">일정 삭제</button>
+                        </th:block>
                             <button class="btn btn-outline-primary" id="inUserListBtn">참여인원</button>
+
                         </div>
                     </div>
                 </div>

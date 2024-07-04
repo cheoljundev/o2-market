@@ -30,4 +30,6 @@ public interface ClubScheduleMapper {
     int scheduleUserInCheck(ScheduleDto scheduleDto);
 
     int scheduleInUser(ScheduleDto scheduleDto);
+
+    int scheduleDelete(long scheduleId);
 }

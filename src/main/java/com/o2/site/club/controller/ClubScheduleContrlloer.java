@@ -53,12 +53,14 @@ public class ClubScheduleContrlloer {
         int userInCheck = clubService.clubUserInCheck(clubUserDto);
         int appUserCheck = clubService.clubAppUserCheck(clubUserDto);
         int scheduleUserInCheck = clubScheduleService.scheduleUserInCheck(scheduleDto);
+        ClubDto clubDto = clubService.getClubInfo(clubName);
 
         model.addAttribute("scheduleDto", scheduleDto);
         model.addAttribute("userList", userList);
         model.addAttribute("userInCheck", userInCheck);
         model.addAttribute("appUserCheck", appUserCheck);
         model.addAttribute("scheduleUserInCheck", scheduleUserInCheck);
+        model.addAttribute("clubDto", clubDto);
 
     }
 
@@ -75,5 +77,11 @@ public class ClubScheduleContrlloer {
     @ResponseBody
     public void scheduleInUser(ScheduleDto scheduleDto) {
         clubScheduleService.scheduleInUser(scheduleDto);
+    }
+
+    @PostMapping("/delete")
+    @ResponseBody
+    public int delete(@RequestParam("scheduleId") long scheduleId) {
+        return clubScheduleService.scheduleDelete(scheduleId);
     }
 }

@@ -32,4 +32,6 @@ public interface ClubBoardMapper {
     List<Integer> getClubBoardId(String clubName);
 
     ClubBoardDto clubBoardDeteil(long clubBoardId);
+
+    int boardDelete(long clubBoardId);
 }
