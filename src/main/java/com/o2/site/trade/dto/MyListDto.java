@@ -15,4 +15,5 @@ public class MyListDto {
     private String category;
     private String approve;
     private String isTrade;
+    private String postDate;
 }

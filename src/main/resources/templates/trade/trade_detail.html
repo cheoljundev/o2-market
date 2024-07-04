@@ -91,7 +91,6 @@
     <script th:inline="javascript">
         let imageList = [[${imageList}]];
         let baseUrl = "/images/"; // 이미지 기본 경로
-
         let currentIndex = 0;
 
         function nextImage() {
@@ -101,7 +100,6 @@
             }
             updateButtonState();
         }
-
         function prevImage() {
             if (currentIndex > 0) {
                 currentIndex--;
@@ -109,12 +107,10 @@
             }
             updateButtonState();
         }
-
         function updateDisplay() {
             let imageName = imageList[currentIndex]; // 이미지 객체에서 주소 가져오기
             document.getElementById("currentImage").src = baseUrl + imageName;
         }
-
         function updateButtonState() {
             if (currentIndex === 0) {
                 // 첫 번째 이미지일 때는 이전 버튼 숨김
@@ -130,7 +126,6 @@
                 document.getElementById("nextButton").style.display = "inline-block";
             }
         }
-
         window.onload = function() {
             updateDisplay();
         };
