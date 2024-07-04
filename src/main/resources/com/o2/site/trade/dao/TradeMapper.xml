@@ -7,7 +7,10 @@
     <insert id="insertApp" useGeneratedKeys="true" keyProperty="tradeNo" keyColumn="TRADE_NO">
         INSERT INTO TRADE_BOARD
         VALUES (
-            SEQ_TRADE_TRADE_NO.NEXTVAL,
+            <choose>
+                    <when test="tradeNo != null">#{tradeNo}</when>
+                    <otherwise>SEQ_TRADE_TRADE_NO.NEXTVAL</otherwise>
+            </choose>,
             #{memberNo},
             #{title},
             #{category},
@@ -77,7 +80,10 @@
         TITLE,
         PRICE,
         CATEGORY,
-        STORED_IMAGE_NAME
+        STORED_IMAGE_NAME,
+        POST_DATE,
+        APPROVE,
+        IS_TRADE
         FROM (
         SELECT
         A.TRADE_NO,
@@ -85,6 +91,9 @@
         A.PRICE,
         C.CATEGORY,
         B.STORED_IMAGE_NAME,
+        A.POST_DATE,
+        A.APPROVE,
+        A.IS_TRADE,
         ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY B.IMAGE_NO) AS rn
         FROM
         TRADE_BOARD A
@@ -263,7 +272,8 @@
         STORED_IMAGE_NAME,
         CATEGORY,
         APPROVE,
-        IS_TRADE
+        IS_TRADE,
+        POST_DATE
         FROM (
         SELECT
         A.TRADE_NO,
@@ -273,6 +283,7 @@
         C.CATEGORY,
         A.APPROVE,
         A.IS_TRADE,
+        A.POST_DATE,
         ROW_NUMBER() OVER (PARTITION BY A.TRADE_NO ORDER BY B.IMAGE_NO) AS rn
         FROM
         TRADE_BOARD A

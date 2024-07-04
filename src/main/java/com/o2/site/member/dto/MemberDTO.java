@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberDTO {
+        private Long memberNo;
         private String id;
         private String password;
         private String passwordCheck;

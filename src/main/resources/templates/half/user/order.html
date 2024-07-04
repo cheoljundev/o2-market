@@ -4,6 +4,7 @@
 <head>
     <title>O2 - 반값판매 구매하기</title>
     <th:block th:fragment="insertHead">
+        <script src="/js/half/order.js"></script>
     </th:block>
 
 </head>
@@ -20,20 +21,22 @@
         <div class="row border-bottom pb-5 mb-5">
             <h2 class="fs-3">구매 상품 정보</h2>
             <div class="col-12 col-sm-6 col-md-5 col-lg-3 mb-4">
-                <img src="https://via.placeholder.com/300" alt="썸네일" class="w-100">
+                <img src="https://via.placeholder.com/300" th:src="@{/images/{src} (src=${product.uploadImages.get(0).storedImageName})}" alt="썸네일" class="w-100">
             </div>
             <div class="col-9 col-sm-6">
                 <div class="row">
                     <div class="col-12"><h3 class="fs-4">상품명</h3></div>
-                    <div class="col-12"><p>상품명</p></div>
+                    <div class="col-12"><p th:text="${product.title}">상품명</p></div>
+                    <input type="hidden" class="product-no" th:value="${no}">
                 </div>
                 <div class="row">
                     <div class="col-12"><h3 class="fs-4">정가</h3></div>
-                    <div class="col-12"><p><del class="text-muted">10,000</del></p></div>
+                    <div class="col-12"><p><del class="text-muted" th:text="${{product.price}}">10,000</del></p></div>
                 </div>
                 <div class="row">
                     <div class="col-12"><h3 class="fs-4">판매가</h3></div>
-                    <div class="col-12"><p>5,000</p></div>
+                    <div class="col-12"><p th:text="${{product.halfPrice}}">5,000</p></div>
+                    <input type="hidden" th:value="${product.halfPrice}" class="price">
                 </div>
             </div>
         </div>
@@ -43,12 +46,12 @@
                 <h3 class="fs-4 px-2">마일리지 사용</h3>
                 <div class="row align-items-center mb-3 gx-0 gx-sm-2 px-2">
                     <div class="col-4 col-sm-auto"><strong class="fs-6">전체 마일리지</strong></div>
-                    <div class="col-7 col-sm-auto"><p class="mb-0 text-muted">10,000</p></div>
-                    <div class="col-4 col-sm-5 mx-sm-5 mt-3 mt-sm-0"><button class="btn btn-dark h-100 py-1" type="button">전액</button></div>
+                    <div class="col-7 col-sm-auto"><p class="mb-0 text-muted my-mileage" th:text="${user.mileage}">10,000</p></div>
+                    <div class="col-4 col-sm-5 mx-sm-5 mt-3 mt-sm-0"><button class="btn btn-dark h-100 py-1" type="button" onclick="useMileage()">전액</button></div>
                 </div>
                 <div class="input-group mb-3 px-2">
                     <span class="input-group-text">&#8361;</span>
-                    <input type="text" class="form-control flex-grow-0" style="width: 150px;" aria-label="Amount (to the nearest dollar)">
+                    <input type="text" class="form-control flex-grow-0 mileage-input" style="width: 150px;" aria-label="Amount (to the nearest dollar)">
                 </div>
             </div>
             <div class="row">
@@ -58,7 +61,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-12">
-                        <input type="text" class="form-control" id="name" placeholder="홍길동">
+                        <input type="text" class="form-control recipient-name" id="name" placeholder="홍길동">
                     </div>
                 </div>
                 <div class="row">
@@ -66,7 +69,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-12">
-                        <input type="text" class="form-control" id="phone" placeholder="01012345678">
+                        <input type="text" class="form-control recipient-phone" id="phone" placeholder="01012345678">
                     </div>
                 </div>
                 <div class="row">
@@ -74,7 +77,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-12">
-                        <input type="text" class="form-control" id="address" placeholder="서울특별시 중구 세종대로 110">
+                        <input type="text" class="form-control recipient-address" id="address" placeholder="서울특별시 중구 세종대로 110">
                     </div>
                 </div>
                 <div class="row">
@@ -82,12 +85,12 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-12">
-                        <textarea class="form-control" id="meno" rows="3" placeholder="집 앞에 두고 가세요."></textarea>
+                        <textarea class="form-control delivery-memo" id="meno" rows="3" placeholder="집 앞에 두고 가세요."></textarea>
                     </div>
                 </div>
             </div>
             <div class="row gx-2 gx-lg-1">
-                <div class="col-auto"><button type="submit" class="btn btn-primary w-100">구매하기</button></div>
+                <div class="col-auto"><button type="button" class="btn btn-primary w-100" onclick="order()">구매하기</button></div>
                 <div class="col-auto"><button type="reset" class="btn btn-secondary w-100">재입력</button></div>
             </div>
         </form>

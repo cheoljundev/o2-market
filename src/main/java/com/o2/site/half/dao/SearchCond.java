@@ -9,9 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderSearchCond {
+public class SearchCond {
     private String buyerMemberId;
     private String buyerPhone;
     private String recipientName;
     private String recipientPhone;
+    private String title;
+    private String categoryCode;
+    private int state;
 }

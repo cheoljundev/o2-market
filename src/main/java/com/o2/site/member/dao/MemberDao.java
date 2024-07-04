@@ -17,6 +17,7 @@ public class MemberDao {
         Long memberNo = memberMapper.findByUsername(id).getMemberNo();
         List<MemberRole> memberRoles =findMemberRole(memberNo);
         return MemberDTO.builder()
+                .memberNo(memberNo)
                 .id(id)
                 .password(memberMapper.findByUsername(id).getPassword())
                 .name(memberMapper.findByUsername(id).getName())

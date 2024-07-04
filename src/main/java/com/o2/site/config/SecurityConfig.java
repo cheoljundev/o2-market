@@ -21,6 +21,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                 // /admin은 관리자만
                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/half/order/**").hasRole("USER")
                 .anyRequest().permitAll()
         );
         http.csrf(AbstractHttpConfigurer::disable);

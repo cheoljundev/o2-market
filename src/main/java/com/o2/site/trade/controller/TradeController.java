@@ -156,6 +156,7 @@ public class TradeController {
     @GetMapping("/trade_delete")
     public String trade_delete(String tradeNo){
         int result = tradeService.deleteBoard(tradeNo);
+        tradeService.deleteImpages(Integer.parseInt(tradeNo));
         if(result!=0){
             System.out.println("삭제 성공");
         }else {
@@ -215,8 +216,6 @@ public class TradeController {
     public String insertApp(ApplicationDto ad, @RequestParam("files") MultipartFile[] files,MultipartFile thumbnail, @AuthenticationPrincipal CustomUserDetails user){
         ad.setMemberNo(memberService.findMemberNo(user.getUser().getId()));
         int result = tradeService.insertApp(ad);
-        System.out.println("no: "+ad.getTradeNo());
-        System.out.println(result);
         try{
             UploadImageDto uploadImage = UploadImageDto.builder()
                     .image(thumbnail)

@@ -15,12 +15,13 @@ const showDetail = function(btn)  {
                 productDetail.classList.toggle("d-none");
             }
 
+
             document.querySelector(".product-no").textContent = data.productNo;
             document.querySelector(".title").textContent = data.title;
             document.querySelector(".seller-id").textContent = data.sellerMemberId;
             document.querySelector(".admin-memo").textContent = data.adminMemo;
 
-            if (data.isDone) {
+            if (data.state != "WAITING") {
                 productDetail.querySelector(".admin-memo").readOnly = true;
                 productDetail.querySelector(".btn-done").disabled = true;
             } else {
