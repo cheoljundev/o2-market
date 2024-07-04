@@ -18,7 +18,7 @@
                     url : "/club/getCategory",
                     dataType : "json",
                     success : function(result) {
-                        console.log(result);
+
                             let optionText = '';
                         for(var i = 0; i < result.length; i++) {
                             optionText += `
@@ -58,7 +58,6 @@
 
                     let result = handleNullInArray(dataArr);
 
-                    console.log(result);
                     if (result == 0) {
                         alert("값이 없습니다.");
                         return;

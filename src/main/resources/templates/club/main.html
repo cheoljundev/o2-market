@@ -24,8 +24,6 @@
 
                 let searchSel = $('#searchSel').val();
                 let keyword = $('#keyword').val();
-                console.log(searchSel);
-                console.log(keyword);
 
                 $.ajax({
                     type : "GET",
@@ -34,8 +32,7 @@
                     data : {'searchValue' : searchSel, 'keyword' : keyword, 'nowPage' : nowPage},
                     success : function(result) {
                         let template = '';
-                        console.log(result.paging.searchValue);
-                        console.log(result.viewAll.length + "실행");
+
                         if (result == null) {
                             template = '';
                         } else {
@@ -48,7 +45,7 @@
                             } else {
                                 imageStr = '/images/' + result.viewAll[i].imageStr;
                             }
-                            console.log(imageStr);
+
                             template += `
                                  <div class="col">
                                     <a class="page-link" href="/club/detail?clubName=${result.viewAll[i].clubName}">

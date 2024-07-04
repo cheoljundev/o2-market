@@ -52,7 +52,7 @@
                             for(var i = 0; i < result.length; i++) {
                                 const dateTime = new Date(result[i].dateTime);
                                 let dateTimeFormat = getFormatDate(dateTime);
-                                console.log(dateTimeFormat);
+
                                 events.push({"start":dateTimeFormat, "url" : "/club/schedule/detail?clubName="+getClubName()+"&scheduleId="+result[i].scheduleId});
                             }
                             successCallback(events);
@@ -64,7 +64,7 @@
                   },
                   locale: 'ko' // 한국어 설정
               });
-              console.log('되어야할것');
+
               calendar.render();
           });
 

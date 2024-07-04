@@ -85,8 +85,8 @@ public class ClubContrlloer {
 
     @PostMapping("/createAction")
     public String createAction(ClubDto clubDto, @RequestParam(value = "image", required = false) MultipartFile image , Model model,  @AuthenticationPrincipal CustomUserDetails user) throws IOException {
-        System.out.println(clubDto);
-        System.out.println(image);
+
+
         // 추후 로그인 아이디로 수정 start
         long loginUserNo = ClubFunction.getUserNo(user, model);
         clubDto.setReaderNo(loginUserNo);
@@ -120,7 +120,7 @@ public class ClubContrlloer {
     @ResponseBody
     public ResponseEntity<?> getListClub(PageDto pageDto, Model model
             , @RequestParam(value="nowPage", required=false)String nowPage) {
-        System.out.println(pageDto.toString());
+
         String cntPerPage = "9";
         int total = clubService.clubListCount(pageDto);
         if (nowPage == null) {

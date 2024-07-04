@@ -43,7 +43,7 @@ public class ClubScheduleContrlloer {
     @GetMapping("/detail")
     public void detailGo(@RequestParam("scheduleId") long scheduleId, Model model, @AuthenticationPrincipal CustomUserDetails user, @RequestParam("clubName") String clubName) {
         ScheduleDto scheduleDto = clubScheduleService.clubScheduleDeteil(scheduleId);
-        System.out.println(scheduleDto);
+
         long loginUserNo = ClubFunction.getUserNo(user, model);
         ClubUserDto clubUserDto = new ClubUserDto();
         clubUserDto.setUserNo(loginUserNo);
@@ -69,7 +69,7 @@ public class ClubScheduleContrlloer {
 
     @PostMapping("/create")
     public void createAction(ScheduleDto scheduleDto) {
-        System.out.println(scheduleDto);
+
         clubScheduleService.scheduleCreate(scheduleDto);
     }
 

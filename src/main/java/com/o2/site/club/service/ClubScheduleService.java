@@ -19,7 +19,7 @@ public class ClubScheduleService {
     }
 
     public List<ScheduleDto> scheduleDetailList(String clubName) {
-        System.out.println(clubName);
+
         return scheduleMapper.scheduleDetailList(clubName);
     }
 

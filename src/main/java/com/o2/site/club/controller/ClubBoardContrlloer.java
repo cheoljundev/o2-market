@@ -87,7 +87,6 @@ public class ClubBoardContrlloer {
     public ResponseEntity<?> getListClub(PageDto pageDto, Model model
             , @RequestParam(value="nowPage", required=false)String nowPage
             , @RequestParam(value="clubName", required=false)String clubName) {
-        System.out.println(pageDto);
         String cntPerPage = "9";
         int total = clubBoardService.clubBoardListCount(pageDto, clubName);
         if (nowPage == null) {

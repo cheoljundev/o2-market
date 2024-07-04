@@ -28,7 +28,6 @@ public class ClubService {
     }
 
     public List<ClubDto> getClubList(PageDto pageDto) {
-        System.out.println(pageDto);
         return clubMapper.clubList(pageDto);
     }
 

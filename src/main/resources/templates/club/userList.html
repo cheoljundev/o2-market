@@ -16,7 +16,7 @@
                     if (confirm('삭제 하시겠습니까?')){
                         let formData = new FormData();
                         formData.append('clubName',getClubName());
-                        console.log('실행');
+
                         $.ajax({
                             type: "POST",
                             url: "/club/clubDelete",
@@ -34,7 +34,7 @@
 
                 let switchNum = 0;
                 $('#searchBtn').click(function(){
-                    console.log(switchNum);
+
                     let keyword = $('#keyword').val();
 
                     if (switchNum == 0) {
