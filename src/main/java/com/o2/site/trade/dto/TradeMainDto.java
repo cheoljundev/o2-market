@@ -13,4 +13,7 @@ public class TradeMainDto {
     private String title;
     private int price;
     private String category;
+    private String postDate;
+    private String approve;
+    private String isTrade;
 }
