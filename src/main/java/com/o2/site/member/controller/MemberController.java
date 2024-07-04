@@ -1,5 +1,8 @@
 package com.o2.site.member.controller;
 
+import com.o2.site.half.dao.SearchCond;
+import com.o2.site.half.dto.order.UserOrderListDto;
+import com.o2.site.half.service.OrderService;
 import com.o2.site.member.domain.Member;
 import com.o2.site.member.domain.MemberRole;
 import com.o2.site.member.dto.CustomUserDetails;
@@ -11,15 +14,17 @@ import com.o2.site.trade.service.TradeService;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.ArrayList;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -29,7 +34,9 @@ public class MemberController {
     private final MemberService memberService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UploadService uploadService;
+    private final OrderService orderService;
     private final TradeService tradeService;
+
 
 
     // 회원가입 페이지 이동
@@ -81,7 +88,11 @@ public class MemberController {
     }
 
     @GetMapping("/member/myPage_buyList")
-    public String myBuyForm() {
+    public String myBuyForm(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model) {
+        List<UserOrderListDto> orders = orderService.findAll(SearchCond.builder()
+                .buyerMemberId(customUserDetails.getUsername())
+                .build());
+        model.addAttribute("orders", orders);
         return "/member/myPage_buyList";
     }
 
@@ -115,5 +126,12 @@ public class MemberController {
     @GetMapping("/member/myPage_clubList")
     public String myClubForm() {
         return "/member/myPage_clubList";
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @PostMapping("/member/confirmOrder")
+    public void confirmOrder(@RequestBody Long orderNo) {
+        orderService.confirmOrder(orderNo);
     }
 }

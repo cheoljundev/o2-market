@@ -7,6 +7,8 @@ import com.o2.site.half.dto.order.*;
 import com.o2.site.half.dto.product.InsertProductDto;
 import com.o2.site.member.dao.MemberMapper;
 import com.o2.site.member.domain.Member;
+import com.o2.site.member.dto.CustomUserDetails;
+import com.o2.site.member.dto.MemberDTO;
 import com.o2.site.trade.dto.ApplicationDto;
 import com.o2.site.trade.service.TradeService;
 import com.o2.site.upload.dao.UploadMapper;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,7 +45,7 @@ class OrderServiceTest {
     private UploadMapper uploadMapper;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         // member
         for (int i = 0; i < 11; i++) {
             memberMapper.insertMember(Member.builder()
@@ -77,29 +80,36 @@ class OrderServiceTest {
                     .build());
         }
 
-        // order
-        for (int i = 0, j = 1; i < 10; i++, j++){
-            orderService.insertOrder(InsertOrderDto.builder()
-                    .orderNo((long) i + 1)
-                    .productNo((long) i + 1)
-                    .buyerMemberNo((long) j+1)
-                    .recipientName("김첨지")
-                    .recipientPhone("01056781234")
-                    .recipientAddress("서울시 강남구")
-                    .deliveryMemo("부재시 경비실에 맡겨주세요")
-                    .build());
-        }
-
         // upload
         for (int i = 0; i < 10; i++) {
             uploadMapper.insertImage(UploadImage.builder()
                     .imageNo((long) i + 1)
                     .tradeNo((long) i + 1)
-                    .orderNo((long) i + 1)
                     .imageName("test.jpg")
-                    .storedImageName(UUID.randomUUID().toString() + ".jpg")
+                    .storedImageName("upload.jpg")
                     .build());
         }
+
+        // order
+        for (int i = 0, j = 1; i < 10; i++, j++){
+
+            CustomUserDetails customUserDetails = new CustomUserDetails(MemberDTO.builder()
+                    .memberNo((long) j)
+                    .mileage(100000)
+                    .build());
+
+            orderService.insertOrder(InsertOrderDto.builder()
+                    .orderNo((long) i + 1)
+                    .productNo((long) i + 1)
+                    .recipientName("김첨지")
+                    .recipientPhone("01056781234")
+                    .recipientAddress("서울시 강남구")
+                    .deliveryMemo("부재시 경비실에 맡겨주세요")
+                    .mileage(50000L)
+                    .build(), customUserDetails);
+        }
+
+
 
     }
 

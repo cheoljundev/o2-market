@@ -1,14 +1,13 @@
 package com.o2.site.half.service;
 
 import com.o2.site.half.dao.OrderDao;
-import com.o2.site.half.domain.Order;
+import com.o2.site.half.dao.SearchCond;
 import com.o2.site.half.dto.order.*;
 import com.o2.site.half.dto.product.ProductState;
 import com.o2.site.half.dto.product.UpdateProductDto;
 import com.o2.site.member.dao.MemberMapper;
 import com.o2.site.member.domain.Member;
 import com.o2.site.member.dto.CustomUserDetails;
-import com.o2.site.trade.service.TradeService;
 import com.o2.site.upload.domain.UploadImage;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
@@ -38,6 +37,11 @@ public class OrderService {
     public AdminOrderDetailDto findByProductNo(Long productNo){
         return orderDao.findByProductNo(productNo);
     }
+
+    public List<UserOrderListDto> findAll(com.o2.site.half.dao.SearchCond searchCond){
+        return orderDao.findAll(searchCond);
+    }
+
     public List<AdminOrderListDto>  findRange(int start, int end, com.o2.site.half.dao.SearchCond searchCond){
         return orderDao.findRange(start, end, searchCond);
     }
@@ -83,6 +87,13 @@ public class OrderService {
 
     public int findPages(com.o2.site.half.dao.SearchCond searchCond, int pageSize){
         return orderDao.findPages(searchCond, pageSize);
+    }
+
+    public void confirmOrder(Long orderNo){
+        updateOrder(UpdateOrderDto.builder()
+                .orderNo(orderNo)
+                .state(OrderState.CONFIRMED)
+                .build());
     }
 
     public List<SearchCond> getSearchCond(){

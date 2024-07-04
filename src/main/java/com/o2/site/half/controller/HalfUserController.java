@@ -3,6 +3,8 @@ package com.o2.site.half.controller;
 import com.o2.site.half.dao.SearchCond;
 import com.o2.site.half.dto.Pagination;
 import com.o2.site.half.dto.order.InsertOrderDto;
+import com.o2.site.half.dto.order.OrderState;
+import com.o2.site.half.dto.order.UpdateOrderDto;
 import com.o2.site.half.dto.product.ProductState;
 import com.o2.site.half.dto.product.UserListProductDto;
 import com.o2.site.half.service.OrderService;
@@ -11,6 +13,7 @@ import com.o2.site.member.dto.CustomUserDetails;
 import com.o2.site.trade.service.TradeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -77,4 +80,6 @@ public class HalfUserController {
         orderService.insertOrder(insertOrderDto, customUserDetails);
         return "redirect:/";
     }
+
+
 }
