@@ -65,7 +65,7 @@
                 <form action="/half/list">
                     <div class="input-group mb-3">
                         <span class="input-group-text">상품명</span>
-                        <input type="hidden" th:name="${selectedCategory}">
+                        <input type="hidden" name="selectedCategory" th:value="${selectedCategory}">
                         <input type="search" class="form-control" placeholder="상품명을 입력하세요." name="searchTitle" aria-label="상품명을 입력하세요." aria-describedby="button-addon2">
                         <button class="btn btn-outline-secondary" id="button-addon2">검색</button>
                     </div>
