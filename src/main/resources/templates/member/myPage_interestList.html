@@ -31,20 +31,26 @@
             <thead>
             <tr>
                 <th style="background-color: #00b040; text-align: center">번호</th>
-                <th style="background-color: #00b040; text-align: center">등록일자</th>
-                <th style="background-color: #00b040; text-align: center">상품명</th>
+                <th style="background-color: #00b040; text-align: center">제목</th>
                 <th style="background-color: #00b040; text-align: center">금액</th>
-                <th style="background-color: #00b040; text-align: center">판매자명</th>
+                <th style="background-color: #00b040; text-align: center">승인여부</th>
+                <th style="background-color: #00b040; text-align: center">거래여부</th>
+                <th style="background-color: #00b040; text-align: center">등록날짜</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-            </tr>
+            <div class="col" th:each="trade, index : ${mainlist}">
+                <tr>
+                    <td th:text="${index.index+1}">번호</td>
+                    <td style="text-align: center;">
+                        <a style="text-decoration: none;" th:href="@{/trade/trade_detail(tradeNo=${trade.tradeNo})}" th:text="${trade.title}"></a>
+                    </td>
+                    <td th:text="${trade.price}">금액</td>
+                    <td th:text="${trade.approve=='Y'}?'승인':'거절'">승인여부</td>
+                    <td th:text="${trade.isTrade=='E'?'거래완료':'미거래'}">거래여부</td>
+                    <td th:text="${trade.postDate}">날짜</td>
+                </tr>
+            </div>
             </tbody>
         </table>
     </div>

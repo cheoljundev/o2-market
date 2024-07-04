@@ -136,6 +136,7 @@ public class TradeAdminController {
     public String deleteAdv(String advNo){
         System.out.println(advNo);
         int result = tradeService.deleteAdv(advNo);
+        tradeService.deleteImpages(Integer.parseInt(advNo));
         return "redirect:/admin/trade_adv_list";
     }
 }
