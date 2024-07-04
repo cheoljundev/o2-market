@@ -115,6 +115,17 @@ class OrderMapperTest {
     }
 
     @Test
+    void findAll() {
+        // given
+        SearchCond searchCond = SearchCond.builder()
+                .buyerMemberId("user2")
+                .build();
+        List<UserOrderListDto> orders = orderMapper.findAll(searchCond);
+        int size = orders.size();
+        Assertions.assertThat(size).isEqualTo(1);
+    }
+
+    @Test
     void findRange() {
         // given
         SearchCond searchCond = SearchCond.builder()

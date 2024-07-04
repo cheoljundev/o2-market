@@ -22,6 +22,7 @@ public class SecurityConfig {
                 // /admin은 관리자만
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/half/order/**").hasRole("USER")
+                .requestMatchers("/member/**").hasRole("USER")
                 .anyRequest().permitAll()
         );
         http.csrf(AbstractHttpConfigurer::disable);
