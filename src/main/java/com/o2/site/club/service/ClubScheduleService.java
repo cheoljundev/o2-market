@@ -19,7 +19,7 @@ public class ClubScheduleService {
     }
 
     public List<ScheduleDto> scheduleDetailList(String clubName) {
-        System.out.println(clubName);
+
         return scheduleMapper.scheduleDetailList(clubName);
     }
 
@@ -39,4 +39,18 @@ public class ClubScheduleService {
     public List<String> scheduleInUserList(long scheduleId) {
         return scheduleMapper.scheduleInUserList(scheduleId);
     }
+
+    public int scheduleUserInCheck(ScheduleDto scheduleDto) {
+        return scheduleMapper.scheduleUserInCheck(scheduleDto);
+    }
+
+    public int scheduleInUser(ScheduleDto scheduleDto) {
+        return scheduleMapper.scheduleInUser(scheduleDto);
+    }
+
+    public int scheduleDelete(long scheduleId) {
+        return scheduleMapper.scheduleDelete(scheduleId);
+    }
+
+
 }

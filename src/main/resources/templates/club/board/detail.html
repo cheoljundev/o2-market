@@ -12,7 +12,25 @@
         <script type="text/javascript">
             $(document).ready(function(){
 
+                $('#boardDeleteBtn').click(function(){
+                    let formData = new FormData();
+                    let clubBoardId = [[${clubBoardDto.clubBoardId}]];
+                    console.log(clubBoardId);
+                    formData.append('clubBoardId',clubBoardId);
 
+                    $.ajax({
+                        url : "/club/board/delete", // 요기에
+                        processData : false,
+                        contentType : false,
+                        type : 'POST',
+                        data : formData,
+                        success : function(data) {
+                            alert('게시글이 삭제 되었습니다.');
+                            location.href='/club/board/list?clubName='+getClubName();
+                        }
+                    });
+
+                });
 
             });
         </script>
@@ -69,6 +87,11 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
+        </div>
+        <div class="d-md-flex justify-content-md-end">
+            <th:block th:if="${loginUserNo == clubBoardDto.writer}">
+                <button type="button" class="btn btn-danger" id="boardDeleteBtn">글 삭제</button>
+            </th:block>
         </div>
     </div>
 </main>

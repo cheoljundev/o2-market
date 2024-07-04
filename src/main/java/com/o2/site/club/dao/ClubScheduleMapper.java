@@ -12,12 +12,6 @@ public interface ClubScheduleMapper {
 
     // 일정 리스트
     public ArrayList<ScheduleDto> scheduleDetailList(String clubName);
-    
-    // 일정 수정
-    public int scheduleUpdate();
-
-    // 일정 삭제
-    public int scheduleDelete();
 
     // 일정 상세보기
     public List<ScheduleDto> scheduleDetail();
@@ -31,4 +25,11 @@ public interface ClubScheduleMapper {
     
     // 일정 참여 유저 리스트
     List<String> scheduleInUserList(long scheduleId);
+
+    // 일정 참여 유저 체크
+    int scheduleUserInCheck(ScheduleDto scheduleDto);
+
+    int scheduleInUser(ScheduleDto scheduleDto);
+
+    int scheduleDelete(long scheduleId);
 }

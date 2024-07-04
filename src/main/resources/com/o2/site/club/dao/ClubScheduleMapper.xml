@@ -20,6 +20,21 @@
     </select>
 
     <select id="scheduleInUserList">
-        SELECT USER_NO FROM SCHEDULE_USER WHERE SCHEDULE_ID = #{scheduleId}
+        SELECT M.ID
+        FROM SCHEDULE_USER A
+        JOIN Member M ON M.MEMBER_NO = A.USER_NO
+        WHERE A.SCHEDULE_ID = #{scheduleId}
     </select>
+
+    <select id="scheduleUserInCheck">
+        SELECT COUNT(0) FROM SCHEDULE_USER WHERE USER_NO = #{userNo} AND SCHEDULE_ID = #{scheduleId}
+    </select>
+
+    <insert id="scheduleInUser">
+        INSERT INTO SCHEDULE_USER VALUES(#{userNo}, #{scheduleId})
+    </insert>
+
+    <delete id="scheduleDelete">
+        DELETE FROM SCHEDULE WHERE SCHEDULE_ID = #{scheduleId}
+    </delete>
 </mapper>

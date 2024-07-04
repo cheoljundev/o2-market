@@ -1,19 +1,16 @@
 package com.o2.site.club.controller;
 
+import com.o2.site.club.function.ClubFunction;
 import com.o2.site.club.dto.ClubBoardDto;
-import com.o2.site.club.dto.ClubCategoryDto;
-import com.o2.site.club.dto.ClubDto;
+import com.o2.site.club.dto.ClubUserDto;
+import com.o2.site.club.dto.PageDto;
 import com.o2.site.club.service.ClubBoardService;
 import com.o2.site.club.service.ClubService;
 import com.o2.site.member.dto.CustomUserDetails;
 import com.o2.site.upload.domain.UploadImage;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -22,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/club/board")
@@ -32,15 +31,26 @@ public class ClubBoardContrlloer {
     ClubBoardService clubBoardService;
 
     @Autowired
+    ClubService clubService;
+    @Autowired
     UploadService uploadService;
 
     @GetMapping("/list")
-    public void listGo() {}
+    public void listGo(@RequestParam("clubName") String clubName, Model model, @AuthenticationPrincipal CustomUserDetails user) {
+        long loginUserNo = ClubFunction.getUserNo(user, model);
+        ClubUserDto clubUserDto = new ClubUserDto();
+        clubUserDto.setUserNo(loginUserNo);
+        clubUserDto.setClubName(clubName);
+        int userInCheck = clubService.clubUserInCheck(clubUserDto);
+
+        model.addAttribute("userInCheck", userInCheck);
+    }
 
     @GetMapping("/detail")
-    public void detailGo(@RequestParam("clubBoardId") long clubBoardId, Model model) {
+    public void detailGo(@RequestParam("clubBoardId") long clubBoardId, Model model, @AuthenticationPrincipal CustomUserDetails user) {
         ClubBoardDto clubBoardDto = clubBoardService.clubBoardDeteil(clubBoardId);
         List<UploadImage> uploadImageList = uploadService.findImages(UploadImageDto.builder().clubBoardId(clubBoardId).build());
+        long loginUserNo = ClubFunction.getUserNo(user, model);
 
         model.addAttribute("uploadImageList",uploadImageList);
         model.addAttribute("clubBoardDto",clubBoardDto);
@@ -52,10 +62,9 @@ public class ClubBoardContrlloer {
     @PostMapping("/create")
     public void createAction(ClubBoardDto clubBoardDto, @RequestParam(value = "images", required = false) List<MultipartFile> images, @AuthenticationPrincipal CustomUserDetails user) throws IOException {
 
-        // 추후 로그인 아이디로 수정 start
         long loginUserNo = user.getUser().getMemberRoles().get(0).getMemberNo();
         clubBoardDto.setWriter(loginUserNo);
-        // 추후 로그인 아이디로 수정 End
+
         clubBoardService.createClubBoard(clubBoardDto);
 
         clubBoardDto.setClubBoardId(clubBoardService.getClubBoardSeq());
@@ -73,8 +82,31 @@ public class ClubBoardContrlloer {
     }
 
     @GetMapping("/getList")
-    @RequestBody
-    public ResponseEntity<?> getListClub(ClubBoardDto clubBoardDto, @PageableDefault(size = 9) Pageable pageable) {
-        return ResponseEntity.ok(clubBoardService.getClubBoardList(clubBoardDto, pageable));
+    @ResponseBody
+    public ResponseEntity<?> getListClub(PageDto pageDto, Model model
+            , @RequestParam(value="nowPage", required=false)String nowPage
+            , @RequestParam(value="clubName", required=false)String clubName) {
+        String cntPerPage = "9";
+        int total = clubBoardService.clubBoardListCount(pageDto, clubName);
+        if (nowPage == null) {
+            nowPage = "1";
+        } else if (nowPage == null) {
+            nowPage = "1";
+        }
+        pageDto = new PageDto(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), pageDto.getKeyword(),pageDto.getSearchValue());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("paging", pageDto);
+        response.put("viewAll", clubBoardService.getClubBoardList(pageDto, clubName));
+
+        return ResponseEntity.ok(response);
+
+    }
+
+    @PostMapping("/delete")
+    @ResponseBody
+    public int delete(@RequestParam("clubBoardId") long clubBoardId) {
+        return clubBoardService.boardDelete(clubBoardId);
     }
 }
+

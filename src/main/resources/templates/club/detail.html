@@ -32,6 +32,26 @@
                         }
                     });
                 });
+
+                $('#userDeleteBtn').click(function(){
+                    let formData = new FormData();
+                    let loginUserNo = [[${loginUserNo}]];
+                    let clubName = getClubName();
+
+                    formData.append('clubName',clubName);
+                    formData.append('userNo',loginUserNo);
+                    $.ajax({
+                        url : "/club/userDeleteAcation", // 요기에
+                        processData : false,
+                        contentType : false,
+                        type : 'POST',
+                        data : formData,
+                        success : function(data) {
+                            alert('모임 탈퇴가 완료 되었습니다.');
+                            location.href='/club/main';
+                        }
+                    });
+                });
             });
         </script>
     </th:block>
@@ -102,13 +122,10 @@
                         </th:block>
                     </th:block>
                 </div>
-                <th:block th:text="${userInCheck}"></th:block>
-                <th:block th:text="${appUserCheck}"></th:block>
-                <th:block th:text="${loginUserNo}"></th:block>
                 <div class="d-md-flex justify-content-md-end">
                     <th:block th:if="${loginUserNo != null}">
                         <th:block th:if="${userInCheck == 1 && loginUserNo != clubDto.readerNo}">
-                            <button type="submit" class="btn btn-primary">모임 탈퇴</button>
+                            <button type="submit" class="btn btn-danger" id="userDeleteBtn">모임 탈퇴</button>
                         </th:block>
                         <th:block th:if="${userInCheck != 1 && appUserCheck != 1 && loginUserNo != clubDto.readerNo}">
                             <button type="submit" class="btn btn-primary" id="userInBtn">모임 가입</button>

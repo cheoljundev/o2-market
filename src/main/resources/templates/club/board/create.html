@@ -9,6 +9,7 @@
                 integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
                 crossorigin="anonymous"></script>
         <script src="/js/club/getParam.js"></script>
+        <script src="/js/club/function.js"></script>
         <script type="text/javascript">
             let sel_files = [];
 
@@ -18,8 +19,17 @@
 
                 $('#createGo').click(function(){
 
+
+
                     let title = $('#title').val();
                     let content = $('#content').val();
+
+                    let dataArr = [title];
+                    let result = handleNullInArray(dataArr);
+                    if (result == 0) {
+                        alert("값이 없습니다.");
+                        return;
+                    }
 
                     let formData = new FormData();
                     formData.append('title',title);
@@ -32,7 +42,7 @@
 
 
                     $.ajax({
-                        url : "/club/board/create", // 요기에
+                        url : "/club/board/create",
                         processData : false,
                         contentType : false,
                         type : 'POST',

@@ -1,18 +1,13 @@
 package com.o2.site.club.service;
 
 import com.o2.site.club.dao.ClubBoardMapper;
-import com.o2.site.club.domain.RequestList;
 import com.o2.site.club.dto.ClubBoardDto;
-import com.o2.site.club.dto.ClubDto;
+import com.o2.site.club.dto.PageDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -24,17 +19,12 @@ public class ClubBoardService {
         this.clubBoardMapper = clubBoardMapper;
     }
 
-    public Page<Map<String, Object>> getClubBoardList(ClubBoardDto clubBoardDto, Pageable pageable) {
+    public List<ClubBoardDto> getClubBoardList(PageDto pageDto, String clubName) {
+        return clubBoardMapper.clubBoardList(pageDto, clubName);
+    }
 
-        RequestList<?> requestList = RequestList.builder()
-                .data(clubBoardDto)
-                .pageable(pageable)
-                .build();
-
-        List<Map<String, Object>> content = clubBoardMapper.clubBoardList(requestList);
-        int total = clubBoardMapper.clubBoardListCount(clubBoardDto);
-
-        return new PageImpl<>(content, pageable, total);
+    public int clubBoardListCount(PageDto pageDto, String clubName) {
+        return clubBoardMapper.clubBoardListCount(pageDto,clubName);
     }
 
     public int createClubBoard(ClubBoardDto clubBoardDto) {
@@ -56,5 +46,10 @@ public class ClubBoardService {
     public ClubBoardDto clubBoardDeteil(long clubBoardId) {
 
         return clubBoardMapper.clubBoardDeteil(clubBoardId);
+    }
+
+    public int boardDelete(long clubBoardId) {
+
+        return clubBoardMapper.boardDelete(clubBoardId);
     }
 }

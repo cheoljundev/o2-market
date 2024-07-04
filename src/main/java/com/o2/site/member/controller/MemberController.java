@@ -1,5 +1,8 @@
 package com.o2.site.member.controller;
 
+import com.o2.site.club.dto.ClubDto;
+import com.o2.site.club.function.ClubFunction;
+import com.o2.site.club.service.ClubService;
 import com.o2.site.half.dao.SearchCond;
 import com.o2.site.half.dto.order.UserOrderListDto;
 import com.o2.site.half.service.OrderService;
@@ -14,6 +17,7 @@ import com.o2.site.trade.service.TradeService;
 import com.o2.site.upload.dto.UploadImageDto;
 import com.o2.site.upload.service.UploadService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,6 +38,7 @@ public class MemberController {
     private final MemberService memberService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UploadService uploadService;
+    private final ClubService clubService;
     private final OrderService orderService;
     private final TradeService tradeService;
 
@@ -124,7 +129,10 @@ public class MemberController {
     }
 
     @GetMapping("/member/myPage_clubList")
-    public String myClubForm() {
+    public String myClubForm(Model model, @AuthenticationPrincipal CustomUserDetails user) {
+        long loginUserNo = ClubFunction.getUserNo(user, model);
+        List<ClubDto> myClubList = clubService.myPageClubList(loginUserNo);
+        model.addAttribute("myClubList", myClubList);
         return "/member/myPage_clubList";
     }
 
